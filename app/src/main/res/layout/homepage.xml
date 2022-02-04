@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <fragment
+        android:id="@+id/textInputFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.example.architecturetest.ui.textinput.TextInputFragment"
+        android:label="TextInputFragment" />
+    <fragment
+        android:id="@+id/textListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.example.architecturetest.ui.textlist.TextListFragment"
+        android:label="TextInputFragment" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
