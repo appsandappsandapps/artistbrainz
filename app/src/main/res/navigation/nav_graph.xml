@@ -5,24 +5,19 @@
     app:startDestination="@id/homePageFragment">
     <fragment
         android:id="@+id/homePageFragment"
-        android:name="com.example.architecturetest.ui.dashboard.HomepageFragment"
-        android:label="HomePageFragment" >
+        android:name="com.example.swapcard.ui.dashboard.HomepageFragment"
+        android:label="HomePageFragment">
         <action
-            android:id="@+id/action_textInputFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            android:id="@+id/go_to_artist_detail"
+            app:destination="@id/artistDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/aboutFragment"
-        android:name="com.example.architecturetest.ui.about.AboutFragment"
-        android:label="AboutFragment" >
+        android:id="@+id/artistDetailFragment"
+        android:name="com.example.swapcard.ui.artistdetail.ArtistDetailFragment"
+        android:label="ArtistDetailFragment">
         <argument
-            android:name="name"
-            app:argType="string"
-            android:defaultValue="Chris?" />
+            android:name="artistId"
+            app:argType="integer" />
     </fragment>
 </navigation>
 

@@ -14,20 +14,5 @@
         android:hint="Something..."
         android:text="">
     </androidx.appcompat.widget.AppCompatEditText>
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Make the background yellow">
-        </androidx.appcompat.widget.AppCompatTextView>
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </androidx.appcompat.widget.AppCompatCheckBox>
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
