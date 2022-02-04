@@ -7,7 +7,7 @@ plugins {
 }
 
 apollo {
-    packageName.set("com.example.architecturetest")
+    packageName.set("com.example.swapcard")
 }
 
 android {
@@ -38,11 +38,6 @@ android {
             resValue "string", "app_name", "ArchViewSystem"
             dimension "sys"
             applicationIdSuffix = ".viewsystem"
-        }
-        compos {
-            resValue "string", "app_name", "ArchCompose"
-            dimension "sys"
-            applicationIdSuffix = ".compose"
         }
         mock {
             resValue "string", "app_name", "ArchMock"
@@ -114,10 +109,4 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     implementation "com.apollographql.apollo3:apollo-runtime:3.0.0"
-
-    // room
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
 }
