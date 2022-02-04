@@ -10,6 +10,7 @@ import com.example.swapcard.R
 import com.example.swapcard.databinding.HomeFragmentBinding
 import com.example.swapcard.ui.artistdetail.ArtistDetailViewModel
 import com.example.swapcard.ui.bookmarks.BookmarksFragment
+import com.example.swapcard.ui.search.SearchListFragment
 import com.example.swapcard.viewModelWithSavedState
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
@@ -29,7 +30,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
 
     val vpAdapter = PagerAdapter(
       requireActivity(),
-      listOf(SearchFragment(), BookmarksFragment()),
+      listOf(SearchListFragment(), BookmarksFragment()),
     )
     bindings.viewpager2.adapter = vpAdapter
     TabLayoutMediator(bindings.tabLayout, bindings.viewpager2) { tab, pos ->

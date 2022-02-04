@@ -11,7 +11,7 @@ class ArtistDetailUIState(
 ) {
 
   @Parcelize data class Values(
-    val id: Int = -1,
+    val id: String = "",
     val name: String = "",
     val bookmarked: Boolean = false,
     val disambiguation: String = "",

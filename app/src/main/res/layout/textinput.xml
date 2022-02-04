@@ -5,14 +5,5 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edittext"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        android:hint="Something..."
-        android:text="">
-    </androidx.appcompat.widget.AppCompatEditText>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

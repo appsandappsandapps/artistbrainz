@@ -40,7 +40,7 @@ class BookmarksViewModel(
     }
   }
 
-  public fun debookmark(id: Int) {
+  public fun debookmark(id: String) {
     viewModelScope.launch {
       repository.debookmark(id)
     }

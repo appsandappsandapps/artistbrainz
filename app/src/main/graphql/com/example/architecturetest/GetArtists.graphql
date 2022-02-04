@@ -1,15 +1,24 @@
-query Artists($query: String!) {
+query Artists($query: String!, $after: String!) {
   search {
-    artists(query: $query, first: 40, after: null) {
-      nodes {
-        ...ArtistBasicFragment
+    artists(query: $query, first: 15, after: $after) {
+      edges {
+        cursor
+        node {
+          ...ArtistBasicFragment
+        }
       }
     }
   }
 }
 
-query Artist {
-  node(id: "QXJ0aXN0OjE0NGVmNTI1LTg1ZTktNDBjMy04MzM1LTAyYzMyZDA4NjFmMw==") {
+fragment ArtistBasicFragment on Artist {
+  id
+  name
+  disambiguation
+}
+
+query Artist($id: ID!) {
+  node(id: $id) {
     ...ArtistDetailsFragment
   }
 }
@@ -22,10 +31,4 @@ fragment ArtistDetailsFragment on Artist {
     value
     voteCount
   }
-}
-
-fragment ArtistBasicFragment on Artist {
-  id
-  name
-  disambiguation
 }

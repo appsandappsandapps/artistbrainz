@@ -17,7 +17,7 @@
         android:label="ArtistDetailFragment">
         <argument
             android:name="artistId"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 </navigation>
 
