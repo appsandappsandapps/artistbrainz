@@ -8,7 +8,7 @@ data class Rating (
 )
 
 data class Artist (
-  val id: Int,
+  val id: String,
   val name: String,
   val bookmarked: Boolean = false,
   val disambiguation: String = "...HMMM",
@@ -21,10 +21,13 @@ data class Artists(
 
 interface MusicRepository {
   val searchedForArtists: StateFlow<Artists>
+  val artist: StateFlow<Artist>
   suspend fun refresh()
-  suspend fun search(text: String, offset: Int = 0)
+  suspend fun search(text: String)
+  suspend fun clearSearch()
+  suspend fun artist(id: String)
   suspend fun paginateLastSearch(): Unit
-  suspend fun bookmark(id: Int): Unit
-  suspend fun debookmark(id: Int): Unit
+  suspend fun bookmark(id: String): Unit
+  suspend fun debookmark(id: String): Unit
 }
 

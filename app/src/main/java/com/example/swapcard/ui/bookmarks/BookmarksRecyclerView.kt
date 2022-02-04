@@ -10,7 +10,7 @@ import com.example.swapcard.R
 
 class BookmarksRecyclerView(
   public var items: List<BookmarksUIState.BookmarkUI>,
-  val debookmarkListener: (Int) -> Unit,
+  val debookmarkListener: (String) -> Unit,
 ) : RecyclerView.Adapter<BookmarksRecyclerView.Holder>() {
   
   override fun onCreateViewHolder(vg: ViewGroup, type: Int): Holder {

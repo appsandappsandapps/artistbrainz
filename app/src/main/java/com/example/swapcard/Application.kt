@@ -3,8 +3,10 @@ package com.example.swapcard
 import android.app.Application
 import com.example.swapcard.repositories.MusicRepository
 
+// Bookmarks again
 // Loading spinner?
-// Live datasource
+// Error spinner?
+// No results
 
 class Application : Application() {
 
@@ -14,7 +16,7 @@ class Application : Application() {
 
   override fun onCreate() {
     super.onCreate()
-    musicRepository = ServiceLocator.provideTextRepository(this)
+    musicRepository = ServiceLocator.provideMusicRepository(this)
   }
 
 }

@@ -1,56 +1,83 @@
 package com.example.swapcard.repositories
 
-import android.content.Context
 import android.util.Log
 import com.apollographql.apollo3.ApolloClient
+import com.example.swapcard.ArtistQuery
 import com.example.swapcard.ArtistsQuery
 import kotlinx.coroutines.flow.MutableStateFlow
 
-/*
+class MusicRepositoryRemote(
+  val apolloClient: ApolloClient
+): MusicRepository {
 
-/**
- * This doesn't add anything as yet...
- * It's just to test using retofit and okhttp
- */
-class MusicRepositoryRemote(context: Context): MusicRepository {
+  private var lastQuery = ""
+  private var lastCursorResult = ""
+  private var activeBottomCursor = ""
 
-  override val artists = MutableStateFlow<ArtistList>(
-    ArtistList(listOf(), 0)
-  )
+  override val searchedForArtists = MutableStateFlow(Artists(listOf()))
+  override val artist = MutableStateFlow(Artist("", ""))
 
-  val apolloClient = ApolloClient.Builder()
-    .serverUrl("https://graphbrainz.herokuapp.com/")
-    .build()
-
-  override suspend fun search(text: String, offset: Int) {
-    refresh()
+  override suspend fun clearSearch() {
+    activeBottomCursor = ""
+    lastCursorResult = ""
+    searchedForArtists.value = Artists(listOf())
   }
 
-  override suspend fun refresh() {
-    val resp = apolloClient.query(ArtistsQuery("Aphex Twin")).execute()
-    val artists = resp.data?.search?.artists?.nodes
-      ?.filter {
-        it != null && it.artistBasicFragment != null
-      }
-      ?.map {
-        it?.artistBasicFragment
-      }
+  override suspend fun search(query: String) {
+    if(query != lastQuery) activeBottomCursor = ""
+    lastQuery = query
     try {
-      //allText.value = file.map { "${it.number}" }
+      val resp = apolloClient.query(ArtistsQuery(
+        query, activeBottomCursor
+      )).execute()
+      val artists = resp.data?.search?.artists?.edges
+        ?.filterNotNull()
+        ?.map {
+          Pair(it.node?.artistBasicFragment, it.cursor)
+        }
+        ?.map {
+          val artist = it.first!!
+          lastCursorResult = it.second
+          Artist(
+            id = artist.id,
+            name = artist.name ?: "",
+            disambiguation = artist.disambiguation ?: "",
+          )
+        }
+      searchedForArtists.value = Artists(artists!!)
     } catch(e: Exception) {
-      Log.d("HI", "error!")
+      Log.d("HI", "error!" + e)
     }
   }
 
+  override suspend fun refresh() {
+    searchedForArtists.value = Artists(searchedForArtists.value.artists)
+  }
+
   override suspend fun paginateLastSearch() {
+    activeBottomCursor = lastCursorResult
+    search(lastQuery)
   }
 
-  override suspend fun bookmark(id: Int) {
+  override suspend fun bookmark(id: String) {
   }
 
-  override suspend fun debookmark(id: Int) {
+  override suspend fun debookmark(id: String) {
+  }
+
+  override suspend fun artist(id: String) {
+    try {
+      val resp = apolloClient.query(ArtistQuery(id)).execute()
+      val artistFrag = resp.data?.node?.artistDetailsFragment!!
+      var art = Artist(
+        id = artistFrag.id,
+        name = artistFrag.name ?: "",
+        disambiguation = artistFrag.disambiguation ?: "",
+      )
+      artist.value = art
+    } catch(e: Exception) {
+      Log.d("HI", "error!" + e)
+    }
   }
 
 }
-
- */

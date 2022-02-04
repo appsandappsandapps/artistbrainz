@@ -18,7 +18,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     val binding = ArtistdetailBinding.bind(view)
-    var artistId = arguments?.getInt("artistId") ?: -1
+    var artistId = arguments?.getString("artistId") ?: "-1"
 
     viewModel = viewModelWithSavedState {
       app, savedState -> ArtistDetailViewModel(app, savedState, artistId)

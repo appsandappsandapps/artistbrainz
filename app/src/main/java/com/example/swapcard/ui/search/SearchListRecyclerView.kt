@@ -1,4 +1,4 @@
-package com.example.swapcard.ui.searchlist
+package com.example.swapcard.ui.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,9 @@ import com.example.swapcard.R
 
 class SearchListRecyclerView(
   public var items: List<SearchListUIState.ArtistUI>,
-  val artistClick: (Int) -> Unit,
-  val bookmarkListener: (Int) -> Unit,
-  val debookmarkListener: (Int) -> Unit,
+  val artistClick: (String) -> Unit,
+  val bookmarkListener: (String) -> Unit,
+  val debookmarkListener: (String) -> Unit,
   val nextPaginateListener: () -> Unit,
 ) : RecyclerView.Adapter<SearchListRecyclerView.Holder>() {
   
@@ -23,7 +23,9 @@ class SearchListRecyclerView(
   }
 
   override fun onBindViewHolder(hld: Holder, pos: Int) {
-    if(pos == items.size -1) nextPaginateListener()
+    if(pos == items.size -1) {
+      nextPaginateListener()
+    }
     hld.textView.text = items[pos].name
     hld.checkBox.isChecked = items[pos].bookmarked
     hld.textView.setOnClickListener {

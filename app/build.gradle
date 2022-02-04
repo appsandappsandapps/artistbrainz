@@ -32,20 +32,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    flavorDimensions "sys", "env"
+    flavorDimensions "env"
     productFlavors {
-        viewsystem {
-            resValue "string", "app_name", "ArchViewSystem"
-            dimension "sys"
-            applicationIdSuffix = ".viewsystem"
-        }
         mock {
-            resValue "string", "app_name", "ArchMock"
+            resValue "string", "app_name", "SwapcardMock"
             dimension "env"
             applicationIdSuffix = ".mock"
         }
         prod {
-            resValue "string", "app_name", "ArchProd"
+            resValue "string", "app_name", "SwapcardProd"
             dimension "env"
         }
     }

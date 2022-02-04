@@ -1,6 +1,5 @@
-package com.example.swapcard.ui.searchlist
+package com.example.swapcard.ui.search
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +13,7 @@ import kotlinx.coroutines.launch
 class SearchListViewModel(
   private val application: Application,
   private val savedState: SavedStateHandle,
-  private val gotoDetail: (Int) -> Unit,
+  private val gotoDetail: (String) -> Unit,
   private val repository: MusicRepository = application.musicRepository,
 ): ViewModel() {
 
@@ -44,16 +43,23 @@ class SearchListViewModel(
     repository.paginateLastSearch()
   }
 
-  public fun bookmark(id: Int) = viewModelScope.launch {
+  public fun bookmark(id: String) = viewModelScope.launch {
     repository.bookmark(id)
   }
 
-  public fun debookmark(id: Int) = viewModelScope.launch {
+  public fun debookmark(id: String) = viewModelScope.launch {
     repository.debookmark(id)
   }
 
-  public fun gotoArtistDetail(id: Int) {
+  public fun gotoArtistDetail(id: String) {
     gotoDetail(id)
+  }
+
+  public fun searchArtists(s:String) {
+    viewModelScope.launch {
+      repository.clearSearch()
+      repository.search(s)
+    }
   }
 
 }

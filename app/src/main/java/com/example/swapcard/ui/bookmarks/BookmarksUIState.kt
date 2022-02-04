@@ -12,7 +12,7 @@ class BookmarksUIState(
 
   @Parcelize
   data class BookmarkUI (
-    val id: Int,
+    val id: String,
     val name: String,
   ): Parcelable
 

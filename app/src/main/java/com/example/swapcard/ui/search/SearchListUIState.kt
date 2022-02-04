@@ -1,4 +1,4 @@
-package com.example.swapcard.ui.searchlist
+package com.example.swapcard.ui.search
 
 import android.os.Parcelable
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,12 +12,13 @@ class SearchListUIState(
 
   @Parcelize
   data class ArtistUI (
-    val id: Int,
+    val id: String,
     val name: String,
     val bookmarked: Boolean,
   ): Parcelable
 
   @Parcelize data class Values(
+    var inputText: String = "",
     val artists: List<ArtistUI> = listOf(),
   ): Parcelable
 
@@ -37,6 +38,15 @@ class SearchListUIState(
     values = values.copy(
       artists = artists,
     )
+  }
+
+  fun setInputText(s: String) {
+    values = values.copy(inputText = s)
+  }
+
+  fun pressEnter() {
+    viewModel.searchArtists(values.inputText)
+    values = values.copy(inputText = "")
   }
 
 }

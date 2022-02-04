@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class ArtistDetailViewModel(
   private val application: Application,
   private val savedState: SavedStateHandle,
-  private val artistId: Int,
+  private val artistId: String,
   private val repository: MusicRepository = application.musicRepository,
 ): ViewModel() {
 
@@ -32,16 +32,16 @@ class ArtistDetailViewModel(
   }
 
   private suspend fun observeArtists() {
-    repository.refresh()
-    repository.searchedForArtists.collect {
-      var artist = it.artists.filter { it.id == artistId }[0]
+    repository.artist(artistId)
+    repository.artist.collect {
+      var artist = it
       uiState.setArtist(ArtistDetailUIState.Values(
         id = artist.id,
         name = artist.name,
-        bookmarked = artist.bookmarked,
+        //bookmarked = artist.bookmarked,
         disambiguation = artist.disambiguation,
-        rating = artist.rating.value,
-        voteCount = artist.rating.voteCount,
+        //rating = artist.rating.value,
+        //voteCount = artist.rating.voteCount,
       ))
     }
   }

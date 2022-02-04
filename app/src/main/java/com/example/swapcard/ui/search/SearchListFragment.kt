@@ -1,7 +1,9 @@
-package com.example.swapcard.ui.searchlist
+package com.example.swapcard.ui.search
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swapcard.R
 import com.example.swapcard.databinding.SearchlistBinding
+import com.example.swapcard.hideKeyboard
 import com.example.swapcard.viewModelWithSavedState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,7 +29,7 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
         app,
         savedState,
         {
-          val args = Bundle().apply { this.putInt("artistId", it) }
+          val args = Bundle().apply { this.putString("artistId", it) }
           findNavController().navigate(R.id.go_to_artist_detail, args)
         }
       )
@@ -40,6 +43,17 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
     binding: SearchlistBinding,
     uiState: SearchListUIState,
   ) {
+    binding.edittext.doAfterTextChanged {
+      uiState.setInputText("$it")
+    }
+    binding.edittext.setOnEditorActionListener { tv, id, event ->
+      if(id == EditorInfo.IME_ACTION_DONE) {
+        uiState.pressEnter()
+        hideKeyboard()
+        true
+      }
+      false
+    }
   }
 
   private fun listenOnStateChange(
@@ -47,6 +61,9 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
     uiState: SearchListUIState,
   ) = lifecycleScope.launch {
     uiState.valuesFlow.collect {
+      if(it.inputText != binding.edittext.text.toString()) {
+        binding.edittext.setText(it.inputText)
+      }
       setupList(binding.recyclerView, it.artists)
     }
   }
@@ -56,9 +73,9 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
     artists: List<SearchListUIState.ArtistUI>,
   ) {
     recyclerView.apply {
-      if(adapter != null) {
+      if(adapter != null && artists.size > 0) {
         val _adapter:SearchListRecyclerView = adapter as SearchListRecyclerView
-        _adapter.items = artists
+        _adapter.items += artists
       } else {
         layoutManager = LinearLayoutManager(this@SearchListFragment.context)
         adapter = SearchListRecyclerView(

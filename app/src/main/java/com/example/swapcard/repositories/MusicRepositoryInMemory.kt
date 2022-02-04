@@ -1,14 +1,15 @@
 package com.example.swapcard.repositories
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class MusicRepositoryInMemory : MusicRepository {
 
   private val _textItems =
     listOf(
-      Artist(1, "Aphex Twin"),
-      Artist(2, "Neil Young"),
-      Artist(3, "Nina Simone"),
+      Artist("1", "Aphex Twin"),
+      Artist("2", "Neil Young"),
+      Artist("3", "Nina Simone"),
     )
 
   private var lastSearch = ""
@@ -16,13 +17,13 @@ class MusicRepositoryInMemory : MusicRepository {
 
   override val searchedForArtists = MutableStateFlow(Artists(_textItems))
 
-  override suspend fun search(text: String, offset: Int) {
+  override suspend fun search(text: String) {
     lastSearch = text
-    val newArtists = if(offset > 0) {
+    val newArtists = if(true) {
       searchedForArtists.value.artists.toMutableList().apply {
-        add(Artist(999, "1 more"))
-        add(Artist(999, "2 more"))
-        add(Artist(999, "3 more"))
+        add(Artist("999", "1 more"))
+        add(Artist("999", "2 more"))
+        add(Artist("999", "3 more"))
       }
     } else {
       searchedForArtists.value.artists
@@ -35,11 +36,10 @@ class MusicRepositoryInMemory : MusicRepository {
   }
 
   override suspend fun paginateLastSearch(): Unit {
-    searchOffset += 15
-    search(lastSearch, searchOffset)
+    search(lastSearch)
   }
 
-  override suspend fun bookmark(id: Int) {
+  override suspend fun bookmark(id: String) {
     val newArtists = searchedForArtists.value.artists.toMutableList().apply {
       forEachIndexed { index, item ->
         if (item.id == id) set(index, item.copy(bookmarked = true))
@@ -48,13 +48,21 @@ class MusicRepositoryInMemory : MusicRepository {
     searchedForArtists.value = Artists(newArtists)
   }
 
-  override suspend fun debookmark(id: Int) {
+  override suspend fun debookmark(id: String) {
     val newArtists = searchedForArtists.value.artists.toMutableList().apply {
       forEachIndexed { index, item ->
         if (item.id == id) set(index, item.copy(bookmarked = false))
       }
     }
     searchedForArtists.value = Artists(newArtists)
+  }
+
+  override val artist: StateFlow<Artist> get() = MutableStateFlow(Artist("", ""))
+
+  override suspend fun artist(id: String) {
+  }
+
+  override suspend fun clearSearch() {
   }
 
 }

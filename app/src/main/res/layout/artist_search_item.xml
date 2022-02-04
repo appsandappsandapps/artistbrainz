@@ -14,6 +14,6 @@
         android:id="@+id/artist_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="80sp">
+        android:textSize="20sp">
     </androidx.appcompat.widget.AppCompatTextView>
 </androidx.appcompat.widget.LinearLayoutCompat>
