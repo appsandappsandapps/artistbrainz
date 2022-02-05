@@ -18,8 +18,8 @@ class MusicRepositoryInMemory : MusicRepository {
   override val searchedForArtists = MutableStateFlow(Artists(_textItems))
   override val bookmarks = MutableStateFlow(Bookmarks(listOf()))
 
-  override suspend fun search(text: String) {
-    lastSearch = text
+  override suspend fun search(query: String) {
+    lastSearch = query
     val newArtists = if(true) {
       searchedForArtists.value.artists.toMutableList().apply {
         add(Artist("999", "1 more"))

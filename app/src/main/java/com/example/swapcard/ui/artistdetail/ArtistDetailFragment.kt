@@ -8,34 +8,37 @@ import androidx.lifecycle.lifecycleScope
 import com.example.swapcard.R
 import com.example.swapcard.databinding.ArtistdetailBinding
 import com.example.swapcard.viewModelWithSavedState
-import com.example.swapcard.ui.search.ArtistDetailUIState.UIValues
+import com.example.swapcard.ui.artistdetail.ArtistDetailUIState.UIValues
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
 
+  companion object {
+    val ARG_ARTIST_ID = "artistID"
+  }
+
   // Views from layout
-  lateinit var binding: ArtistDetailBinding
-  val checkbox get() binding.checkbox
-  val artist get() binding.aristName
-  val disambiguation get() binding.disambiguation
-  val rating get() binding.rating
-  val voteCount get() binding.voteCount
+  lateinit var binding: ArtistdetailBinding
+  val checkbox get() = binding.checkbox
+  val artist get() = binding.artistName
+  val disambiguation get() = binding.disambiguation
+  val rating get() = binding.rating
+  val voteCount get() = binding.voteCount
   // Utils for UIState object
-  lateinit var viewModel: ArtistDetailViewModel
-  val uiState get() = viewModel.uiState
+  lateinit var uiState: ArtistDetailUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    viewModel.uiState.valuesFlow.collect { f(it) }
+    uiState.valuesFlow.collect { f(it) }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     binding = ArtistdetailBinding.bind(view)
-    var artistId = arguments?.getString("artistId") ?: "-1"
+    var artistId = arguments?.getString(ARG_ARTIST_ID) ?: "-1"
 
-    viewModel = viewModelWithSavedState {
+    uiState = viewModelWithSavedState {
       app, savedState -> ArtistDetailViewModel(app, savedState, artistId)
-    }
+    }.uiState
 
     reactOnCheckbox()
     observeArtist()
@@ -44,8 +47,8 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   private fun reactOnCheckbox() {
     checkbox.setOnClickListener {
       if(checkbox.isChecked)
-        viewModel.bookmark(binding.artistName.text.toString())
-      else viewModel.debookmark()
+        uiState.bookmark()
+      else uiState.debookmark()
     }
   }
 

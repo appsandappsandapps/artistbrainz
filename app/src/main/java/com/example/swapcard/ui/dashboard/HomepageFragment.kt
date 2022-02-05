@@ -23,19 +23,18 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
   val tabs get() = bindings.tabLayout
   val viewpager get() = bindings.viewpager2
   // UI State
-  lateinit var viewModel: HomepageViewModel
-  val uiState get() = viewModel.uiState
+  lateinit var uiState: HomepageUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    viewModel.uiState.valuesFlow.collect { f(it) }
+    uiState.valuesFlow.collect { f(it) }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     bindings = HomeFragmentBinding.bind(view)
 
-    viewModel = viewModelWithSavedState {
+    uiState = viewModelWithSavedState {
       app, savedState -> HomepageViewModel(app, savedState)
-    }
+    }.uiState
 
     setupViewPager()
     observeBookmarks()

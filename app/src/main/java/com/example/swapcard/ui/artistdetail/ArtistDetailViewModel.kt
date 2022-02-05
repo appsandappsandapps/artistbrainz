@@ -20,7 +20,7 @@ class ArtistDetailViewModel(
   val uiState =
     ArtistDetailUIState(
       viewModel = this,
-      existing = savedState.getByHashCode(ArtistDetailUIState.Values()),
+      existing = savedState.getByHashCode(ArtistDetailUIState.UIValues()),
       saveToParcel = { savedState.setByHashCode(it) }
     )
 
@@ -34,7 +34,7 @@ class ArtistDetailViewModel(
     repository.artist(artistId)
     repository.artist.collect {
       var artist = it
-      uiState.setArtist(ArtistDetailUIState.Values(
+      uiState.setArtist(ArtistDetailUIState.UIValues(
         id = artist.id,
         name = artist.name,
         bookmarked = repository.isBookmarked(it.id),
@@ -45,9 +45,9 @@ class ArtistDetailViewModel(
     }
   }
 
-  public fun bookmark(name: String) {
+  public fun bookmark(id: String, name: String) {
     viewModelScope.launch {
-      repository.bookmark(artistId, name)
+      repository.bookmark(id, name)
     }
   }
 

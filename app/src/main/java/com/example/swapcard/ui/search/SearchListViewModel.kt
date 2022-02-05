@@ -35,7 +35,7 @@ class SearchListViewModel(
       if(it.error.isNotBlank()) {
         uiState.setError(it.error)
       } else if(!it.paginated && it.artists.size == 0) {
-        uiState.setEmptyList(true)
+        uiState.setEmptyList()
       } else
         uiState.addArtists(it.artists.map {
           SearchListUIState.ArtistUI(it.id, it.name, it.bookmarked)
