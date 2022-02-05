@@ -1,83 +1,88 @@
 package com.example.swapcard.repositories
 
 import android.util.Log
-import com.apollographql.apollo3.ApolloClient
-import com.example.swapcard.ArtistQuery
-import com.example.swapcard.ArtistsQuery
+import com.example.swapcard.data.BookmarkEntity
+import com.example.swapcard.data.BookmarkDao
+import com.example.swapcard.data.GraphQLDataSource
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import java.util.*
 
 class MusicRepositoryRemote(
-  val apolloClient: ApolloClient
+  private val graphQLDatasource: GraphQLDataSource,
+  private val bookmarksDAO: BookmarkDao,
 ): MusicRepository {
 
   private var lastQuery = ""
   private var lastCursorResult = ""
-  private var activeBottomCursor = ""
+  private var activeCursor = ""
 
-  override val searchedForArtists = MutableStateFlow(Artists(listOf()))
+  override val searchedForArtists = MutableStateFlow(Artists(listOf(), ""))
   override val artist = MutableStateFlow(Artist("", ""))
+  override val bookmarks = MutableStateFlow(Bookmarks(listOf()))
+
+  init {
+    MainScope().launch {
+      refreshBookmarks()
+    }
+  }
 
   override suspend fun clearSearch() {
-    activeBottomCursor = ""
+    activeCursor = ""
     lastCursorResult = ""
     searchedForArtists.value = Artists(listOf())
   }
 
   override suspend fun search(query: String) {
-    if(query != lastQuery) activeBottomCursor = ""
+    if(query != lastQuery) activeCursor = ""
     lastQuery = query
     try {
-      val resp = apolloClient.query(ArtistsQuery(
-        query, activeBottomCursor
-      )).execute()
-      val artists = resp.data?.search?.artists?.edges
-        ?.filterNotNull()
-        ?.map {
-          Pair(it.node?.artistBasicFragment, it.cursor)
-        }
-        ?.map {
-          val artist = it.first!!
-          lastCursorResult = it.second
-          Artist(
-            id = artist.id,
-            name = artist.name ?: "",
-            disambiguation = artist.disambiguation ?: "",
-          )
-        }
-      searchedForArtists.value = Artists(artists!!)
+      val (artists, lastCursor) = graphQLDatasource.getArtists(query, activeCursor)
+      lastCursorResult = lastCursor
+      searchedForArtists.value = Artists(
+        artists,
+        paginated = activeCursor.isNotBlank(),
+      )
     } catch(e: Exception) {
-      Log.d("HI", "error!" + e)
+      searchedForArtists.value = Artists(
+        error = "Error fetching artists: ${e}"
+      )
     }
   }
 
-  override suspend fun refresh() {
-    searchedForArtists.value = Artists(searchedForArtists.value.artists)
-  }
-
   override suspend fun paginateLastSearch() {
-    activeBottomCursor = lastCursorResult
+    activeCursor = lastCursorResult
     search(lastQuery)
-  }
-
-  override suspend fun bookmark(id: String) {
-  }
-
-  override suspend fun debookmark(id: String) {
   }
 
   override suspend fun artist(id: String) {
     try {
-      val resp = apolloClient.query(ArtistQuery(id)).execute()
-      val artistFrag = resp.data?.node?.artistDetailsFragment!!
-      var art = Artist(
-        id = artistFrag.id,
-        name = artistFrag.name ?: "",
-        disambiguation = artistFrag.disambiguation ?: "",
-      )
-      artist.value = art
+      val newArtist = graphQLDatasource.getArtist(id)
+      artist.value = newArtist
     } catch(e: Exception) {
       Log.d("HI", "error!" + e)
     }
+  }
+
+  override suspend fun bookmark(id: String, name: String) {
+    bookmarksDAO.insert(BookmarkEntity(id, name))
+    refreshBookmarks()
+  }
+
+  override suspend fun debookmark(id: String) {
+    bookmarksDAO.delete(id)
+    refreshBookmarks()
+  }
+
+  override suspend fun isBookmarked(id: String) =
+    bookmarksDAO.get(id) != null
+
+  private suspend fun refreshBookmarks() {
+    val bookmarksEntities = bookmarksDAO.getAll()
+    bookmarks.value = Bookmarks(
+      bookmarksEntities.map { Bookmark(it.id, it.name) }
+    )
   }
 
 }

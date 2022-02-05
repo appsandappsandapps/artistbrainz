@@ -1,5 +1,6 @@
 package com.example.swapcard.ui.search
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,22 +21,32 @@ class SearchListViewModel(
   val uiState =
     SearchListUIState(
       viewModel = this,
-      existing = savedState.getByHashCode(SearchListUIState.Values()),
+      existing = savedState.getByHashCode(SearchListUIState.UIValues()),
       saveToParcel = { savedState.setByHashCode(it) }
     )
 
   init {
-    viewModelScope.launch {
-      observeArtists()
-    }
+    viewModelScope.launch { observeArtists() }
+    viewModelScope.launch { observeBookmarks() }
   }
 
   private suspend fun observeArtists() {
-    repository.refresh()
     repository.searchedForArtists.collect {
-      uiState.setItems(it.artists.map {
-        SearchListUIState.ArtistUI(it.id, it.name, it.bookmarked)
-      })
+      if(it.error.isNotBlank()) {
+        uiState.setError(it.error)
+      } else if(!it.paginated && it.artists.size == 0) {
+        uiState.setEmptyList(true)
+      } else
+        uiState.addArtists(it.artists.map {
+          SearchListUIState.ArtistUI(it.id, it.name, it.bookmarked)
+        })
+    }
+  }
+
+  private suspend fun observeBookmarks() {
+    repository.bookmarks.collect {
+      val ids = it.bookmarks.map { it.id }
+      uiState.applyBookmarks(ids)
     }
   }
 
@@ -43,8 +54,8 @@ class SearchListViewModel(
     repository.paginateLastSearch()
   }
 
-  public fun bookmark(id: String) = viewModelScope.launch {
-    repository.bookmark(id)
+  public fun bookmark(id: String, name: String) = viewModelScope.launch {
+    repository.bookmark(id, name)
   }
 
   public fun debookmark(id: String) = viewModelScope.launch {
@@ -55,11 +66,9 @@ class SearchListViewModel(
     gotoDetail(id)
   }
 
-  public fun searchArtists(s:String) {
-    viewModelScope.launch {
-      repository.clearSearch()
-      repository.search(s)
-    }
+  public fun searchArtists(s:String) = viewModelScope.launch {
+    uiState.setLoading(true)
+    repository.search(s)
   }
 
 }

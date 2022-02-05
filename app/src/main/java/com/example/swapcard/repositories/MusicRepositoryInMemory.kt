@@ -16,6 +16,7 @@ class MusicRepositoryInMemory : MusicRepository {
   private var searchOffset = 15
 
   override val searchedForArtists = MutableStateFlow(Artists(_textItems))
+  override val bookmarks = MutableStateFlow(Bookmarks(listOf()))
 
   override suspend fun search(text: String) {
     lastSearch = text
@@ -31,15 +32,11 @@ class MusicRepositoryInMemory : MusicRepository {
     searchedForArtists.value = Artists(newArtists)
   }
 
-  override suspend fun refresh() {
-    searchedForArtists.value = Artists(searchedForArtists.value.artists)
-  }
-
   override suspend fun paginateLastSearch(): Unit {
     search(lastSearch)
   }
 
-  override suspend fun bookmark(id: String) {
+  override suspend fun bookmark(id: String, name: String) {
     val newArtists = searchedForArtists.value.artists.toMutableList().apply {
       forEachIndexed { index, item ->
         if (item.id == id) set(index, item.copy(bookmarked = true))
@@ -63,6 +60,10 @@ class MusicRepositoryInMemory : MusicRepository {
   }
 
   override suspend fun clearSearch() {
+  }
+
+  override suspend fun isBookmarked(id: String): Boolean {
+    return false
   }
 
 }

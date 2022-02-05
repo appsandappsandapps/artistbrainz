@@ -6,11 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 class ArtistDetailUIState(
   private val viewModel: ArtistDetailViewModel,
-  private var existing: Values = Values(),
-  private val saveToParcel: (Values) -> Unit = {},
+  private var existing: Values = UIValues(),
+  private val saveToParcel: (UIValues) -> Unit = {},
 ) {
 
-  @Parcelize data class Values(
+  @Parcelize data class UIValues(
     val id: String = "",
     val name: String = "",
     val bookmarked: Boolean = false,

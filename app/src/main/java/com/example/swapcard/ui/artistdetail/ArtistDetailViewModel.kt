@@ -1,6 +1,5 @@
 package com.example.swapcard.ui.artistdetail
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +37,7 @@ class ArtistDetailViewModel(
       uiState.setArtist(ArtistDetailUIState.Values(
         id = artist.id,
         name = artist.name,
-        //bookmarked = artist.bookmarked,
+        bookmarked = repository.isBookmarked(it.id),
         disambiguation = artist.disambiguation,
         //rating = artist.rating.value,
         //voteCount = artist.rating.voteCount,
@@ -46,9 +45,9 @@ class ArtistDetailViewModel(
     }
   }
 
-  public fun bookmark() {
+  public fun bookmark(name: String) {
     viewModelScope.launch {
-      repository.bookmark(artistId)
+      repository.bookmark(artistId, name)
     }
   }
 

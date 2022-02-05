@@ -11,7 +11,7 @@ import com.example.swapcard.R
 class SearchListRecyclerView(
   public var items: List<SearchListUIState.ArtistUI>,
   val artistClick: (String) -> Unit,
-  val bookmarkListener: (String) -> Unit,
+  val bookmarkListener: (String, String) -> Unit,
   val debookmarkListener: (String) -> Unit,
   val nextPaginateListener: () -> Unit,
 ) : RecyclerView.Adapter<SearchListRecyclerView.Holder>() {
@@ -33,7 +33,7 @@ class SearchListRecyclerView(
     }
     hld.checkBox.setOnClickListener {
       if(hld.checkBox.isChecked)
-        bookmarkListener(items[pos].id)
+        bookmarkListener(items[pos].id, items[pos].name)
       else
         debookmarkListener(items[pos].id)
     }
