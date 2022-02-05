@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swapcard.R
 import com.example.swapcard.databinding.SearchlistBinding
 import com.example.swapcard.hideKeyboard
+import com.example.swapcard.ui.artistdetail.ArtistDetailFragment
 import com.example.swapcard.viewModelWithSavedState
 import com.example.swapcard.ui.search.SearchListUIState.UIValues
 import kotlinx.coroutines.flow.collect
@@ -27,10 +28,9 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
   // Utils for UIState object
-  lateinit var viewModel: SearchListViewModel
-  val uiState get() = viewModel.uiState
+  lateinit var uiState: SearchListUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    viewModel.uiState.valuesFlow.collect { f(it) }
+    uiState.valuesFlow.collect { f(it) }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,16 +39,16 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
     val gotoDetail = { id:String ->
       findNavController().navigate(
         R.id.go_to_artist_detail,
-        Bundle().apply { putString("artistId", id) }
+        Bundle().apply { putString(ArtistDetailFragment.ARG_ARTIST_ID, id) }
       )
     }
-    viewModel = viewModelWithSavedState {
+    uiState = viewModelWithSavedState {
       app, savedState -> SearchListViewModel(
         app,
         savedState,
         gotoDetail,
       )
-    }
+    }.uiState
 
     reactOnSearchField()
     observerLoadingState()
@@ -104,10 +104,10 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
         layoutManager = LinearLayoutManager(this.context)
         adapter = SearchListRecyclerView(
           artists,
-          { viewModel.gotoArtistDetail(it) },
-          { id, name -> viewModel.bookmark(id, name) },
-          { viewModel.debookmark(it) },
-          { viewModel.paginateSearch() }
+          { uiState.gotoArtistDetail(it) },
+          { id, name -> uiState.bookmark(id, name) },
+          { uiState.debookmark(it) },
+          { uiState.paginateSearch() }
         )
       }
     }

@@ -20,15 +20,14 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
   lateinit var binding: BookmarksBinding
   val recycler get() = binding.recyclerView
   // Utils for UIState object
-  lateinit var viewModel: BookmarksViewModel
-  val uiState get() = viewModel.uiState
+  lateinit var uiState: BookmarksUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    viewModel.uiState.valuesFlow.collect { f(it) }
+    uiState.valuesFlow.collect { f(it) }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val binding = BookmarksBinding.bind(view)
+    binding = BookmarksBinding.bind(view)
 
     val gotoArtist: (String) -> Unit = { artistId ->
       findNavController().navigate(
@@ -36,20 +35,20 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
         Bundle().apply { putString("artistId", artistId) }
       )
     }
-    viewModel = viewModelWithSavedState {
-      app, savedState -> BookmarksViewModel(
+    uiState = viewModelWithSavedState { app, savedState ->
+      BookmarksViewModel(
         app,
         savedState,
         gotoArtist,
       )
-    }
+    }.uiState
     observeBookmarks()
   }
 
   private fun observeBookmarks() = collectUiState {
     setupList(it.bookmarks)
     recycler.post {
-      recyclerView.adapter?.notifyDataSetChanged()
+      recycler.adapter?.notifyDataSetChanged()
     }
   }
 
@@ -62,8 +61,8 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
         layoutManager = LinearLayoutManager(this@BookmarksFragment.context)
         adapter = BookmarksRecyclerView(
           artists,
-          { viewModel.gotoDetailScreen(it) },
-          { viewModel.debookmark(it) },
+          { uiState.gotoDetailScreen(it) },
+          { uiState.debookmark(it) },
         )
       }
     }

@@ -1,7 +1,9 @@
 package com.example.swapcard.ui.search
 
 import android.os.Parcelable
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
 class SearchListUIState(
@@ -83,15 +85,31 @@ class SearchListUIState(
   }
 
   fun setLoading(b: Boolean) {
-    values = values.copy(loading = true, emptyList = false)
+    values = values.copy(loading = b, emptyList = false)
   }
 
-  fun setEmptyList(b: Boolean) {
+  fun setEmptyList() {
     values = values.copy(
       emptyList = true,
       loading = false,
       artists = listOf()
     )
+  }
+
+  public fun paginateSearch() {
+    viewModel.paginateSearch()
+  }
+
+  public fun bookmark(id: String, name: String) {
+    viewModel.bookmark(id, name)
+  }
+
+  public fun debookmark(id: String) {
+    viewModel.debookmark(id)
+  }
+
+  public fun gotoArtistDetail(id: String) {
+    viewModel.gotoArtistDetail(id)
   }
 
 }
