@@ -1,6 +1,5 @@
 package com.example.swapcard.ui.dashboard
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +19,7 @@ class HomepageViewModel(
   val uiState =
     HomepageUIState(
       viewModel = this,
-      existing = savedState.getByHashCode(HomepageUIState.Values()),
+      existing = savedState.getByHashCode(HomepageUIState.UIValues()),
       saveToParcel = { savedState.setByHashCode(it) }
     )
 
@@ -31,9 +30,8 @@ class HomepageViewModel(
   }
 
   private suspend fun observeArtists() {
-    repository.refresh()
-    repository.searchedForArtists.collect {
-      var bookmarked = it.artists.filter { it.bookmarked }.size
+    repository.bookmarks.collect {
+      var bookmarked = it.bookmarks.size
       uiState.setBookmarked(bookmarked)
     }
   }

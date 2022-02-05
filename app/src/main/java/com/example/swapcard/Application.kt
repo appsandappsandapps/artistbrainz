@@ -3,10 +3,12 @@ package com.example.swapcard
 import android.app.Application
 import com.example.swapcard.repositories.MusicRepository
 
-// Bookmarks again
-// Loading spinner?
-// Error spinner?
-// No results
+// Rating for artist
+// Error for artists
+// Loading for artist
+
+// Clear input for search
+// Search button
 
 class Application : Application() {
 

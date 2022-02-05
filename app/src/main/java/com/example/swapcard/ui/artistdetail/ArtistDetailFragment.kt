@@ -8,47 +8,53 @@ import androidx.lifecycle.lifecycleScope
 import com.example.swapcard.R
 import com.example.swapcard.databinding.ArtistdetailBinding
 import com.example.swapcard.viewModelWithSavedState
+import com.example.swapcard.ui.search.ArtistDetailUIState.UIValues
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
 
+  // Views from layout
+  lateinit var binding: ArtistDetailBinding
+  val checkbox get() binding.checkbox
+  val artist get() binding.aristName
+  val disambiguation get() binding.disambiguation
+  val rating get() binding.rating
+  val voteCount get() binding.voteCount
+  // Utils for UIState object
   lateinit var viewModel: ArtistDetailViewModel
+  val uiState get() = viewModel.uiState
+  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
+    viewModel.uiState.valuesFlow.collect { f(it) }
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val binding = ArtistdetailBinding.bind(view)
+    binding = ArtistdetailBinding.bind(view)
     var artistId = arguments?.getString("artistId") ?: "-1"
 
     viewModel = viewModelWithSavedState {
       app, savedState -> ArtistDetailViewModel(app, savedState, artistId)
     }
 
-    listenOnViews(binding, viewModel.uiState)
-    listenOnStateChange(binding, viewModel.uiState)
+    reactOnCheckbox()
+    observeArtist()
   }
 
-  private fun listenOnViews(
-    binding: ArtistdetailBinding,
-    uiState: ArtistDetailUIState,
-  ) {
-    binding.checkbox.setOnClickListener {
-      if(binding.checkbox.isChecked) viewModel.bookmark()
+  private fun reactOnCheckbox() {
+    checkbox.setOnClickListener {
+      if(checkbox.isChecked)
+        viewModel.bookmark(binding.artistName.text.toString())
       else viewModel.debookmark()
     }
   }
 
-  private fun listenOnStateChange(
-    binding: ArtistdetailBinding,
-    uiState: ArtistDetailUIState,
-  ) = lifecycleScope.launch {
-    uiState.valuesFlow.collect {
-      binding.artistName.text = it.name
-      binding.checkbox.isChecked = it.bookmarked
-      binding.disambiguation.text = it.disambiguation
-      binding.rating.text = it.rating.toString()
-      binding.voteCount.text = it.voteCount.toString()
-    }
+  private fun observeArtist() = collectUiState {
+    artist.text = it.name
+    checkbox.isChecked = it.bookmarked
+    disambiguation.text = it.disambiguation
+    rating.text = it.rating.toString()
+    voteCount.text = it.voteCount.toString()
   }
 
 }

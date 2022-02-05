@@ -8,9 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.swapcard.R
 import com.example.swapcard.databinding.HomeFragmentBinding
-import com.example.swapcard.ui.artistdetail.ArtistDetailViewModel
 import com.example.swapcard.ui.bookmarks.BookmarksFragment
 import com.example.swapcard.ui.search.SearchListFragment
+import com.example.swapcard.ui.dashboard.HomepageUIState.UIValues
 import com.example.swapcard.viewModelWithSavedState
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
@@ -18,32 +18,41 @@ import kotlinx.coroutines.launch
 
 class HomepageFragment : Fragment(R.layout.home_fragment) {
 
+  // Views
+  lateinit var bindings: HomeFragmentBinding
+  val tabs get() = bindings.tabLayout
+  val viewpager get() = bindings.viewpager2
+  // UI State
   lateinit var viewModel: HomepageViewModel
+  val uiState get() = viewModel.uiState
+  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
+    viewModel.uiState.valuesFlow.collect { f(it) }
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val bindings = HomeFragmentBinding.bind(view)
+    bindings = HomeFragmentBinding.bind(view)
 
     viewModel = viewModelWithSavedState {
-        app, savedState -> HomepageViewModel(app, savedState)
+      app, savedState -> HomepageViewModel(app, savedState)
     }
 
+    setupViewPager()
+    observeBookmarks()
+  }
+
+  private fun setupViewPager() {
     val vpAdapter = PagerAdapter(
       requireActivity(),
       listOf(SearchListFragment(), BookmarksFragment()),
     )
-    bindings.viewpager2.adapter = vpAdapter
-    TabLayoutMediator(bindings.tabLayout, bindings.viewpager2) { tab, pos ->
-      tab.text = if(pos == 0) "Search" else "Bookmarks"
-    }.attach()
+    viewpager.adapter = vpAdapter
+  }
 
-    lifecycleScope.launch {
-      viewModel.uiState.valuesFlow.collect { state ->
-        TabLayoutMediator(bindings.tabLayout, bindings.viewpager2) { tab, pos ->
-          tab.text = if(pos == 0) "Search" else "Bookmarks ${state.bookmarked}"
-        }.attach()
-      }
-    }
+  private fun observeBookmarks() = collectUiState { state ->
+    TabLayoutMediator(tabs, viewpager) { tab, pos ->
+      tab.text = if(pos == 0) "Artists" else "Bookmarks ${state.bookmarked}"
+    }.attach()
   }
 
 }

@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 class BookmarksUIState(
   private val viewModel: BookmarksViewModel,
-  private var existing: Values = Values(),
-  private val saveToParcel: (Values) -> Unit = {},
+  private var existing: Values = UIValues(),
+  private val saveToParcel: (UIValues) -> Unit = {},
 ) {
 
   @Parcelize
@@ -16,7 +16,7 @@ class BookmarksUIState(
     val name: String,
   ): Parcelable
 
-  @Parcelize data class Values(
+  @Parcelize data class UIValues(
     val bookmarks: List<BookmarkUI> = listOf(),
   ): Parcelable
 
@@ -30,7 +30,7 @@ class BookmarksUIState(
       saveToParcel(values)
     }
 
-  fun setItems(bookmarks: Values) {
+  fun setBookmarks(bookmarks: Values) {
     values = bookmarks
   }
 

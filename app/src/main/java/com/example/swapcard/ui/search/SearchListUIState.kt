@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 class SearchListUIState(
   private val viewModel: SearchListViewModel,
-  private var existing: Values = Values(),
-  private val saveToParcel: (Values) -> Unit = {},
+  private var existing: UIValues = UIValues(),
+  private val saveToParcel: (UIValues) -> Unit = {},
 ) {
 
   @Parcelize
@@ -17,7 +17,10 @@ class SearchListUIState(
     val bookmarked: Boolean,
   ): Parcelable
 
-  @Parcelize data class Values(
+  @Parcelize data class UIValues(
+    var loading: Boolean = false,
+    var emptyList: Boolean = false,
+    var error: String = "",
     var inputText: String = "",
     val artists: List<ArtistUI> = listOf(),
   ): Parcelable
@@ -32,12 +35,41 @@ class SearchListUIState(
       saveToParcel(values)
     }
 
-  fun setItems(
-    artists: List<ArtistUI>,
+  fun setError(e: String) {
+    values = values.copy(
+      loading = false,
+      error = e
+    )
+  }
+
+  fun clearArtists() {
+    values = values.copy(
+      error = "",
+      artists = listOf()
+    )
+  }
+
+  fun addArtists(
+    newArtists: List<ArtistUI>,
   ) {
     values = values.copy(
-      artists = artists,
+      error = "",
+      emptyList = false,
+      loading = false,
+      artists = values.artists + newArtists,
     )
+  }
+
+  fun applyBookmarks(bookmarkIds: List<String>) {
+    val artists = values.artists
+    val newArtists = artists.map {
+      if(bookmarkIds.contains(it.id)) {
+        it.copy(bookmarked = true)
+      } else {
+        it.copy(bookmarked = false)
+      }
+    }
+    values = values.copy(artists = newArtists)
   }
 
   fun setInputText(s: String) {
@@ -45,8 +77,21 @@ class SearchListUIState(
   }
 
   fun pressEnter() {
+    clearArtists()
+    values = values.copy(loading = true, emptyList = false)
     viewModel.searchArtists(values.inputText)
-    values = values.copy(inputText = "")
+  }
+
+  fun setLoading(b: Boolean) {
+    values = values.copy(loading = true, emptyList = false)
+  }
+
+  fun setEmptyList(b: Boolean) {
+    values = values.copy(
+      emptyList = true,
+      loading = false,
+      artists = listOf()
+    )
   }
 
 }

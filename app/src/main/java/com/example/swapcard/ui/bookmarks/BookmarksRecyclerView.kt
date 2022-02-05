@@ -10,6 +10,7 @@ import com.example.swapcard.R
 
 class BookmarksRecyclerView(
   public var items: List<BookmarksUIState.BookmarkUI>,
+  val artistClick: (String) -> Unit,
   val debookmarkListener: (String) -> Unit,
 ) : RecyclerView.Adapter<BookmarksRecyclerView.Holder>() {
   
@@ -24,6 +25,9 @@ class BookmarksRecyclerView(
     hld.checkBox.isChecked = true
     hld.checkBox.setOnClickListener {
       debookmarkListener(items[pos].id)
+    }
+    hld.textView.setOnClickListener {
+      artistClick(items[pos].id)
     }
   }
 

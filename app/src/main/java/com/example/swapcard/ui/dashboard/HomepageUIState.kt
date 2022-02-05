@@ -6,11 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 class HomepageUIState(
   private val viewModel: HomepageViewModel,
-  private var existing: Values = Values(),
-  private val saveToParcel: (Values) -> Unit = {},
+  private var existing: UIValues = UIValues(),
+  private val saveToParcel: (UIValues) -> Unit = {},
 ) {
 
-  @Parcelize data class Values(
+  @Parcelize data class UIValues(
     val bookmarked: Int = 0,
   ): Parcelable
 
@@ -25,7 +25,7 @@ class HomepageUIState(
     }
 
   fun setBookmarked(num: Int) {
-    values = Values(num)
+    values = UIValues(num)
   }
 
 }
