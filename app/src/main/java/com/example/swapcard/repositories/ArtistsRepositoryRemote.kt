@@ -1,18 +1,18 @@
 package com.example.swapcard.repositories
 
-import android.util.Log
-import com.example.swapcard.data.BookmarkEntity
-import com.example.swapcard.data.BookmarkDao
-import com.example.swapcard.data.GraphQLDataSource
+import com.example.swapcard.data.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
 
-class MusicRepositoryRemote(
+/**
+ * Merges a bookmarks database
+ * with the graphql datasource
+ */
+class ArtistsRepositoryRemote(
   private val graphQLDatasource: GraphQLDataSource,
   private val bookmarksDAO: BookmarkDao,
-): MusicRepository {
+): ArtistsRepository {
 
   private var lastQuery = ""
   private var lastCursorResult = ""
@@ -61,7 +61,7 @@ class MusicRepositoryRemote(
       val newArtist = graphQLDatasource.getArtist(id)
       artist.value = newArtist
     } catch(e: Exception) {
-      Log.d("HI", "error!" + e)
+      artist.value = Artist("", "", error = "Error fetching artist: ${e.message}")
     }
   }
 

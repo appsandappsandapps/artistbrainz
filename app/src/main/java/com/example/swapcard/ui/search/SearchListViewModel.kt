@@ -1,24 +1,25 @@
 package com.example.swapcard.ui.search
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.swapcard.Application
-import com.example.swapcard.repositories.MusicRepository
+import com.example.swapcard.repositories.ArtistsRepository
 import com.example.swapcard.getByHashCode
 import com.example.swapcard.setByHashCode
+import com.example.swapcard.utils.DispatchedViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class SearchListViewModel(
-  private val application: Application,
+  application: Application,
   private val savedState: SavedStateHandle,
   private val gotoDetail: (String) -> Unit,
-  private val repository: MusicRepository = application.musicRepository,
-): ViewModel() {
+  private val repository: ArtistsRepository = application.artistsRepository,
+  private var mockUiState: SearchListUIState ? = null,
+  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+): DispatchedViewModel(dispatcher) {
 
-  val uiState =
+  val uiState = mockUiState ?:
     SearchListUIState(
       viewModel = this,
       existing = savedState.getByHashCode(SearchListUIState.UIValues()),
@@ -26,8 +27,8 @@ class SearchListViewModel(
     )
 
   init {
-    viewModelScope.launch { observeArtists() }
-    viewModelScope.launch { observeBookmarks() }
+    dispatchedLaunch { observeArtists() }
+    dispatchedLaunch { observeBookmarks() }
   }
 
   private suspend fun observeArtists() {
@@ -50,15 +51,15 @@ class SearchListViewModel(
     }
   }
 
-  public fun paginateSearch() = viewModelScope.launch {
+  public fun paginateSearch() = dispatchedLaunch {
     repository.paginateLastSearch()
   }
 
-  public fun bookmark(id: String, name: String) = viewModelScope.launch {
+  public fun bookmark(id: String, name: String) = dispatchedLaunch {
     repository.bookmark(id, name)
   }
 
-  public fun debookmark(id: String) = viewModelScope.launch {
+  public fun debookmark(id: String) = dispatchedLaunch {
     repository.debookmark(id)
   }
 
@@ -66,7 +67,7 @@ class SearchListViewModel(
     gotoDetail(id)
   }
 
-  public fun searchArtists(s:String) = viewModelScope.launch {
+  public fun searchArtists(s:String) = dispatchedLaunch {
     uiState.setLoading(true)
     repository.search(s)
   }

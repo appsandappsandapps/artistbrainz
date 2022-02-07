@@ -3,7 +3,6 @@ package com.example.swapcard.data
 import com.apollographql.apollo3.ApolloClient
 import com.example.swapcard.ArtistQuery
 import com.example.swapcard.ArtistsQuery
-import com.example.swapcard.repositories.Artist
 
 class GraphQLDataSource(
   val isBookmarked: suspend (String) -> Boolean,
@@ -20,6 +19,10 @@ class GraphQLDataSource(
       id = artistFrag.id,
       name = artistFrag.name ?: "",
       disambiguation = artistFrag.disambiguation ?: "",
+      rating = Rating(
+        value = artistFrag.rating?.value ?: 0.0,
+        voteCount = artistFrag.rating?.voteCount ?: 0,
+      )
     )
   }
 

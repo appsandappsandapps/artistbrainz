@@ -9,11 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swapcard.R
 import com.example.swapcard.databinding.BookmarksBinding
+import com.example.swapcard.ui.artistdetail.ArtistDetailFragment
 import com.example.swapcard.viewModelWithSavedState
 import com.example.swapcard.ui.bookmarks.BookmarksUIState.UIValues
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Allows you to see your bookmarks
+ * You can alos unbookmark items
+ */
 class BookmarksFragment : Fragment(R.layout.bookmarks) {
 
   // Views from layout
@@ -29,10 +34,10 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
     super.onViewCreated(view, savedInstanceState)
     binding = BookmarksBinding.bind(view)
 
-    val gotoArtist: (String) -> Unit = { artistId ->
+    val gotoArtist: (String) -> Unit = { id->
       findNavController().navigate(
         R.id.go_to_artist_detail,
-        Bundle().apply { putString("artistId", artistId) }
+        Bundle().apply { putString(ArtistDetailFragment.ARG_ARTIST_ID, id) }
       )
     }
     uiState = viewModelWithSavedState { app, savedState ->
