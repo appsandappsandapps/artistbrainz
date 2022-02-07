@@ -29,6 +29,18 @@
             app:indicatorSize="20dp"
             android:indeterminate="true" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/clearText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textStyle="italic|bold"
+            android:text="x"
+            />
+
     </RelativeLayout>
 
     <FrameLayout
@@ -45,8 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible"
-            android:text="No results 🤭"
-            >
+            android:text="No results 🙁">
+
         </androidx.appcompat.widget.AppCompatTextView>
     </FrameLayout>
 

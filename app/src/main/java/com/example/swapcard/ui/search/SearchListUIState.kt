@@ -25,7 +25,10 @@ class SearchListUIState(
     var error: String = "",
     var inputText: String = "",
     val artists: List<ArtistUI> = listOf(),
-  ): Parcelable
+  ): Parcelable {
+    fun showClearText():Boolean =
+      inputText.isNotBlank() && loading == false
+  }
 
   var valuesFlow = MutableStateFlow(existing)
     private set

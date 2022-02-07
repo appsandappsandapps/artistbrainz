@@ -1,9 +1,9 @@
 package com.example.swapcard
 
 import android.content.Context
-import com.example.swapcard.repositories.MusicRepositoryInMemory
+import com.example.swapcard.repositories.ArtistsRepositoryInMemory
 
 object ServiceLocator {
-  fun provideTextRepository(context: Context) =
-    MusicRepositoryInMemory()
+  fun provideArtistsRepository(context: Context) =
+    ArtistsRepositoryInMemory()
 }

@@ -3,15 +3,21 @@ package com.example.swapcard.ui.artistdetail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.swapcard.R
 import com.example.swapcard.databinding.ArtistdetailBinding
 import com.example.swapcard.viewModelWithSavedState
 import com.example.swapcard.ui.artistdetail.ArtistDetailUIState.UIValues
+import com.example.swapcard.utils.pluralise
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Loads the artist details
+ * You can bookmark from here too
+ */
 class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
 
   companion object {
@@ -24,7 +30,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   val artist get() = binding.artistName
   val disambiguation get() = binding.disambiguation
   val rating get() = binding.rating
-  val voteCount get() = binding.voteCount
+  val loading get() = binding.linearprogress
   // Utils for UIState object
   lateinit var uiState: ArtistDetailUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
@@ -42,6 +48,8 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
 
     reactOnCheckbox()
     observeArtist()
+    observeLoadingState()
+    observeErrorState()
   }
 
   private fun reactOnCheckbox() {
@@ -52,12 +60,24 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     }
   }
 
+  private fun observeLoadingState() = collectUiState {
+    if(it.loading) loading.show() else loading.hide()
+  }
+
+  private fun observeErrorState() = collectUiState {
+    if(it.error.isNotBlank()) {
+      Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
+    }
+  }
+
   private fun observeArtist() = collectUiState {
-    artist.text = it.name
-    checkbox.isChecked = it.bookmarked
-    disambiguation.text = it.disambiguation
-    rating.text = it.rating.toString()
-    voteCount.text = it.voteCount.toString()
+    if(!it.loading) {
+      artist.text = it.name
+      checkbox.isChecked = it.bookmarked
+      checkbox.visibility = View.VISIBLE
+      disambiguation.text = it.disambiguation
+      rating.text = "Rating ${it.rating} (${"vote".pluralise(it.voteCount)})"
+    }
   }
 
 }

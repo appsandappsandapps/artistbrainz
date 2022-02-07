@@ -1,4 +1,4 @@
-package com.example.swapcard.ui.dashboard
+package com.example.swapcard.ui.homepage
 
 import android.os.Bundle
 import android.view.View
@@ -10,12 +10,16 @@ import com.example.swapcard.R
 import com.example.swapcard.databinding.HomeFragmentBinding
 import com.example.swapcard.ui.bookmarks.BookmarksFragment
 import com.example.swapcard.ui.search.SearchListFragment
-import com.example.swapcard.ui.dashboard.HomepageUIState.UIValues
+import com.example.swapcard.ui.homepage.HomepageUIState.UIValues
 import com.example.swapcard.viewModelWithSavedState
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Reacts on new bookmarks to update the tab icon
+ * Fills the recyclerview with bookmarks
+ */
 class HomepageFragment : Fragment(R.layout.home_fragment) {
 
   // Views

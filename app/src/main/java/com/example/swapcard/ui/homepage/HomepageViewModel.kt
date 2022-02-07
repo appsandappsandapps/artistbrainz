@@ -1,22 +1,24 @@
-package com.example.swapcard.ui.dashboard
+package com.example.swapcard.ui.homepage
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.swapcard.Application
-import com.example.swapcard.repositories.MusicRepository
+import com.example.swapcard.repositories.ArtistsRepository
 import com.example.swapcard.getByHashCode
 import com.example.swapcard.setByHashCode
+import com.example.swapcard.utils.DispatchedViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class HomepageViewModel(
-  private val application: Application,
+  application: Application,
   private val savedState: SavedStateHandle,
-  private val repository: MusicRepository = application.musicRepository,
-): ViewModel() {
+  private val repository: ArtistsRepository = application.artistsRepository,
+  private var mockUiState: HomepageUIState ? = null,
+  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+): DispatchedViewModel(dispatcher) {
 
-  val uiState =
+  val uiState = mockUiState ?:
     HomepageUIState(
       viewModel = this,
       existing = savedState.getByHashCode(HomepageUIState.UIValues()),
@@ -24,12 +26,10 @@ class HomepageViewModel(
     )
 
   init {
-    viewModelScope.launch {
-      observeArtists()
-    }
+    observeArtists()
   }
 
-  private suspend fun observeArtists() {
+  private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
       var bookmarked = it.bookmarks.size
       uiState.setBookmarked(bookmarked)

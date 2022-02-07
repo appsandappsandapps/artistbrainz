@@ -1,4 +1,4 @@
-package com.example.swapcard.ui.dashboard
+package com.example.swapcard.ui.homepage
 
 import android.os.Parcelable
 import kotlinx.coroutines.flow.MutableStateFlow

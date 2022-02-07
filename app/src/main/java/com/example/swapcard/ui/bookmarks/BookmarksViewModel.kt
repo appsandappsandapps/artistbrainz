@@ -1,24 +1,25 @@
 package com.example.swapcard.ui.bookmarks
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.swapcard.Application
-import com.example.swapcard.repositories.MusicRepository
+import com.example.swapcard.repositories.ArtistsRepository
 import com.example.swapcard.getByHashCode
-import com.example.swapcard.repositories.Bookmarks
 import com.example.swapcard.setByHashCode
+import com.example.swapcard.utils.DispatchedViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class BookmarksViewModel(
-  private val application: Application,
+  application: Application,
   private val savedState: SavedStateHandle,
   private val gotoDetail: (String) -> Unit,
-  private val repository: MusicRepository = application.musicRepository,
-): ViewModel() {
+  private val repository: ArtistsRepository = application.artistsRepository,
+  private var mockUiState: BookmarksUIState? = null,
+  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+): DispatchedViewModel(dispatcher) {
 
-  val uiState =
+  val uiState = mockUiState ?:
     BookmarksUIState(
       viewModel = this,
       existing = savedState.getByHashCode(BookmarksUIState.UIValues()),
@@ -26,12 +27,10 @@ class BookmarksViewModel(
     )
 
   init {
-    viewModelScope.launch {
-      observeArtists()
-    }
+    observeArtists()
   }
 
-  private suspend fun observeArtists() {
+  private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
       val bookmarks = it.bookmarks.map {
         BookmarksUIState.BookmarkUI(
@@ -43,10 +42,8 @@ class BookmarksViewModel(
     }
   }
 
-  public fun debookmark(id: String) {
-    viewModelScope.launch {
-      repository.debookmark(id)
-    }
+  public fun debookmark(id: String) = dispatchedLaunch {
+    repository.debookmark(id)
   }
 
   public fun gotoDetailScreen(id: String) {

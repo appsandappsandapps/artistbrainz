@@ -16,7 +16,9 @@ class ArtistDetailUIState(
     val bookmarked: Boolean = false,
     val disambiguation: String = "",
     val voteCount: Int = 0,
-    val rating: Int = 0,
+    val rating: Double = 0.0,
+    val loading: Boolean = false,
+    val error: String = "",
   ): Parcelable
 
   var valuesFlow = MutableStateFlow(existing)
@@ -30,7 +32,7 @@ class ArtistDetailUIState(
     }
 
   fun setArtist(artist: UIValues) {
-    values = artist
+    values = artist.copy(loading = false, error = "")
   }
 
   fun bookmark() {
@@ -39,6 +41,14 @@ class ArtistDetailUIState(
 
   fun debookmark() {
     viewModel.debookmark()
+  }
+
+  fun setLoading(b: Boolean) {
+    values = values.copy(loading = b, error = "")
+  }
+
+  fun setError(e: String) {
+    values = values.copy(error = e)
   }
 
 }

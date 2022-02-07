@@ -1,20 +1,19 @@
 package com.example.swapcard
 
 import android.content.Context
-import com.apollographql.apollo3.ApolloClient
 import com.example.swapcard.data.GraphQLDataSource
 import com.example.swapcard.data.createBookmarksDatabase
-import com.example.swapcard.repositories.MusicRepository
-import com.example.swapcard.repositories.MusicRepositoryRemote
+import com.example.swapcard.repositories.ArtistsRepository
+import com.example.swapcard.repositories.ArtistsRepositoryRemote
 
 object ServiceLocator {
 
-  fun provideMusicRepository(
+  fun provideArtistsRepository(
     context: Context
-  ): MusicRepository {
+  ): ArtistsRepository {
     val db = createBookmarksDatabase(context)
     val graphql = GraphQLDataSource({ db.get(it) != null })
-    return MusicRepositoryRemote(
+    return ArtistsRepositoryRemote(
       graphql,
       db,
     )

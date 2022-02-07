@@ -18,6 +18,10 @@ import com.example.swapcard.ui.search.SearchListUIState.UIValues
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Reacts on new searches
+ * Fills the recyclerview with results
+ */
 class SearchListFragment : Fragment(R.layout.searchlist) {
 
   var beforeFirstSearch = true
@@ -25,6 +29,7 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
   lateinit var binding: SearchlistBinding
   val recycler get() = binding.recyclerView
   val input get() = binding.edittext
+  val clearText get() = binding.clearText
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
   // Utils for UIState object
@@ -50,11 +55,20 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
       )
     }.uiState
 
+    reactOnClearButton()
     reactOnSearchField()
     observerLoadingState()
     observeErrorState()
+    observeClearTextIcon()
     observeArtistResults()
     observeEmptyList()
+  }
+
+  private fun reactOnClearButton() {
+    clearText.setOnClickListener {
+      uiState.setInputText("")
+      input.setText("")
+    }
   }
 
   private fun reactOnSearchField() {
@@ -64,8 +78,9 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
         uiState.pressEnter()
         hideKeyboard()
         true
+      } else {
+        false
       }
-      false
     }
   }
 
@@ -73,6 +88,11 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
     if(it.error.isNotBlank()) {
       Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
     }
+  }
+
+  private fun observeClearTextIcon() = collectUiState {
+    clearText.visibility =
+      if (it.showClearText()) View.VISIBLE else View.GONE
   }
 
   private fun observeEmptyList() = collectUiState {
