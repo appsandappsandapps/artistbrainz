@@ -30,8 +30,7 @@ class SearchListUIState(
       inputText.isNotBlank() && loading == false
   }
 
-  var valuesFlow = MutableStateFlow(existing)
-    private set
+  val valuesFlow = MutableStateFlow(existing)
 
   private var values
     get() = valuesFlow.value
@@ -40,17 +39,49 @@ class SearchListUIState(
       saveToParcel(values)
     }
 
+  // Called via the views / composables
+
+  fun onClearTextPressed() {
+    values = values.copy(inputText = "")
+  }
+
+  fun onTypedSearchQuery(s: String) {
+    values = values.copy(inputText = s)
+  }
+
+  fun onPressEnter() {
+    values = values.copy(
+      loading = true,
+      emptyList = false,
+      error = "",
+      artists = listOf()
+    )
+    viewModel.searchArtists(values.inputText)
+  }
+
+  fun onPaginateSearch() {
+    values = values.copy(loading = true)
+    viewModel.paginateSearch()
+  }
+
+  fun onBookmark(id: String, name: String) {
+    viewModel.bookmark(id, name)
+  }
+
+  fun onDebookmark(id: String) {
+    viewModel.debookmark(id)
+  }
+
+  fun onGotoArtistDetail(id: String) {
+    viewModel.gotoArtistDetail(id)
+  }
+
+  // Called via the view model
+
   fun setError(e: String) {
     values = values.copy(
       loading = false,
       error = e
-    )
-  }
-
-  fun clearArtists() {
-    values = values.copy(
-      error = "",
-      artists = listOf()
     )
   }
 
@@ -65,7 +96,7 @@ class SearchListUIState(
     )
   }
 
-  fun applyBookmarks(bookmarkIds: List<String>) {
+  fun applyBookmarksToArtists(bookmarkIds: List<String>) {
     val artists = values.artists
     val newArtists = artists.map {
       if(bookmarkIds.contains(it.id)) {
@@ -77,42 +108,12 @@ class SearchListUIState(
     values = values.copy(artists = newArtists)
   }
 
-  fun setInputText(s: String) {
-    values = values.copy(inputText = s)
-  }
-
-  fun pressEnter() {
-    clearArtists()
-    values = values.copy(loading = true, emptyList = false)
-    viewModel.searchArtists(values.inputText)
-  }
-
-  fun setLoading(b: Boolean) {
-    values = values.copy(loading = b, emptyList = false)
-  }
-
   fun setEmptyList() {
     values = values.copy(
       emptyList = true,
       loading = false,
       artists = listOf()
     )
-  }
-
-  public fun paginateSearch() {
-    viewModel.paginateSearch()
-  }
-
-  public fun bookmark(id: String, name: String) {
-    viewModel.bookmark(id, name)
-  }
-
-  public fun debookmark(id: String) {
-    viewModel.debookmark(id)
-  }
-
-  public fun gotoArtistDetail(id: String) {
-    viewModel.gotoArtistDetail(id)
   }
 
 }

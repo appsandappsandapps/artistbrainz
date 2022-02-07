@@ -37,14 +37,17 @@ class ArtistDetailViewModelTests {
     verify(repo, times(1)).artist(artistId)
   }
 
-  @Test fun `viewmodel calls ui set loading on init`() = runTest {
-    `when`(repo.artist).thenReturn(MutableStateFlow(Artist()))
+  @Test fun `viewmodel calls ui set artist on init`() = runTest {
+    val artistId = "b"
+    val artistName = "b"
+    val artist = Artist(artistId, artistName)
+    `when`(repo.artist).thenReturn(MutableStateFlow(artist))
     launchAndWait {
       ArtistDetailViewModel(app, savedState, "", repo,
         uiState, Dispatchers.Main)
     }
 
-    verify(uiState, times(1)).setLoading(true)
+    verify(uiState, times(1)).setArtist(artistId, artistName)
   }
 
 }

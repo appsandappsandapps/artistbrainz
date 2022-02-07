@@ -47,12 +47,11 @@ class SearchListViewModel(
   private suspend fun observeBookmarks() {
     repository.bookmarks.collect {
       val ids = it.bookmarks.map { it.id }
-      uiState.applyBookmarks(ids)
+      uiState.applyBookmarksToArtists(ids)
     }
   }
 
   public fun paginateSearch() = dispatchedLaunch {
-    uiState.setLoading(true)
     repository.paginateLastSearch()
   }
 
@@ -69,7 +68,6 @@ class SearchListViewModel(
   }
 
   public fun searchArtists(s:String) = dispatchedLaunch {
-    uiState.setLoading(true)
     repository.search(s)
   }
 

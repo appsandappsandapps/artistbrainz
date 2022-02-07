@@ -28,13 +28,18 @@ class ArtistsRepositoryRemote(
     }
   }
 
-  override suspend fun clearSearch() {
+  override suspend fun search(query: String) {
     activeCursor = ""
     lastCursorResult = ""
-    searchedForArtists.value = Artists(listOf())
+    searchRaw(query)
   }
 
-  override suspend fun search(query: String) {
+  override suspend fun paginateLastSearch() {
+    activeCursor = lastCursorResult
+    searchRaw(lastQuery)
+  }
+
+  private suspend fun searchRaw(query: String) {
     if(query != lastQuery) activeCursor = ""
     lastQuery = query
     try {
@@ -51,14 +56,11 @@ class ArtistsRepositoryRemote(
     }
   }
 
-  override suspend fun paginateLastSearch() {
-    activeCursor = lastCursorResult
-    search(lastQuery)
-  }
-
   override suspend fun artist(id: String) {
     try {
-      val newArtist = graphQLDatasource.getArtist(id)
+      val newArtist = graphQLDatasource
+        .getArtist(id)
+        .copy(bookmarked = isBookmarked(id))
       artist.value = newArtist
     } catch(e: Exception) {
       artist.value = Artist("", "", error = "Error fetching artist: ${e.message}")
@@ -75,7 +77,7 @@ class ArtistsRepositoryRemote(
     refreshBookmarks()
   }
 
-  override suspend fun isBookmarked(id: String) =
+  private suspend fun isBookmarked(id: String) =
     bookmarksDAO.get(id) != null
 
   private suspend fun refreshBookmarks() {

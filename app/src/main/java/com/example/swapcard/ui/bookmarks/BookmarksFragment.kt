@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.swapcard.R
 import com.example.swapcard.databinding.BookmarksBinding
 import com.example.swapcard.ui.artistdetail.ArtistDetailFragment
@@ -66,8 +65,8 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
         layoutManager = LinearLayoutManager(this@BookmarksFragment.context)
         adapter = BookmarksRecyclerView(
           artists,
-          { uiState.gotoDetailScreen(it) },
-          { uiState.debookmark(it) },
+          { uiState.onGotoDetailScreen(it) },
+          { uiState.onDebookmark(it) },
         )
       }
     }

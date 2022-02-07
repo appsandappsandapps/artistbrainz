@@ -1,5 +1,6 @@
 package com.example.swapcard.ui.artistdetail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.example.swapcard.Application
 import com.example.swapcard.repositories.ArtistsRepository
@@ -26,32 +27,29 @@ class ArtistDetailViewModel(
     )
 
   init {
-    observeArtists()
+    observeArtist()
   }
 
-  private fun observeArtists() = dispatchedLaunch {
-    uiState.setLoading(true)
+  private fun observeArtist() = dispatchedLaunch {
     repository.artist(artistId)
     repository.artist.collect {
-      uiState.setLoading(false)
       if(it.error.isNotBlank()) {
         uiState.setError(it.error)
       } else {
         var artist = it
-        uiState.setArtist(ArtistDetailUIState.UIValues(
-          id = artist.id,
-          name = artist.name,
-          bookmarked = artist.bookmarked,
-          disambiguation = artist.disambiguation,
-          rating = artist.rating.value,
-          voteCount = artist.rating.voteCount,
-        ))
+        uiState.setArtist(
+          artist.id,
+          artist.name,
+          artist.bookmarked,
+          artist.disambiguation,
+          artist.rating.value,
+          artist.rating.voteCount,
+        )
       }
     }
   }
 
   public fun bookmark(id: String, name: String) = dispatchedLaunch {
-    uiState.setLoading(false)
     repository.bookmark(id, name)
   }
 

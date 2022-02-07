@@ -14,8 +14,7 @@ class HomepageUIState(
     val bookmarked: Int = 0,
   ): Parcelable
 
-  var valuesFlow = MutableStateFlow(existing)
-    private set
+  val valuesFlow = MutableStateFlow(existing)
 
   private var values
     get() = valuesFlow.value
@@ -23,6 +22,8 @@ class HomepageUIState(
       valuesFlow.value = value
       saveToParcel(values)
     }
+
+  // Called via the viewmodel
 
   fun setBookmarked(num: Int) {
     values = UIValues(num)

@@ -26,21 +26,13 @@ class ArtistDetailUIStateTests {
       id = artistId,
       name = artistName
     )
-    ArtistDetailUIState(viewModel, uiValues).bookmark()
+    ArtistDetailUIState(viewModel, uiValues).onBookmark()
 
     verify(viewModel, times(1)).bookmark(artistId, artistName)
   }
 
-  @Test fun `uistate loading false initially`() = runTest {
+  @Test fun `uistate sets loading on init`() = runTest {
     val uiState = ArtistDetailUIState(viewModel)
-    val state = uiState.valuesFlow.first()
-
-    Assert.assertFalse(state.loading)
-  }
-
-  @Test fun `uistate sets loading`() = runTest {
-    val uiState = ArtistDetailUIState(viewModel)
-    uiState.setLoading(true)
     val state = uiState.valuesFlow.first()
 
     Assert.assertTrue(state.loading)

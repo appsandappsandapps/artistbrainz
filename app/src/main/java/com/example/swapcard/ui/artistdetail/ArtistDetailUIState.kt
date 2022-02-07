@@ -17,12 +17,11 @@ class ArtistDetailUIState(
     val disambiguation: String = "",
     val voteCount: Int = 0,
     val rating: Double = 0.0,
-    val loading: Boolean = false,
+    val loading: Boolean = true,
     val error: String = "",
   ): Parcelable
 
-  var valuesFlow = MutableStateFlow(existing)
-    private set
+  val valuesFlow = MutableStateFlow(existing)
 
   private var values
     get() = valuesFlow.value
@@ -31,24 +30,40 @@ class ArtistDetailUIState(
       saveToParcel(values)
     }
 
-  fun setArtist(artist: UIValues) {
-    values = artist.copy(loading = false, error = "")
-  }
+  // Called via the view/composable
 
-  fun bookmark() {
+  fun onBookmark() {
     viewModel.bookmark(values.id, values.name)
   }
 
-  fun debookmark() {
+  fun onDebookmark() {
     viewModel.debookmark()
   }
 
-  fun setLoading(b: Boolean) {
-    values = values.copy(loading = b, error = "")
+  // Called via the viewmodel
+
+  fun setArtist(
+    id: String,
+    name: String,
+    bookmarked: Boolean = false,
+    disambiguation: String = "",
+    rating: Double = 0.0,
+    voteCount: Int = 0,
+  ) {
+    values = UIValues(
+      id = id,
+      name = name,
+      bookmarked = bookmarked,
+      disambiguation = disambiguation,
+      voteCount = voteCount,
+      rating = rating,
+      error = "",
+      loading = false
+    )
   }
 
   fun setError(e: String) {
-    values = values.copy(error = e)
+    values = values.copy(error = e, loading = false)
   }
 
 }
