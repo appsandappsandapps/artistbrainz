@@ -66,16 +66,16 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
 
   private fun reactOnClearButton() {
     clearText.setOnClickListener {
-      uiState.setInputText("")
+      uiState.onClearTextPressed()
       input.setText("")
     }
   }
 
   private fun reactOnSearchField() {
-    input.doAfterTextChanged { uiState.setInputText("$it") }
+    input.doAfterTextChanged { uiState.onTypedSearchQuery("$it") }
     input.setOnEditorActionListener { _, id, _ ->
       if(id == EditorInfo.IME_ACTION_DONE) {
-        uiState.pressEnter()
+        uiState.onPressEnter()
         hideKeyboard()
         true
       } else {
@@ -124,10 +124,10 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
         layoutManager = LinearLayoutManager(this.context)
         adapter = SearchListRecyclerView(
           artists,
-          { uiState.gotoArtistDetail(it) },
-          { id, name -> uiState.bookmark(id, name) },
-          { uiState.debookmark(it) },
-          { uiState.paginateSearch() }
+          { uiState.onGotoArtistDetail(it) },
+          { id, name -> uiState.onBookmark(id, name) },
+          { uiState.onDebookmark(it) },
+          { uiState.onPaginateSearch() }
         )
       }
     }

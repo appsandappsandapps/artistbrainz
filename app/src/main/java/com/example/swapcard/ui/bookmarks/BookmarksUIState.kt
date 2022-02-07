@@ -23,8 +23,7 @@ class BookmarksUIState(
     val bookmarks: List<BookmarkUI> = listOf(),
   ): Parcelable
 
-  var valuesFlow = MutableStateFlow(existing)
-    private set
+  val valuesFlow = MutableStateFlow(existing)
 
   private var values
     get() = valuesFlow.value
@@ -33,16 +32,20 @@ class BookmarksUIState(
       saveToParcel(values)
     }
 
-  fun setBookmarks(bookmarks: UIValues) {
-    values = bookmarks
-  }
+  // Called via the view/composable
 
-  fun debookmark(id: String) {
+  fun onDebookmark(id: String) {
     viewModel.debookmark(id)
   }
 
-  fun gotoDetailScreen(id: String) {
+  fun onGotoDetailScreen(id: String) {
     viewModel.gotoDetailScreen(id)
+  }
+
+  // Called via the view model
+
+  fun setBookmarks(bookmarks: UIValues) {
+    values = bookmarks
   }
 
 }

@@ -1,7 +1,6 @@
 package com.example.swapcard.ui.artistdetail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -55,8 +54,8 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   private fun reactOnCheckbox() {
     checkbox.setOnClickListener {
       if(checkbox.isChecked)
-        uiState.bookmark()
-      else uiState.debookmark()
+        uiState.onBookmark()
+      else uiState.onDebookmark()
     }
   }
 

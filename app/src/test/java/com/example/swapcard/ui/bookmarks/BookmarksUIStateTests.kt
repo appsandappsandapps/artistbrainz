@@ -21,7 +21,7 @@ class BookmarksUIStateTests {
 
   @Test fun `uistate calls viewmodel debookmark`() = runTest {
     val artistId = "1"
-    BookmarksUIState(viewModel).debookmark(artistId)
+    BookmarksUIState(viewModel).onDebookmark(artistId)
     verify(viewModel, times(1)).debookmark(artistId)
   }
 

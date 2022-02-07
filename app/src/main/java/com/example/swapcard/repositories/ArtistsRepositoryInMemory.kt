@@ -47,12 +47,6 @@ class ArtistsRepositoryInMemory : ArtistsRepository {
     bookmarks.value = Bookmarks(bms)
   }
 
-
   override suspend fun artist(id: String) {}
-  override suspend fun clearSearch() {}
-
-  override suspend fun isBookmarked(id: String): Boolean {
-    return false
-  }
 
 }

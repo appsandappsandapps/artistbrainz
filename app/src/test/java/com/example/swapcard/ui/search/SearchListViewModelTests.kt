@@ -8,6 +8,7 @@ import com.example.swapcard.repositories.ArtistsRepository
 import com.example.swapcard.utils.launchAndWait
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
 import org.junit.*
 import org.junit.runner.RunWith
@@ -47,18 +48,6 @@ class SearchListViewModelTests {
     }
 
     verify(repo, times(1)).bookmarks
-  }
-
-  @Test fun `viewmodel calls ui set loading on search`() = runTest {
-    `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
-    `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
-    launchAndWait {
-      val vm = SearchListViewModel(app, savedState, {}, repo,
-        uiState, Dispatchers.Main)
-      vm.searchArtists("")
-    }
-
-    verify(uiState, times(1)).setLoading(true)
   }
 
   @Test fun `viewmodel calls repo search`() = runTest {
