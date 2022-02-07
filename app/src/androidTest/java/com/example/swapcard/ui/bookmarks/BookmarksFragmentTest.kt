@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.swapcard.MainActivity
+import com.example.swapcard.R
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith
 
 /**
  * Running against dummy data -- doesn't touch the internet
+ *
  * Values based on the ArtistsRepositoryInMemory
  */
 @RunWith(AndroidJUnit4::class)
@@ -24,9 +26,9 @@ class BookmarksFragmentTest {
 
   @get:Rule val rule = ActivityScenarioRule(MainActivity::class.java)
 
-  @Test fun checkArtistFragmentIsThere() {
-    onView(withText("Nina Simone")).perform(click())
-    onView(withText("Dummy Artist")).check(matches(isDisplayed()))
+  @Test fun checkBookmarksTab() {
+    onView(withText("Bookmarks 0")).perform(click())
+    onView(withId(R.id.bookmarks_recycler_view)).check(matches(isDisplayed()))
   }
-  
+
 }

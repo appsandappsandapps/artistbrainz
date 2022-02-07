@@ -18,11 +18,11 @@ class ArtistsRepositoryInMemory : ArtistsRepository {
     )
 
   override val artist: StateFlow<Artist> get() = MutableStateFlow(Artist("Dummy Id", "Dummy Artist"))
-  override val searchedForArtists = MutableStateFlow(Artists(_textItems))
+  override val searchedForArtists = MutableStateFlow(Artists())
   override val bookmarks = MutableStateFlow(Bookmarks(listOf()))
 
   override suspend fun search(query: String) {
-    searchedForArtists.value = Artists(searchedForArtists.value.artists)
+    searchedForArtists.value = Artists(_textItems)
   }
 
   override suspend fun paginateLastSearch(): Unit {

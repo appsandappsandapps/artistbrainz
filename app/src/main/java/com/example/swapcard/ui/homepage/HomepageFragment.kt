@@ -24,8 +24,8 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
 
   // Views
   lateinit var bindings: HomeFragmentBinding
-  val tabs get() = bindings.tabLayout
-  val viewpager get() = bindings.viewpager2
+  val tabs get() = bindings.homepageTabLayout
+  val viewpager get() = bindings.homepageViewpager2
   // UI State
   lateinit var uiState: HomepageUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {

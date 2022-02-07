@@ -22,7 +22,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
 
   // Views from layout
   lateinit var binding: BookmarksBinding
-  val recycler get() = binding.recyclerView
+  val recycler get() = binding.bookmarksRecyclerView
   // Utils for UIState object
   lateinit var uiState: BookmarksUIState
   fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {

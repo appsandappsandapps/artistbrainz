@@ -27,9 +27,9 @@ class SearchListFragment : Fragment(R.layout.searchlist) {
   var beforeFirstSearch = true
   // Views from layout
   lateinit var binding: SearchlistBinding
-  val recycler get() = binding.recyclerView
+  val recycler get() = binding.searchlistRecyclerView
   val input get() = binding.edittext
-  val clearText get() = binding.clearText
+  val clearText get() = binding.searchClearText
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
   // Utils for UIState object
