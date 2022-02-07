@@ -17,7 +17,7 @@ class ArtistsRepositoryInMemory : ArtistsRepository {
       Artist("3", "Nina Simone"),
     )
 
-  override val artist: StateFlow<Artist> get() = MutableStateFlow(Artist("Dummy", "Dummy"))
+  override val artist: StateFlow<Artist> get() = MutableStateFlow(Artist("Dummy Id", "Dummy Artist"))
   override val searchedForArtists = MutableStateFlow(Artists(_textItems))
   override val bookmarks = MutableStateFlow(Bookmarks(listOf()))
 
