@@ -52,6 +52,7 @@ class SearchListViewModel(
   }
 
   public fun paginateSearch() = dispatchedLaunch {
+    uiState.setLoading(true)
     repository.paginateLastSearch()
   }
 
