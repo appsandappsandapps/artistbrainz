@@ -1,6 +1,8 @@
 package com.example.swapcard.repositories
 
 import com.example.swapcard.data.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -12,6 +14,7 @@ import kotlinx.coroutines.launch
 class ArtistsRepositoryRemote(
   private val graphQLDatasource: GraphQLDataSource,
   private val bookmarksDAO: BookmarkDao,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ArtistsRepository {
 
   private var lastQuery = ""
@@ -23,7 +26,7 @@ class ArtistsRepositoryRemote(
   override val bookmarks = MutableStateFlow(Bookmarks(listOf()))
 
   init {
-    MainScope().launch {
+    MainScope().launch(dispatcher) {
       refreshBookmarks()
     }
   }

@@ -2,7 +2,6 @@ package com.example.swapcard.ui.bookmarks
 
 import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize

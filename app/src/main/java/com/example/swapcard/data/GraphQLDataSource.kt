@@ -8,7 +8,7 @@ class GraphQLDataSource(
   val isBookmarked: suspend (String) -> Boolean,
 ) {
 
-  val apolloClient = ApolloClient.Builder()
+  private val apolloClient = ApolloClient.Builder()
     .serverUrl("https://graphbrainz.herokuapp.com/")
     .build()
 

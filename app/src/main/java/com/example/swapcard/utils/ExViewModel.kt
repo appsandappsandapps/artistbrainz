@@ -1,11 +1,7 @@
 package com.example.swapcard
 
 import android.os.Parcelable
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 /**
  * Gets the state by the unique hashcode for the class.
@@ -48,6 +44,7 @@ fun <T : Parcelable> SavedStateHandle.setByHashCode(obj:T) {
  * USED: in the *Screen composibles to start the view models
  * for the component.
  */
+/*
 @Composable
 inline fun <reified VM: ViewModel> viewModelWithSavedState(
   crossinline f: (Application, SavedStateHandle) -> VM
@@ -63,3 +60,4 @@ inline fun <reified VM: ViewModel> viewModelWithSavedState(
   }
   return viewModel<VM>(factory = fact)
 }
+*/
