@@ -1,10 +1,13 @@
 
+For Swapard
+---
+
 Architecture
 ---
 
 * View/Composable -> UiState -> ViewModel -> Repository
 * Repository -> ViewModel -> UiState -> View/Composable
-* StateFlow is used to listen for updates no the repository and UiState
+* StateFlow is used to listen for updates on the repository and UiState
 
 It goes roughly:
 
@@ -17,7 +20,7 @@ It goes roughly:
 
 Multiple fragments observe the same StateFlow to update simultaneously.
 
-The articture can seemlessly be used by Jetpack Compose replacing the fragments for composables, and
+The architecture can seemlessly be used by Jetpack Compose replacing the fragments for composables, and
 reusing the viewmodels and uistate.
 
 Dependency injection
