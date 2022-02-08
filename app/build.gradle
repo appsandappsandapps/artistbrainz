@@ -7,14 +7,14 @@ plugins {
 }
 
 apollo {
-    packageName.set("com.example.swapcard")
+    packageName.set("appsandapps.artistbrainz")
 }
 
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.swapcard"
+        applicationId "appsandapps.artistbrainz"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -36,12 +36,11 @@ android {
     flavorDimensions "env"
     productFlavors {
         prod {
-            resValue "string", "app_name", "SwapcardProd"
+            resValue "string", "app_name", "ArtistBrainz"
             dimension "env"
         }
-        // commented out so the reviewer doesn't assume it only works against mock
         mock {
-            resValue "string", "app_name", "SwapcardMock"
+            resValue "string", "app_name", "ArtistBrainzMock"
             dimension "env"
             applicationIdSuffix = ".mock"
         }

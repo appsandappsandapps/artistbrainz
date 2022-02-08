@@ -5,7 +5,7 @@
     app:startDestination="@id/homePageFragment">
     <fragment
         android:id="@+id/homePageFragment"
-        android:name="com.example.swapcard.ui.homepage.HomepageFragment"
+        android:name="appsandapps.artistbrainz.ui.homepage.HomepageFragment"
         android:label="HomePageFragment">
         <action
             android:id="@+id/go_to_artist_detail"
@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/artistDetailFragment"
-        android:name="com.example.swapcard.ui.artistdetail.ArtistDetailFragment"
+        android:name="appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment"
         android:label="ArtistDetailFragment">
         <argument
             android:name="artistId"

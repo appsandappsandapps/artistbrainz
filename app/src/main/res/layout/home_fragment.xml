@@ -3,10 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/homepage_tab_layout"
+        app:tabMode="scrollable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <androidx.viewpager2.widget.ViewPager2
