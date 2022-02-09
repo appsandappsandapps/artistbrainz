@@ -1,6 +1,6 @@
 
-For Swapcard
----
+! See the PDF for a full description of the architecture !
+--
 
 Architecture
 ---
@@ -40,4 +40,3 @@ Sources
 
 * Google's UiState, *Screen and ViewModel video: https://www.youtube.com/watch?v=mymWGMy9pYI&feature=youtu.be
 * Google's ServiceLocator: https://github.com/android/architecture-samples/blob/main/app/src/main/java/com/example/android/architecture/blueprints/todoapp/TodoApplication.kt
-
