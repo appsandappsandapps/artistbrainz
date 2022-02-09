@@ -1,7 +1,7 @@
-package com.example.swapcard
+package appsandapps.artistbrainz
 
 import android.content.Context
-import com.example.swapcard.repositories.ArtistsRepositoryInMemory
+import appsandapps.artistbrainz.swapcard.repositories.ArtistsRepositoryInMemory
 
 object ServiceLocator {
   fun provideArtistsRepository(context: Context) =
