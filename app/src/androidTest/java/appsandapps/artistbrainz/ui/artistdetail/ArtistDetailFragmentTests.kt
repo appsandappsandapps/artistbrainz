@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class ArtistDetailFragmentTest {
+class ArtistDetailFragmentTests {
 
   @get:Rule val rule = ActivityScenarioRule(MainActivity::class.java)
 
