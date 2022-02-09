@@ -88,6 +88,9 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   private fun observeErrorState() = collectUiState {
     if(it.error.isNotBlank()) {
       Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
+      view?.postDelayed({
+        uiState.setError("")
+      }, 1000)
     }
   }
 

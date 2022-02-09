@@ -5,7 +5,6 @@ import appsandapps.artistbrainz.repositories.ArtistsRepository
 
 // Images
 
-// Upload to Google play
 // Start a PDF
 
 class Application : Application() {
