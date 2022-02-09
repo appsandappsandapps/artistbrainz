@@ -1,6 +1,8 @@
 *.iml
 .gradle
 /local.properties
+/src/prod/*
+/src/mock/*
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
