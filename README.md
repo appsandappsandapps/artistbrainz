@@ -2,7 +2,7 @@
 ! See the PDF for a full description of the architecture !
 --
 
-[Install on Google Play](https://play.google.com/store/apps/details?id=appandapps.artistbrainz)
+[Install on Google Play](https://play.google.com/store/apps/details?id=appsandapps.artistbrainz)
 
 Architecture
 ---
