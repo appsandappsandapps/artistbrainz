@@ -10,12 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ArchitectureTest">
+        android:theme="@style/Theme.Artistbrainz">
         <activity
             android:name="appsandapps.artistbrainz.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ArchitectureTest.NoActionBar">
+            android:theme="@style/Theme.Artistbrainz.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
