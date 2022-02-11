@@ -1,18 +1,21 @@
-package appsandapps.artistbrainz.data
+package appsandapps.artistbrainz.data.datasources
 
-import com.apollographql.apollo3.ApolloClient
+import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.ArtistQuery
+import com.apollographql.apollo3.ApolloClient
 import appsandapps.artistbrainz.ArtistsQuery
+import appsandapps.artistbrainz.data.Rating
+import appsandapps.artistbrainz.repositories.ArtistsDatasource
 
-class GraphQLDataSource(
+class ArtistsDataSourceGraphQL(
   val isBookmarked: suspend (String) -> Boolean,
-) {
+) : ArtistsDatasource {
 
   private val apolloClient = ApolloClient.Builder()
     .serverUrl("https://graphbrainz.herokuapp.com/")
     .build()
 
-  suspend fun getArtist(id: String): Artist {
+  override suspend fun getArtist(id: String): Artist {
     val resp = apolloClient.query(ArtistQuery(id)).execute()
     val artistFrag = resp.data?.node?.artistDetailsFragment!!
     val image = artistFrag.discogs?.images?.let {
@@ -36,13 +39,13 @@ class GraphQLDataSource(
     )
   }
 
-  suspend fun getArtists(
+  override suspend fun getArtists(
     query: String,
-    cursor: String,
+    lastCursor: String,
   ): Pair<List<Artist>, String> {
     var lastCursorResult = ""
     val resp = apolloClient.query(
-      ArtistsQuery(query, cursor)
+      ArtistsQuery(query, lastCursor)
     ).execute()
     val artists = resp.data?.search?.artists?.edges
       ?.filterNotNull()

@@ -2,7 +2,7 @@ package appsandapps.artistbrainz.repositories
 
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.data.BookmarkDao
-import appsandapps.artistbrainz.data.GraphQLDataSource
+import appsandapps.artistbrainz.data.datasources.ArtistsDataSourceGraphQL
 import appsandapps.artistbrainz.utils.launchAndWait
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +25,7 @@ class ArtistsRepositoryRemoteTests {
   @Before fun setUp() = Dispatchers.setMain(StandardTestDispatcher())
   @After fun tearDown() = Dispatchers.resetMain()
 
-  @Mock lateinit var remote: GraphQLDataSource
+  @Mock lateinit var remote: ArtistsDataSourceGraphQL
   @Mock lateinit var bookmarkDao: BookmarkDao
 
   @Test
