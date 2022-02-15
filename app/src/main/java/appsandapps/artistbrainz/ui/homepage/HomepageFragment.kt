@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import appsandapps.artistbrainz.R
-import appsandapps.artistbrainz.databinding.AboutFragmentBinding
 import appsandapps.artistbrainz.databinding.HomeFragmentBinding
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksFragment
 import appsandapps.artistbrainz.ui.search.SearchListFragment

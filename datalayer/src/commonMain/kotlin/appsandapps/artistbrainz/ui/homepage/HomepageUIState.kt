@@ -1,11 +1,10 @@
 package appsandapps.artistbrainz.ui.homepage
 
-import android.os.Parcelable
 import kotlinx.coroutines.flow.MutableStateFlow
+import appsandapps.artistbrainz.utils.Parcelable
 import kotlinx.parcelize.Parcelize
 
 class HomepageUIState(
-  private val viewModel: HomepageViewModel,
   private var existing: UIValues = UIValues(),
   private val saveToParcel: (UIValues) -> Unit = {},
 ) {

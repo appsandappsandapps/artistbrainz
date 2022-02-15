@@ -15,15 +15,19 @@ class SearchListViewModel(
   private val savedState: SavedStateHandle,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = application.artistsRepository,
-  private var mockUiState: SearchListUIState ? = null,
+  private var mockUiState: SearchListUIState? = null,
   dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:
     SearchListUIState(
-      viewModel = this,
       existing = savedState.getByHashCode(SearchListUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) }
+      saveToParcel = { savedState.setByHashCode(it) },
+      { searchArtists(it) },
+      { paginateSearch() },
+      { id, name -> bookmark(id, name) },
+      { debookmark(it) },
+      { gotoArtistDetail(it) },
     )
 
   init {

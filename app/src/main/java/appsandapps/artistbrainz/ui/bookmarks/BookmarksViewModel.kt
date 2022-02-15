@@ -21,9 +21,10 @@ class BookmarksViewModel(
 
   val uiState = mockUiState ?:
     BookmarksUIState(
-      viewModel = this,
       existing = savedState.getByHashCode(BookmarksUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) }
+      saveToParcel = { savedState.setByHashCode(it) },
+      { debookmark(it) },
+      { gotoDetailScreen(it) },
     )
 
   init {

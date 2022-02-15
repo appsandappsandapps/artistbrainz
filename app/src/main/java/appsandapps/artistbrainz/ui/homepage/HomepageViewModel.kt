@@ -14,15 +14,14 @@ class HomepageViewModel(
   application: Application,
   private val savedState: SavedStateHandle,
   private val repository: ArtistsRepository = application.artistsRepository,
-  private var mockUiState: HomepageUIState ? = null,
+  private var mockUiState: HomepageUIState? = null,
   dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:
     HomepageUIState(
-      viewModel = this,
       existing = savedState.getByHashCode(HomepageUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) }
+      saveToParcel = { savedState.setByHashCode(it) },
     )
 
   init {

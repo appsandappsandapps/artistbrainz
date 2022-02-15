@@ -1,13 +1,17 @@
 package appsandapps.artistbrainz.ui.search
 
-import android.os.Parcelable
 import kotlinx.coroutines.flow.MutableStateFlow
+import appsandapps.artistbrainz.utils.Parcelable
 import kotlinx.parcelize.Parcelize
 
 class SearchListUIState(
-  private val viewModel: SearchListViewModel,
   private var existing: UIValues = UIValues(),
   private val saveToParcel: (UIValues) -> Unit = {},
+  private val searchArtists: (String) -> Unit,
+  private val paginateSearch: () -> Unit,
+  private val bookmark: (String, String) -> Unit,
+  private val debookmark: (String) -> Unit,
+  private val gotoArtistDetail: (String) -> Unit,
 ) {
 
   @Parcelize
@@ -54,24 +58,24 @@ class SearchListUIState(
       error = "",
       artists = listOf()
     )
-    viewModel.searchArtists(values.inputText)
+    searchArtists(values.inputText)
   }
 
   fun onPaginateSearch() {
     values = values.copy(loading = true)
-    viewModel.paginateSearch()
+    paginateSearch()
   }
 
   fun onBookmark(id: String, name: String) {
-    viewModel.bookmark(id, name)
+    bookmark(id, name)
   }
 
   fun onDebookmark(id: String) {
-    viewModel.debookmark(id)
+    debookmark(id)
   }
 
   fun onGotoArtistDetail(id: String) {
-    viewModel.gotoArtistDetail(id)
+    gotoArtistDetail(id)
   }
 
   // Called via the view model

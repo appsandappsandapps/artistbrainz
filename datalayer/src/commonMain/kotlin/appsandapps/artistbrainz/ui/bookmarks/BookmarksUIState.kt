@@ -1,13 +1,14 @@
 package appsandapps.artistbrainz.ui.bookmarks
 
-import android.os.Parcelable
+import appsandapps.artistbrainz.utils.Parcelable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.parcelize.Parcelize
 
 class BookmarksUIState(
-  private val viewModel: BookmarksViewModel,
   private var existing: UIValues = UIValues(),
   private val saveToParcel: (UIValues) -> Unit = {},
+  private val debookmark: (String) -> Unit,
+  private val gotoDetailScreen: (String) -> Unit,
 ) {
 
   @Parcelize
@@ -32,11 +33,11 @@ class BookmarksUIState(
   // Called via the view/composable
 
   fun onDebookmark(id: String) {
-    viewModel.debookmark(id)
+    debookmark(id)
   }
 
   fun onGotoDetailScreen(id: String) {
-    viewModel.gotoDetailScreen(id)
+    gotoDetailScreen(id)
   }
 
   // Called via the view model

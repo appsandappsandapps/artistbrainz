@@ -21,9 +21,12 @@ class ArtistDetailViewModel(
 
   val uiState = mockUiState ?:
     ArtistDetailUIState(
-      viewModel = this,
       existing = savedState.getByHashCode(ArtistDetailUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) }
+      saveToParcel = { savedState.setByHashCode(it) },
+      { id, name -> bookmark(id, name) },
+      { debookmark() },
+      { gotoUrlCallback(it) },
+      { searchYoutube(it) },
     )
 
   init {
@@ -57,10 +60,6 @@ class ArtistDetailViewModel(
 
   public fun debookmark() = dispatchedLaunch {
     repository.debookmark(artistId)
-  }
-
-  public fun viewOnLastFm(url: String) {
-    gotoUrlCallback(url)
   }
 
   public fun searchYoutube(query: String) {
