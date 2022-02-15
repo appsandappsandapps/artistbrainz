@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.AboutFragmentBinding
 import appsandapps.artistbrainz.databinding.HomeFragmentBinding
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksFragment
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState
 import appsandapps.artistbrainz.ui.search.SearchListFragment
 import appsandapps.artistbrainz.ui.homepage.HomepageUIState.UIValues
 import appsandapps.artistbrainz.viewModelWithSavedState
@@ -29,11 +31,8 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
   lateinit var bindings: HomeFragmentBinding
   val tabs get() = bindings.homepageTabLayout
   val viewpager get() = bindings.homepageViewpager2
-  // UI State
   lateinit var uiState: HomepageUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

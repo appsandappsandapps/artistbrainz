@@ -6,6 +6,9 @@ import android.net.Uri
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Hides the soft input keyboard from within a fragment.
@@ -16,6 +19,24 @@ fun Fragment.hideKeyboard() {
   val imm: InputMethodManager =
     context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
   imm.hideSoftInputFromWindow(view?.windowToken, 0)
+}
+
+/**
+ * Starts collecting a stateflow in the fragment's lifecycle scope
+ * and uses `repeatOnLifecycle` to make sure we don't collect
+ * when the fragment has disappeared
+ *
+ * Used: All the fragments to collect the UI state
+ */
+fun <T> Fragment.collectStateFlow(
+  stateFlow: StateFlow<T>,
+  collector: (T) -> Unit
+) {
+  lifecycleScope.launch {
+    lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+      stateFlow.collect { collector(it) }
+    }
+  }
 }
 
 /**

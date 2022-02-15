@@ -7,8 +7,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.BookmarksBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.UIValues
 import kotlinx.coroutines.flow.collect
@@ -23,11 +25,8 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
   // Views from layout
   lateinit var binding: BookmarksBinding
   val recycler get() = binding.bookmarksRecyclerView
-  // Utils for UIState object
   lateinit var uiState: BookmarksUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

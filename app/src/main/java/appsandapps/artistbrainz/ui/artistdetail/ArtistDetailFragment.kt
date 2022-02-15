@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
 import appsandapps.artistbrainz.gotoUrl
 import appsandapps.artistbrainz.viewModelWithSavedState
@@ -35,11 +36,8 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   val summary get() = binding.summaryText
   val mainLayout get() = binding.artistdetailMainlayout
   val lastFmButton get() = binding.viewOnLastfmButton
-  // Utils for UIState object
   lateinit var uiState: ArtistDetailUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

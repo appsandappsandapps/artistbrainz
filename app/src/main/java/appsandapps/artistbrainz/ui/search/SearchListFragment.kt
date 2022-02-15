@@ -10,9 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.SearchlistFragmentBinding
 import appsandapps.artistbrainz.hideKeyboard
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
+import appsandapps.artistbrainz.ui.homepage.HomepageUIState
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues
 import kotlinx.coroutines.flow.collect
@@ -32,11 +34,8 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   val clearText get() = binding.searchClearText
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
-  // Utils for UIState object
   lateinit var uiState: SearchListUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
