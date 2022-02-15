@@ -1,28 +1,22 @@
 package appsandapps.artistbrainz.ui.bookmarks
 
-import androidx.lifecycle.SavedStateHandle
-import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.getByHashCode
-import appsandapps.artistbrainz.setByHashCode
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 
 class BookmarksViewModel(
-  application: Application,
-  private val savedState: SavedStateHandle,
+  private val savedState: StateSaver,
   public var gotoDetail: (String) -> Unit = {},
-  private val repository: ArtistsRepository = application.artistsRepository,
+  private val repository: ArtistsRepository,
   private var mockUiState: BookmarksUIState? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:
     BookmarksUIState(
-      existing = savedState.getByHashCode(BookmarksUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) },
+      existing = savedState.get(BookmarksUIState.UIValues()),
+      saveToParcel = { savedState.save(it) },
       { debookmark(it) },
       { gotoDetailScreen(it) },
     )

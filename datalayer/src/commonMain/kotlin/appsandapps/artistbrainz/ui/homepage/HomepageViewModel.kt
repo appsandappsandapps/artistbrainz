@@ -1,27 +1,21 @@
 package appsandapps.artistbrainz.ui.homepage
 
-import androidx.lifecycle.SavedStateHandle
-import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.getByHashCode
-import appsandapps.artistbrainz.setByHashCode
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 
 class HomepageViewModel(
-  application: Application,
-  private val savedState: SavedStateHandle,
-  private val repository: ArtistsRepository = application.artistsRepository,
+  private val savedState: StateSaver,
+  private val repository: ArtistsRepository,
   private var mockUiState: HomepageUIState? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:
     HomepageUIState(
-      existing = savedState.getByHashCode(HomepageUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) },
+      existing = savedState.get(HomepageUIState.UIValues()),
+      saveToParcel = { savedState.save(it) },
     )
 
   init {

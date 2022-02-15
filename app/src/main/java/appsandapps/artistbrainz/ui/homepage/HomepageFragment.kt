@@ -7,15 +7,17 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.HomeFragmentBinding
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksFragment
 import appsandapps.artistbrainz.ui.search.SearchListFragment
 import appsandapps.artistbrainz.ui.homepage.HomepageUIState.UIValues
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.viewModelWithSavedState
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -30,16 +32,18 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
   val viewpager get() = bindings.homepageViewpager2
   // UI State
   lateinit var uiState: HomepageUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     bindings = HomeFragmentBinding.bind(view)
 
     uiState = viewModelWithSavedState {
-      app, savedState -> HomepageViewModel(app, savedState)
+      app, savedState -> HomepageViewModel(
+        StateSaver(savedState),
+        repository = app.artistsRepository,
+        dispatcher = Dispatchers.IO,
+      )
     }.uiState
 
     setupViewPager()

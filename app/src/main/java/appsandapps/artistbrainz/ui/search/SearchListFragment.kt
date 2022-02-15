@@ -7,15 +7,19 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.SearchlistFragmentBinding
 import appsandapps.artistbrainz.hideKeyboard
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues
-import kotlinx.coroutines.flow.collect
+import appsandapps.artistbrainz.utils.StateSaver
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -34,17 +38,16 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   val emptyList get() = binding.emptyList
   // Utils for UIState object
   lateinit var uiState: SearchListUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     binding = SearchlistFragmentBinding.bind(view)
     uiState = viewModelWithSavedState {
       app, savedState -> SearchListViewModel(
-        app,
-        savedState,
+        StateSaver(savedState),
+        repository = app.artistsRepository,
+        dispatcher = Dispatchers.IO,
       )
     }.apply {
       // reattach on every new fragment

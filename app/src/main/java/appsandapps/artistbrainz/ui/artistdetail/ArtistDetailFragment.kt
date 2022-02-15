@@ -6,12 +6,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
 import appsandapps.artistbrainz.gotoUrl
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.UIValues
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.pluralise
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -37,9 +40,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   val lastFmButton get() = binding.viewOnLastfmButton
   // Utils for UIState object
   lateinit var uiState: ArtistDetailUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -49,9 +50,10 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
 
     uiState = viewModelWithSavedState {
       app, savedState -> ArtistDetailViewModel(
-        app,
-        savedState,
+        StateSaver(savedState),
         artistId,
+        repository = app.artistsRepository,
+        dispatcher = Dispatchers.IO,
       )
     }.apply {
       // reattach on every new fragment

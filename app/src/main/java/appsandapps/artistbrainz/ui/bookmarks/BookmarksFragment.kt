@@ -7,11 +7,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.BookmarksBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.UIValues
-import kotlinx.coroutines.flow.collect
+import appsandapps.artistbrainz.ui.homepage.HomepageUIState
+import appsandapps.artistbrainz.utils.StateSaver
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -25,9 +28,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
   val recycler get() = binding.bookmarksRecyclerView
   // Utils for UIState object
   lateinit var uiState: BookmarksUIState
-  fun collectUiState(f: (UIValues) -> Unit) = lifecycleScope.launch {
-    uiState.valuesFlow.collect { f(it) }
-  }
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -35,8 +36,9 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
 
     uiState = viewModelWithSavedState { app, savedState ->
       BookmarksViewModel(
-        app,
-        savedState,
+        StateSaver(savedState),
+        repository = app.artistsRepository,
+        dispatcher = Dispatchers.IO,
       )
     }.apply {
       // so it's added on fragment readd

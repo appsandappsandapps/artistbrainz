@@ -1,28 +1,22 @@
 package appsandapps.artistbrainz.ui.search
 
-import androidx.lifecycle.SavedStateHandle
-import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.getByHashCode
-import appsandapps.artistbrainz.setByHashCode
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 
 class SearchListViewModel(
-  application: Application,
-  private val savedState: SavedStateHandle,
+  private val savedState: StateSaver,
   public var gotoDetail: (String) -> Unit = {},
-  private val repository: ArtistsRepository = application.artistsRepository,
+  private val repository: ArtistsRepository,
   private var mockUiState: SearchListUIState? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:
     SearchListUIState(
-      existing = savedState.getByHashCode(SearchListUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) },
+      existing = savedState.get(SearchListUIState.UIValues()),
+      saveToParcel = { savedState.save(it) },
       { searchArtists(it) },
       { paginateSearch() },
       { id, name -> bookmark(id, name) },
