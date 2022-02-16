@@ -25,7 +25,7 @@ class BookmarksFragmentTest {
   @get:Rule val rule = ActivityScenarioRule(MainActivity::class.java)
 
   @Test fun checkBookmarksTab() {
-    onView(withText("Bookmarks 0")).perform(click())
+    onView(withText("Bookmarks")).perform(click())
     onView(withId(R.id.bookmarks_recycler_view)).check(matches(isDisplayed()))
   }
 

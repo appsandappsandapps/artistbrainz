@@ -21,7 +21,8 @@ class HomepageUIStateTests {
   @Test fun `uistate sets bookmark num`() = runTest {
     val numBookmarks = 10
     val uiState = HomepageUIState(viewModel)
-    uiState.setBookmarked(numBookmarks)
+    uiState
+      .update(HomepageUIState.Action.Bookmarks(numBookmarks))
     val bookMarksNum = uiState.stateFlow.first().bookmarked
 
     Assert.assertEquals(numBookmarks, bookMarksNum)

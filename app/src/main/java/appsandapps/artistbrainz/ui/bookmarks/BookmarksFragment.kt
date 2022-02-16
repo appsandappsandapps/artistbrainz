@@ -21,7 +21,6 @@ import appsandapps.artistbrainz.utils.StateSaver
  */
 class BookmarksFragment : Fragment(R.layout.bookmarks) {
 
-  // Views from layout
   lateinit var binding: BookmarksBinding
   val recycler get() = binding.bookmarksRecyclerView
   lateinit var uiState: BookmarksUIState

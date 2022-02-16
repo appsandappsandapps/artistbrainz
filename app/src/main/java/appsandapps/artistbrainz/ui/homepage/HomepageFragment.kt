@@ -23,7 +23,6 @@ import com.google.android.material.tabs.TabLayoutMediator
  */
 class HomepageFragment : Fragment(R.layout.home_fragment) {
 
-  // Views
   lateinit var bindings: HomeFragmentBinding
   val tabs get() = bindings.homepageTabLayout
   val viewpager get() = bindings.homepageViewpager2

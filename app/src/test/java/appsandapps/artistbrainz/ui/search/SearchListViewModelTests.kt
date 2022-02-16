@@ -5,6 +5,7 @@ import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.data.Artists
 import appsandapps.artistbrainz.data.Bookmarks
 import appsandapps.artistbrainz.repositories.ArtistsRepository
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.launchAndWait
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +32,7 @@ class SearchListViewModelTests {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      SearchListViewModel(app, savedState, {}, repo,
+      SearchListViewModel(app, StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main)
     }
 
@@ -42,7 +43,7 @@ class SearchListViewModelTests {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      SearchListViewModel(app, savedState, {}, repo,
+      SearchListViewModel(app, StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main)
     }
 
@@ -54,7 +55,7 @@ class SearchListViewModelTests {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      val vm = SearchListViewModel(app, savedState, {}, repo,
+      val vm = SearchListViewModel(app, StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main)
       vm.searchArtists(search)
     }

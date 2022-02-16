@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.data.Bookmarks
 import appsandapps.artistbrainz.repositories.ArtistsRepository
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.launchAndWait
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +30,7 @@ class HomepageViewModelTests {
   @Test fun `viewmodel calls repo bookmarks on init`() = runTest {
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      HomepageViewModel(app, savedState, repo,
+      HomepageViewModel(app, StateSaver(savedState), repo,
         uiState, Dispatchers.Main)
     }
 

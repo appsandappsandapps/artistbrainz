@@ -5,6 +5,7 @@ import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.data.Bookmarks
 import appsandapps.artistbrainz.repositories.ArtistsRepository
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.launchAndWait
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,7 @@ class BookmarksViewModelTests {
   @Test fun `viewmodel calls repo bookmarks on init`() = runTest {
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      BookmarksViewModel(app, savedState, {}, repo,
+      BookmarksViewModel(app, StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main)
     }
 
@@ -41,7 +42,7 @@ class BookmarksViewModelTests {
     val artistId = "1"
     `when`(repo.artist).thenReturn(MutableStateFlow(Artist()))
     launchAndWait {
-      val vm = BookmarksViewModel(app, savedState, {}, repo,
+      val vm = BookmarksViewModel(app, StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main)
       vm.debookmark(artistId)
     }

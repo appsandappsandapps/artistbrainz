@@ -2,6 +2,7 @@ package appsandapps.artistbrainz.ui.bookmarks
 
 import androidx.lifecycle.SavedStateHandle
 import appsandapps.artistbrainz.Application
+import appsandapps.artistbrainz.data.Bookmark
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
@@ -27,10 +28,11 @@ class BookmarksUIStateTests {
 
   @Test fun `uistate sets bookmarks flow`() = runTest {
     val uiValues = BookmarksUIState.UIValues()
-    val bookmarks = BookmarksUIState.UIValues()
+    val bookmarks = listOf(Bookmark())
     val uiState = BookmarksUIState(viewModel, uiValues)
-    uiState.setBookmarks(bookmarks)
-    val state = uiState.stateFlow.first()
+    uiState
+      .update(BookmarksUIState.Action.SetBookmarks(bookmarks))
+    val state = uiState.stateFlow.first().bookmarks
 
     Assert.assertEquals(state, bookmarks)
   }
