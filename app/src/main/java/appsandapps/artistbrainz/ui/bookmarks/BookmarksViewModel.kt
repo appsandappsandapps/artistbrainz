@@ -3,6 +3,7 @@ package appsandapps.artistbrainz.ui.bookmarks
 import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.DispatchedViewModel
+import appsandapps.artistbrainz.utils.IODispatcher
 import appsandapps.artistbrainz.utils.StateSaver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ class BookmarksViewModel(
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = application.artistsRepository,
   private var mockUiState: BookmarksUIState? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:

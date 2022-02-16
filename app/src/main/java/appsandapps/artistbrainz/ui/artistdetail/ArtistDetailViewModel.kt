@@ -6,6 +6,7 @@ import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
+import appsandapps.artistbrainz.utils.IODispatcher
 import appsandapps.artistbrainz.utils.StateSaver
 
 class ArtistDetailViewModel(
@@ -15,7 +16,7 @@ class ArtistDetailViewModel(
   public var gotoUrlCallback: (String) -> Unit = {},
   private val repository: ArtistsRepository = application.artistsRepository,
   private var mockUiState: ArtistDetailUIState? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:

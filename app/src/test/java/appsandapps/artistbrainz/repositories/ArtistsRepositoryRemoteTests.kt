@@ -1,8 +1,8 @@
 package appsandapps.artistbrainz.repositories
 
 import appsandapps.artistbrainz.data.Artist
-import appsandapps.artistbrainz.data.BookmarkDao
-import appsandapps.artistbrainz.data.GraphQLDataSource
+import appsandapps.artistbrainz.datasources.BookmarkDao
+import appsandapps.artistbrainz.datasources.ArtistsDatasourceGraphQL
 import appsandapps.artistbrainz.utils.launchAndWait
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,8 +25,8 @@ class ArtistsRepositoryRemoteTests {
   @Before fun setUp() = Dispatchers.setMain(StandardTestDispatcher())
   @After fun tearDown() = Dispatchers.resetMain()
 
-  @Mock lateinit var remote: GraphQLDataSource
-  @Mock lateinit var bookmarkDao: BookmarkDao
+  @Mock lateinit var remote: ArtistsDatasourceGraphQL
+  @Mock lateinit var bookmarkDao: BookmarksDatasource
 
   @Test
   fun `repo checks bookmark status for artist`() = runTest {

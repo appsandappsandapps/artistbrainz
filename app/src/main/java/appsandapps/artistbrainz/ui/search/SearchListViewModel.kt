@@ -5,6 +5,7 @@ import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
+import appsandapps.artistbrainz.utils.IODispatcher
 import appsandapps.artistbrainz.utils.StateSaver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -15,7 +16,7 @@ class SearchListViewModel(
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = application.artistsRepository,
   private var mockUiState: SearchListUIState ? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:

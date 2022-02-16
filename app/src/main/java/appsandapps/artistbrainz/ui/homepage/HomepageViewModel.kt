@@ -7,6 +7,7 @@ import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import appsandapps.artistbrainz.ui.homepage.HomepageUIState.Action.*
+import appsandapps.artistbrainz.utils.IODispatcher
 import appsandapps.artistbrainz.utils.StateSaver
 
 class HomepageViewModel(
@@ -14,7 +15,7 @@ class HomepageViewModel(
   private val savedState: StateSaver,
   private val repository: ArtistsRepository = application.artistsRepository,
   private var mockUiState: HomepageUIState ? = null,
-  dispatcher: CoroutineDispatcher = Dispatchers.IO,
+  dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   val uiState = mockUiState ?:

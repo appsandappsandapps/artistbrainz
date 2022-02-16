@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 
+// Differs in KMM
+val IODispatcher = Dispatchers.IO
+
 /**
  * A ViewModel with a customer coroutine dispatcher.
  *
@@ -15,7 +18,7 @@ import kotlinx.coroutines.*
  * This is changed in KMM.
  */
 open public class DispatchedViewModel(
-  private val customDispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val customDispatcher: CoroutineDispatcher = IODispatcher
 ) : ViewModel() {
 
   /**

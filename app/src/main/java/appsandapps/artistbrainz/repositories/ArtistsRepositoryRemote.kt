@@ -1,20 +1,33 @@
 package appsandapps.artistbrainz.repositories
 
 import appsandapps.artistbrainz.data.*
+import appsandapps.artistbrainz.datasources.BookmarkEntity
+import appsandapps.artistbrainz.utils.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+
+interface ArtistsDatasource {
+  suspend fun getArtists(query: String, lastCursor: String): Pair<List<Artist>, String>
+  suspend fun getArtist(id: String): Artist
+}
+
+interface BookmarksDatasource {
+  suspend fun getAll(): List<Bookmark>
+  suspend fun get(id: String): Bookmark?
+  suspend fun delete(id: String)
+  suspend fun insert(id: String, name: String)
+}
 
 /**
  * Merges a bookmarks database
  * with the graphql datasource
  */
 class ArtistsRepositoryRemote(
-  private val graphQLDatasource: GraphQLDataSource,
-  private val bookmarksDAO: BookmarkDao,
-  private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val artistsDatasouce: ArtistsDatasource,
+  private val bookmarksDatasouce: BookmarksDatasource,
+  private val dispatcher: CoroutineDispatcher = IODispatcher
 ): ArtistsRepository {
 
   private var lastQuery = ""
@@ -46,7 +59,7 @@ class ArtistsRepositoryRemote(
     if(query != lastQuery) activeCursor = ""
     lastQuery = query
     try {
-      val (artists, lastCursor) = graphQLDatasource.getArtists(query, activeCursor)
+      val (artists, lastCursor) = artistsDatasouce.getArtists(query, activeCursor)
       lastCursorResult = lastCursor
       searchedForArtists.value = Artists(
         artists,
@@ -61,7 +74,7 @@ class ArtistsRepositoryRemote(
 
   override suspend fun artist(id: String) {
     try {
-      val newArtist = graphQLDatasource
+      val newArtist = artistsDatasouce
         .getArtist(id)
         .copy(bookmarked = isBookmarked(id))
       artist.value = newArtist
@@ -71,20 +84,20 @@ class ArtistsRepositoryRemote(
   }
 
   override suspend fun bookmark(id: String, name: String) {
-    bookmarksDAO.insert(BookmarkEntity(id, name))
+    bookmarksDatasouce.insert(id, name)
     refreshBookmarks()
   }
 
   override suspend fun debookmark(id: String) {
-    bookmarksDAO.delete(id)
+    bookmarksDatasouce.delete(id)
     refreshBookmarks()
   }
 
   private suspend fun isBookmarked(id: String) =
-    bookmarksDAO.get(id) != null
+    bookmarksDatasouce.get(id) != null
 
   private suspend fun refreshBookmarks() {
-    val bookmarksEntities = bookmarksDAO.getAll()
+    val bookmarksEntities = bookmarksDatasouce.getAll()
     bookmarks.value = Bookmarks(
       bookmarksEntities.map { Bookmark(it.id, it.name) }
     )
