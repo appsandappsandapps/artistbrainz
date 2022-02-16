@@ -1,25 +1,18 @@
 package appsandapps.artistbrainz.ui.bookmarks
 
-import android.os.Parcelable
 import appsandapps.artistbrainz.data.Bookmark
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.parcelize.Parcelize
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.Action.*
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.UIValues
+import appsandapps.artistbrainz.utils.Parcelable
+import appsandapps.artistbrainz.utils.Parcelize
+import appsandapps.artistbrainz.utils.UIState
 
 class BookmarksUIState(
   private val viewModel: BookmarksViewModel,
   private var existing: UIValues = UIValues(),
   private val saveToParcel: (UIValues) -> Unit = {},
-) {
-
-  val stateFlow = MutableStateFlow(existing)
-
-  private var stateData
-    get() = stateFlow.value
-    set(value) {
-      stateFlow.value = value
-      saveToParcel(stateData)
-    }
+) : UIState<UIValues>(existing, saveToParcel) {
 
   @Parcelize data class UIValues(
     val bookmarks: List<Bookmark> = listOf(),
@@ -31,7 +24,7 @@ class BookmarksUIState(
     class SetBookmarks(val bookmarks: List<Bookmark>): Action()
   }
 
-  fun update(action: Action) = when(action) {
+  fun update(action: Action): Any = when(action) {
     is GotoDetail -> {
       viewModel.gotoDetailScreen(action.id)
     }

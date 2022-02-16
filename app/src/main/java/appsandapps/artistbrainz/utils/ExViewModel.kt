@@ -4,37 +4,6 @@ import android.os.Parcelable
 import androidx.lifecycle.*
 
 /**
- * Gets the state by the unique hashcode for the class.
- * This means only one of this type of object can be saved,
- *   since all will have the same tag.
- *
- * USED: to get the values data class of UiState, which will
- *   have only one instance, in the ViewModel
- */
-fun <T : Parcelable> SavedStateHandle.getByHashCode(initial:T) : T {
-  val tag = "${initial::class.java.hashCode()}"
-  val state:T? = this.get(tag)
-  if(state == null) {
-    this.set(tag, initial)
-    return initial
-  } else
-    return state
-}
-
-/**
- * Sets the state by the unique hashcode for the class.
- * This means only one of this type of object can be saved,
- *   since all will have the same tag.
- *
- * USED: to store the values data class of UiState, which will
- *   have only one instance, in the ViewModel
- */
-fun <T : Parcelable> SavedStateHandle.setByHashCode(obj:T) {
-  val tag = "${obj::class.java.hashCode()}"
-  this.set(tag, obj)
-}
-
-/**
  * Eases making ViewModels with
  * - Application Context
  * - SavedStateHandle

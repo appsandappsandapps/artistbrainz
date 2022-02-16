@@ -15,6 +15,7 @@ import appsandapps.artistbrainz.utils.pluralise
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
+import appsandapps.artistbrainz.utils.StateSaver
 
 /**
  * Loads the artist details
@@ -37,7 +38,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   val mainLayout get() = binding.artistdetailMainlayout
   val lastFmButton get() = binding.viewOnLastfmButton
   lateinit var uiState: ArtistDetailUIState
-  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -48,7 +49,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     uiState = viewModelWithSavedState {
       app, savedState -> ArtistDetailViewModel(
         app,
-        savedState,
+        StateSaver(savedState),
         artistId,
       )
     }.apply {
@@ -95,7 +96,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   }
 
   private fun observeArtist() = collectUiState {
-    if(!it.loading) {
+    if(!it.loading && it.error.isBlank()) {
       mainLayout.visibility = View.VISIBLE
       artist.text = it.artist.name
       checkbox.isChecked = it.uiBookmarked

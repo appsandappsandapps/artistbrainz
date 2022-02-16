@@ -9,8 +9,9 @@ import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.HomeFragmentBinding
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksFragment
-import appsandapps.artistbrainz.ui.search.SearchListFragment
 import appsandapps.artistbrainz.ui.homepage.HomepageUIState.UIValues
+import appsandapps.artistbrainz.ui.search.SearchListFragment
+import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.viewModelWithSavedState
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -34,7 +35,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
     bindings = HomeFragmentBinding.bind(view)
 
     uiState = viewModelWithSavedState {
-      app, savedState -> HomepageViewModel(app, savedState)
+      app, savedState -> HomepageViewModel(app, StateSaver(savedState))
     }.uiState
 
     setupViewPager()

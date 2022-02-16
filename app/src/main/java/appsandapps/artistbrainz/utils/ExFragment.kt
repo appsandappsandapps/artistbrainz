@@ -51,15 +51,15 @@ fun <T> Fragment.collectStateFlow(
 inline fun <reified VM: ViewModel> Fragment.viewModelWithSavedState(
   crossinline f: (Application, SavedStateHandle) -> VM
 ): VM {
-  val app = requireActivity().application as Application
   val fact  = object : AbstractSavedStateViewModelFactory(this, null) {
-    override fun <VM : ViewModel?> create(
+    override fun <VM1: ViewModel> create(
       key: String,
-      modelClass: Class<VM>,
+      modelClass: Class<VM1>,
       handle: SavedStateHandle
-    ): VM {
-      return f(app, handle) as VM
-    }
+    ): VM1 = f(
+      requireActivity().application as Application,
+      handle
+    ) as VM1
   }
   return ViewModelProvider(this, fact).get()
 }

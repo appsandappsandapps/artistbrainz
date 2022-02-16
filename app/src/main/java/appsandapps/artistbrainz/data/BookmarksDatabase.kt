@@ -11,7 +11,7 @@ data class BookmarkEntity (
 
 @Dao
 interface BookmarkDao {
-  @Query("SELECT * FROM bookmarkentity order")
+  @Query("SELECT * FROM bookmarkentity")
   suspend fun getAll(): List<BookmarkEntity>
 
   @Query("SELECT * FROM bookmarkentity where id = :id LIMIT 1")

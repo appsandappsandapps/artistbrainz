@@ -7,9 +7,12 @@ import kotlinx.coroutines.*
 /**
  * A ViewModel with a customer coroutine dispatcher.
  *
- * It's Dispatchers.IO if not specified
+ * It's Dispatchers.IO if not specified.
+ * dipatchedLaunch() uses the custom dispatcher.
  *
- * dipatchedLaunch() uses the custom dispatcher
+ * USED: in the ViewModels.
+ *
+ * This is changed in KMM.
  */
 open public class DispatchedViewModel(
   private val customDispatcher: CoroutineDispatcher = Dispatchers.IO

@@ -1,18 +1,16 @@
 package appsandapps.artistbrainz.ui.artistdetail
 
-import androidx.lifecycle.SavedStateHandle
 import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.getByHashCode
-import appsandapps.artistbrainz.setByHashCode
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
+import appsandapps.artistbrainz.utils.StateSaver
 
 class ArtistDetailViewModel(
   application: Application,
-  savedState: SavedStateHandle,
+  savedState: StateSaver,
   private val artistId: String,
   public var gotoUrlCallback: (String) -> Unit = {},
   private val repository: ArtistsRepository = application.artistsRepository,
@@ -23,8 +21,8 @@ class ArtistDetailViewModel(
   val uiState = mockUiState ?:
     ArtistDetailUIState(
       viewModel = this,
-      existing = savedState.getByHashCode(ArtistDetailUIState.UIValues()),
-      saveToParcel = { savedState.setByHashCode(it) }
+      existing = savedState.get(ArtistDetailUIState.UIValues()),
+      saveToParcel = { savedState.save(it) }
     )
 
   init {

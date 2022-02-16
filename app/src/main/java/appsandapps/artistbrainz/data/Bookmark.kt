@@ -1,7 +1,7 @@
 package appsandapps.artistbrainz.data
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import appsandapps.artistbrainz.utils.Parcelable
+import appsandapps.artistbrainz.utils.Parcelize
 
 @Parcelize data class Bookmark (
   val id: String = "",

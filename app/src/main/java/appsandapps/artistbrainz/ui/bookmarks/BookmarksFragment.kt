@@ -13,6 +13,7 @@ import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.UIValues
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.Action.*
+import appsandapps.artistbrainz.utils.StateSaver
 
 /**
  * Allows you to see your bookmarks
@@ -33,7 +34,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
     uiState = viewModelWithSavedState { app, savedState ->
       BookmarksViewModel(
         app,
-        savedState,
+        StateSaver(savedState),
       )
     }.apply {
       // so it's added on fragment readd

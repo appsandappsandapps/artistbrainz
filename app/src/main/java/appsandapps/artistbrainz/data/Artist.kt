@@ -1,7 +1,7 @@
 package appsandapps.artistbrainz.data
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import appsandapps.artistbrainz.utils.Parcelable
+import appsandapps.artistbrainz.utils.Parcelize
 import java.util.*
 
 @Parcelize data class Artist (

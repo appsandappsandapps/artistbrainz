@@ -1,25 +1,18 @@
 package appsandapps.artistbrainz.ui.search
 
-import android.os.Parcelable
 import appsandapps.artistbrainz.data.Artist
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.parcelize.Parcelize
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
+import appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues
+import appsandapps.artistbrainz.utils.Parcelable
+import appsandapps.artistbrainz.utils.Parcelize
+import appsandapps.artistbrainz.utils.UIState
 
 class SearchListUIState(
   private val viewModel: SearchListViewModel,
   private var existing: UIValues = UIValues(),
   private val saveToParcel: (UIValues) -> Unit = {},
-) {
-
-  val stateFlow = MutableStateFlow(existing)
-
-  private var stateData
-    get() = stateFlow.value
-    set(value) {
-      stateFlow.value = value
-      saveToParcel(stateData)
-    }
+) : UIState<UIValues>(existing, saveToParcel){
 
   @Parcelize data class UIValues(
     var loading: Boolean = false,
@@ -47,7 +40,7 @@ class SearchListUIState(
     class BookmarksMerge(val ids: List<String>) : Action()
   }
 
-  fun update(action: Action) = when(action) {
+  fun update(action: Action): Any = when(action) {
     is ClearSearch -> {
       stateData = stateData.copy(inputText = "")
     }

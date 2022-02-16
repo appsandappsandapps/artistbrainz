@@ -4,6 +4,7 @@ import android.app.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 
 // Tests now actions in uistate
+
 // Images
 // Order by bookmark entry date
 

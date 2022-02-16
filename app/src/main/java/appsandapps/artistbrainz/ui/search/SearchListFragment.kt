@@ -17,6 +17,7 @@ import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
 import appsandapps.artistbrainz.ui.search.SearchListUIState.*
+import appsandapps.artistbrainz.utils.StateSaver
 
 /**
  * Reacts on new searches
@@ -41,7 +42,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
     uiState = viewModelWithSavedState {
       app, savedState -> SearchListViewModel(
         app,
-        savedState,
+        StateSaver(savedState),
       )
     }.apply {
       // reattach on every new fragment
