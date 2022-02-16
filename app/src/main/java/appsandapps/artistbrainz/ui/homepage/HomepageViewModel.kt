@@ -9,6 +9,7 @@ import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import appsandapps.artistbrainz.ui.homepage.HomepageUIState.Action.*
 
 class HomepageViewModel(
   application: Application,
@@ -31,8 +32,7 @@ class HomepageViewModel(
 
   private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
-      var bookmarked = it.bookmarks.size
-      uiState.setBookmarked(bookmarked)
+      uiState.update(Bookmarks(it.bookmarks.size))
     }
   }
 

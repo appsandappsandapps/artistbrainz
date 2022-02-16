@@ -32,13 +32,7 @@ class BookmarksViewModel(
 
   private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
-      val bookmarks = it.bookmarks.map {
-        BookmarksUIState.BookmarkUI(
-          it.id,
-          it.name,
-        )
-      }
-      uiState.setBookmarks(BookmarksUIState.UIValues(bookmarks))
+      uiState.update(BookmarksUIState.Action.SetBookmarks(it.bookmarks))
     }
   }
 

@@ -22,7 +22,7 @@ class HomepageUIStateTests {
     val numBookmarks = 10
     val uiState = HomepageUIState(viewModel)
     uiState.setBookmarked(numBookmarks)
-    val bookMarksNum = uiState.valuesFlow.first().bookmarked
+    val bookMarksNum = uiState.stateFlow.first().bookmarked
 
     Assert.assertEquals(numBookmarks, bookMarksNum)
   }

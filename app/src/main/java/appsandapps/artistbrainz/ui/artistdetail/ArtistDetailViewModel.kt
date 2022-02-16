@@ -8,6 +8,7 @@ import appsandapps.artistbrainz.setByHashCode
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 
 class ArtistDetailViewModel(
   application: Application,
@@ -34,19 +35,9 @@ class ArtistDetailViewModel(
     repository.artist(artistId)
     repository.artist.collect {
       if(it.error.isNotBlank()) {
-        uiState.setError(it.error)
+        uiState.update(ServerError(it.error))
       } else {
-        var artist = it
-        uiState.setArtist(
-          artist.id,
-          artist.name,
-          artist.bookmarked,
-          artist.disambiguation,
-          artist.rating.value,
-          artist.rating.voteCount,
-          artist.summary,
-          artist.lastFMUrl,
-        )
+        uiState.update(SetArtist(it))
       }
     }
   }

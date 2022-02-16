@@ -3,18 +3,16 @@ package appsandapps.artistbrainz.ui.bookmarks
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
+import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.databinding.BookmarksBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.UIValues
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.Action.*
 
 /**
  * Allows you to see your bookmarks
@@ -26,7 +24,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
   lateinit var binding: BookmarksBinding
   val recycler get() = binding.bookmarksRecyclerView
   lateinit var uiState: BookmarksUIState
-  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -56,7 +54,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
     }
   }
 
-  private fun setupList(artists: List<BookmarksUIState.BookmarkUI>) {
+  private fun setupList(artists: List<Bookmark>) {
     recycler.apply {
       if(adapter != null) {
         val _adapter: BookmarksRecyclerView = adapter as BookmarksRecyclerView
@@ -65,8 +63,8 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
         layoutManager = LinearLayoutManager(this@BookmarksFragment.context)
         adapter = BookmarksRecyclerView(
           artists,
-          { uiState.onGotoDetailScreen(it) },
-          { uiState.onDebookmark(it) },
+          { uiState.update(GotoDetail(it)) },
+          { uiState.update(Debookmark(it)) },
         )
       }
     }

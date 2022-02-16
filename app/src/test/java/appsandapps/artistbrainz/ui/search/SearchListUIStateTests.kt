@@ -22,22 +22,22 @@ class SearchListUIStateTests {
   @Test fun `uistate calls viewmodel bookmark`() = runTest {
     val artistId = "1"
     val artistName = "2"
-    SearchListUIState(viewModel).onBookmark(artistId, artistName)
+    SearchListUIState(viewModel).update(SearchListUIState.Bookmark(artistId, artistName))
 
     verify(viewModel, times(1)).bookmark(artistId, artistName)
   }
 
   @Test fun `uistate loading false initially`() = runTest {
     val uiState = SearchListUIState(viewModel)
-    val loading = uiState.valuesFlow.first().loading
+    val loading = uiState.stateFlow.first().loading
 
     Assert.assertFalse(loading)
   }
 
   @Test fun `uistate sets loading on search`() = runTest {
     val uiState = SearchListUIState(viewModel)
-    uiState.onPressEnter()
-    val loading = uiState.valuesFlow.first().loading
+    uiState.update(SearchListUIState.PressEnter())
+    val loading = uiState.stateFlow.first().loading
 
     Assert.assertTrue(loading)
   }

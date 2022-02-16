@@ -1,8 +1,10 @@
 package appsandapps.artistbrainz.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
-data class Artist (
+@Parcelize data class Artist (
   val id: String = "",
   val name: String = "",
   val bookmarked: Boolean = false,
@@ -13,4 +15,4 @@ data class Artist (
   val rating: Rating = Rating(),
   val error: String = "",
   val resultData: Long = Date().time,
-)
+) : Parcelable

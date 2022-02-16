@@ -21,7 +21,7 @@ class BookmarksUIStateTests {
 
   @Test fun `uistate calls viewmodel debookmark`() = runTest {
     val artistId = "1"
-    BookmarksUIState(viewModel).onDebookmark(artistId)
+    BookmarksUIState(viewModel).update(BookmarksUIState.Action.Debookmark(artistId))
     verify(viewModel, times(1)).debookmark(artistId)
   }
 
@@ -30,7 +30,7 @@ class BookmarksUIStateTests {
     val bookmarks = BookmarksUIState.UIValues()
     val uiState = BookmarksUIState(viewModel, uiValues)
     uiState.setBookmarks(bookmarks)
-    val state = uiState.valuesFlow.first()
+    val state = uiState.stateFlow.first()
 
     Assert.assertEquals(state, bookmarks)
   }

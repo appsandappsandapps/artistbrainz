@@ -3,9 +3,9 @@ package appsandapps.artistbrainz
 import android.app.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 
+// Tests now actions in uistate
 // Images
-
-// Start a PDF
+// Order by bookmark entry date
 
 class Application : Application() {
 

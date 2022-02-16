@@ -14,6 +14,7 @@ import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.UIValues
 import appsandapps.artistbrainz.utils.pluralise
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 
 /**
  * Loads the artist details
@@ -25,7 +26,6 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     val ARG_ARTIST_ID = "artistID"
   }
 
-  // Views from layout
   lateinit var binding: ArtistdetailBinding
   val checkbox get() = binding.checkbox
   val searchOnYoutube get() = binding.searchOnYoutubeButton
@@ -67,20 +67,20 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   private fun reactOnBookmarkCheckbox() {
     checkbox.setOnClickListener {
       if(checkbox.isChecked)
-        uiState.onBookmark()
-      else uiState.onDebookmark()
+        uiState.update(Bookmark())
+      else uiState.update(Debookmark())
     }
   }
 
   private fun reactOnLastFmButton() {
     lastFmButton.setOnClickListener {
-      uiState.onLastFmButton()
+      uiState.update(ViewLastFm())
     }
   }
 
   private fun reactOnYoutubeButton() {
     searchOnYoutube.setOnClickListener {
-      uiState.onSearchYoutube()
+      uiState.update(SearchYoutube())
     }
   }
 
@@ -97,14 +97,14 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   private fun observeArtist() = collectUiState {
     if(!it.loading) {
       mainLayout.visibility = View.VISIBLE
-      artist.text = it.name
-      checkbox.isChecked = it.bookmarked
-      if(it.lastFmUrl.isBlank()) {
+      artist.text = it.artist.name
+      checkbox.isChecked = it.uiBookmarked
+      if(it.artist.lastFMUrl.isBlank()) {
         lastFmButton.visibility = View.GONE
       }
-      summary.setText(it.summary)
-      disambiguation.text = it.disambiguation
-      rating.text = "Rating ${it.rating} (${"vote".pluralise(it.voteCount)})"
+      summary.setText(it.artist.summary)
+      disambiguation.text = it.artist.disambiguation
+      rating.text = "Rating ${it.artist.rating.value} (${"vote".pluralise(it.artist.rating.voteCount)})"
     }
   }
 

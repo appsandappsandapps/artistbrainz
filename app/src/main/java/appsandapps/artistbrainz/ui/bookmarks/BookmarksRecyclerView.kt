@@ -7,9 +7,10 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.data.Bookmark
 
 class BookmarksRecyclerView(
-  public var items: List<BookmarksUIState.BookmarkUI>,
+  public var items: List<Bookmark>,
   val artistClick: (String) -> Unit,
   val debookmarkListener: (String) -> Unit,
 ) : RecyclerView.Adapter<BookmarksRecyclerView.Holder>() {

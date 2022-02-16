@@ -6,19 +6,17 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
+import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.databinding.SearchlistFragmentBinding
 import appsandapps.artistbrainz.hideKeyboard
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
-import appsandapps.artistbrainz.ui.homepage.HomepageUIState
 import appsandapps.artistbrainz.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
+import appsandapps.artistbrainz.ui.search.SearchListUIState.*
 
 /**
  * Reacts on new searches
@@ -35,7 +33,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
   lateinit var uiState: SearchListUIState
-  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.valuesFlow, f)
+  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -66,16 +64,16 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
 
   private fun reactOnClearButton() {
     clearText.setOnClickListener {
-      uiState.onClearTextPressed()
+      uiState.update(ClearSearch())
       input.setText("")
     }
   }
 
   private fun reactOnSearchField() {
-    input.doAfterTextChanged { uiState.onTypedSearchQuery("$it") }
+    input.doAfterTextChanged { uiState.update(TypedSearch("$it")) }
     input.setOnEditorActionListener { _, id, _ ->
       if(id == EditorInfo.IME_ACTION_SEARCH) {
-        uiState.onPressEnter()
+        uiState.update(PressSearch())
         hideKeyboard()
         true
       } else {
@@ -88,7 +86,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
     if(it.error.isNotBlank()) {
       Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
       view?.postDelayed({
-        uiState.setError("")
+        uiState.update(ServerError(""))
       }, 1000)
     }
   }
@@ -117,7 +115,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   }
 
   private fun setupSearchListAdapter(
-    artists: List<SearchListUIState.ArtistUI>,
+    artists: List<Artist>,
   ) {
     recycler.apply {
       if(adapter != null && artists.size > 0) {
@@ -127,10 +125,10 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
         layoutManager = LinearLayoutManager(this.context)
         adapter = SearchListRecyclerView(
           artists,
-          { uiState.onGotoArtistDetail(it) },
-          { id, name -> uiState.onBookmark(id, name) },
-          { uiState.onDebookmark(it) },
-          { uiState.onPaginateSearch() }
+          { uiState.update(GotoArtistDetail(it)) },
+          { id, name -> uiState.update(Bookmark(id, name)) },
+          { uiState.update(Debookmark(it)) },
+          { uiState.update(PaginateSearch()) }
         )
       }
     }

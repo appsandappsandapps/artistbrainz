@@ -1,8 +1,10 @@
 package appsandapps.artistbrainz.ui.artistdetail
 
 import android.os.Parcelable
+import appsandapps.artistbrainz.data.Artist
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.parcelize.Parcelize
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 
 class ArtistDetailUIState(
   private val viewModel: ArtistDetailViewModel,
@@ -10,74 +12,57 @@ class ArtistDetailUIState(
   private val saveToParcel: (UIValues) -> Unit = {},
 ) {
 
-  @Parcelize data class UIValues(
-    val id: String = "",
-    val name: String = "",
-    val bookmarked: Boolean = false,
-    val disambiguation: String = "",
-    val voteCount: Int = 0,
-    val rating: Double = 0.0,
-    val loading: Boolean = true,
-    val error: String = "",
-    val lastFmUrl: String = "",
-    val summary: String = "",
-  ): Parcelable
-
   val valuesFlow = MutableStateFlow(existing)
 
-  private var values
+  private var stateData
     get() = valuesFlow.value
     set(value) {
       valuesFlow.value = value
-      saveToParcel(values)
+      saveToParcel(stateData)
     }
 
-  // Called via the view/composable
+  @Parcelize data class UIValues(
+    val artist: Artist = Artist(),
+    var uiBookmarked: Boolean = false,
+    var loading: Boolean = true,
+    var error: String = "",
+  ): Parcelable
 
-  fun onBookmark() {
-    viewModel.bookmark(values.id, values.name)
+  sealed class Action {
+    class Bookmark: Action()
+    class Debookmark: Action()
+    class SearchYoutube: Action()
+    class ViewLastFm: Action()
+    class SetArtist(val artist: Artist): Action()
+    class ServerError(val error: String): Action()
   }
 
-  fun onDebookmark() {
-    viewModel.debookmark()
-  }
-
-  fun onSearchYoutube() {
-    viewModel.searchYoutube(values.name)
-  }
-
-  fun onLastFmButton() {
-    viewModel.viewOnLastFm(values.lastFmUrl)
-  }
-
-  // Called via the viewmodel
-
-  fun setArtist(
-    id: String,
-    name: String,
-    bookmarked: Boolean = false,
-    disambiguation: String = "",
-    rating: Double = 0.0,
-    voteCount: Int = 0,
-    summary: String = "",
-    lastFmUrl: String = "",
-  ) {
-    values = UIValues(
-      id = id,
-      name = name,
-      bookmarked = bookmarked,
-      disambiguation = disambiguation,
-      voteCount = voteCount,
-      rating = rating,
-      error = "",
-      loading = false,
-      summary = summary,
-      lastFmUrl = lastFmUrl,
-    )
-  }
-
-  fun setError(e: String) {
-    values = values.copy(error = e, loading = false)
+  fun update(action: Action) = when(action) {
+    is Bookmark -> {
+      stateData = stateData.copy(uiBookmarked = true)
+      viewModel.bookmark(stateData.artist.id, stateData.artist.name)
+    }
+    is Debookmark -> {
+      stateData = stateData.copy(uiBookmarked = false)
+      viewModel.debookmark()
+    }
+    is SearchYoutube -> {
+      viewModel.searchYoutube(stateData.artist.name)
+    }
+    is ViewLastFm -> {
+      viewModel.viewOnLastFm(stateData.artist.lastFMUrl)
+    }
+    is SetArtist -> {
+      stateData = stateData.copy(
+        artist = action.artist,
+        uiBookmarked = action.artist.bookmarked,
+        loading = false,
+        error = "",
+      )
+    }
+    is ServerError -> {
+      stateData = stateData.copy(error = action.error, loading = false)
+    }
   }
 
 }

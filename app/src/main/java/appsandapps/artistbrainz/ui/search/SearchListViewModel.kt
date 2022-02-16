@@ -7,6 +7,7 @@ import appsandapps.artistbrainz.getByHashCode
 import appsandapps.artistbrainz.setByHashCode
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 
@@ -34,20 +35,18 @@ class SearchListViewModel(
   private suspend fun observeArtists() {
     repository.searchedForArtists.collect {
       if(it.error.isNotBlank()) {
-        uiState.setError(it.error)
+        uiState.update(ServerError(it.error))
       } else if(!it.paginated && it.artists.size == 0) {
-        uiState.setEmptyList()
+        uiState.update(EmptyResults())
       } else
-        uiState.addArtists(it.artists.map {
-          SearchListUIState.ArtistUI(it.id, it.name, it.bookmarked)
-        })
+        uiState.update(AddArtists(it.artists))
     }
   }
 
   private suspend fun observeBookmarks() {
     repository.bookmarks.collect {
       val ids = it.bookmarks.map { it.id }
-      uiState.applyBookmarksToArtists(ids)
+      uiState.update(BookmarksMerge(ids))
     }
   }
 

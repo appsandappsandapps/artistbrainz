@@ -7,9 +7,10 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import appsandapps.artistbrainz.R
+import appsandapps.artistbrainz.data.Artist
 
 class SearchListRecyclerView(
-  public var items: List<SearchListUIState.ArtistUI>,
+  public var items: List<Artist>,
   val artistClick: (String) -> Unit,
   val bookmarkListener: (String, String) -> Unit,
   val debookmarkListener: (String) -> Unit,
