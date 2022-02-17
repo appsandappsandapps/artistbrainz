@@ -2,9 +2,6 @@ package appsandapps.artistbrainz.utils
 
 import androidx.lifecycle.SavedStateHandle
 
-typealias Parcelable = android.os.Parcelable
-typealias Parcelize = kotlinx.android.parcel.Parcelize
-
 /**
  * Abstracts over saving UI state to SavedStateHandle
  *
