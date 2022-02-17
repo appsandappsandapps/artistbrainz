@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.repositories
 
 import appsandapps.artistbrainz.data.*
-import appsandapps.artistbrainz.datasources.BookmarkEntity
 import appsandapps.artistbrainz.utils.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.MainScope

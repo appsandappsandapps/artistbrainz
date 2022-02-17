@@ -40,7 +40,6 @@ class ArtistsRepositoryRemoteTests {
 
   @Test
   fun `repo gets bookmarks on init`() = runTest {
-    val artistId = "1"
     `when`(bookmarkDao.getAll()).thenReturn(listOf())
     launchAndWait {
       ArtistsRepositoryRemote(

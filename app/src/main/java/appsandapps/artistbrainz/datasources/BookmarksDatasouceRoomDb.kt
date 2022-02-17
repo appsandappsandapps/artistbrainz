@@ -1,18 +1,30 @@
 package appsandapps.artistbrainz.datasources
 
+/*
+
+
+WE'VE MOVED TO SQLDELIGHT FOR KMM REASONS.
+
+I'm leaving this here as a reference
+
+implementation "androidx.room:room-runtime:$room_version"
+implementation "androidx.room:room-ktx:$room_version"
+annotationProcessor "androidx.room:room-compiler:$room_version"
+kapt "androidx.room:room-compiler:$room_version"
+
 import android.content.Context
 import androidx.room.*
 import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.repositories.BookmarksDatasource
 
 @Entity
-data class BookmarkEntity (
+private data class BookmarkEntity (
   @PrimaryKey val id: String,
   @ColumnInfo(name = "name") val name: String,
 )
 
 @Dao
-interface BookmarkDao {
+private interface BookmarkDao {
   @Query("SELECT * FROM bookmarkentity")
   suspend fun getAll(): List<BookmarkEntity>
 
@@ -27,13 +39,13 @@ interface BookmarkDao {
 }
 
 @Database(entities = arrayOf(BookmarkEntity::class), version = 1)
-abstract class BookmarksDatabase : RoomDatabase() {
+private abstract class BookmarksDatabaseRoom : RoomDatabase() {
   abstract fun bookmarksDao() : BookmarkDao
 }
 
 fun createBookmarksDatabase(context: Context): BookmarksDatasource {
   val db = Room.databaseBuilder(context,
-    BookmarksDatabase::class.java, "artistbrainz_bookmarks_db").build()
+    BookmarksDatabaseRoom::class.java, "artistbrainz_bookmarks_db").build()
   val dao = db.bookmarksDao()
   return object : BookmarksDatasource {
     override suspend fun getAll(): List<Bookmark> =
@@ -49,3 +61,5 @@ fun createBookmarksDatabase(context: Context): BookmarksDatasource {
       dao.insert(BookmarkEntity(id, name))
   }
 }
+
+ */
