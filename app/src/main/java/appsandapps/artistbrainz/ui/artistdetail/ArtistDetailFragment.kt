@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
 import appsandapps.artistbrainz.gotoUrl
 import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.UIValues
-import appsandapps.artistbrainz.utils.pluralise
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import appsandapps.artistbrainz.utils.ext.pluralise
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 import appsandapps.artistbrainz.utils.StateSaver
 

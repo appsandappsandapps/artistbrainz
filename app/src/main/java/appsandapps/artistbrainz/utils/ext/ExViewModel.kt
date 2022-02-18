@@ -1,7 +1,4 @@
-package appsandapps.artistbrainz
-
-import android.os.Parcelable
-import androidx.lifecycle.*
+package appsandapps.artistbrainz.utils.ext
 
 /**
  * Eases making ViewModels with

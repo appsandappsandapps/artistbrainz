@@ -1,18 +1,10 @@
 package appsandapps.artistbrainz.datasources
 
-import android.content.Context
 import appsandapps.artistbrainz.BookmarksDatabase
 import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.repositories.BookmarksDatasource
-import com.squareup.sqldelight.android.AndroidSqliteDriver
 
-fun createBookmarksDatabase(context: Context): BookmarksDatasource {
-  val driver = AndroidSqliteDriver(
-    schema = BookmarksDatabase.Schema,
-    context = context,
-    name = "bookmarks_db",
-  )
-  val db = BookmarksDatabase(driver)
+fun createBookmarksDatastore(db: BookmarksDatabase): BookmarksDatasource {
   val dao = db.bookmarksQueries
   return object : BookmarksDatasource {
     override suspend fun getAll(): List<Bookmark> =
