@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.repositories
 
 import appsandapps.artistbrainz.data.Artist
-import appsandapps.artistbrainz.datasources.BookmarkDao
 import appsandapps.artistbrainz.datasources.ArtistsDatasourceGraphQL
 import appsandapps.artistbrainz.utils.launchAndWait
 import kotlinx.coroutines.Dispatchers

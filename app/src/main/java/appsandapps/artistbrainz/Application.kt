@@ -3,10 +3,9 @@ package appsandapps.artistbrainz
 import android.app.Application
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 
-// Tests now actions in uistate
-
 // Images
 // Order by bookmark entry date
+// Generic error in repository, rather than in artists/artist
 
 class Application : Application() {
 

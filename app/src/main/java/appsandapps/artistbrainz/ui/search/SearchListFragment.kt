@@ -8,13 +8,10 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import appsandapps.artistbrainz.R
-import appsandapps.artistbrainz.collectStateFlow
+import appsandapps.artistbrainz.*
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.databinding.SearchlistFragmentBinding
-import appsandapps.artistbrainz.hideKeyboard
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
-import appsandapps.artistbrainz.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
 import appsandapps.artistbrainz.ui.search.SearchListUIState.*
 import appsandapps.artistbrainz.utils.StateSaver
@@ -25,7 +22,6 @@ import appsandapps.artistbrainz.utils.StateSaver
  */
 class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
 
-  var beforeFirstSearch = true
   // Views from layout
   lateinit var binding: SearchlistFragmentBinding
   val recycler get() = binding.searchlistRecyclerView
@@ -98,7 +94,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   }
 
   private fun observeEmptyList() = collectUiState {
-    emptyList.visibility = if(it.emptyList && !beforeFirstSearch)
+    emptyList.visibility = if(it.hasNoResults && !it.isBeforeFirstSearch)
       View.VISIBLE
     else View.INVISIBLE
   }
@@ -108,7 +104,6 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   }
 
   private fun observeArtistResults() = collectUiState{
-    if(it.artists.size > 0) beforeFirstSearch = false
     setupSearchListAdapter(it.artists)
     recycler.post {
       recycler.adapter?.notifyDataSetChanged()

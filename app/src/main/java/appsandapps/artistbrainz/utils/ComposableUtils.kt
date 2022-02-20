@@ -1,5 +1,17 @@
 package appsandapps.artistbrainz.utils.ext
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import appsandapps.artistbrainz.Application
+
 /**
  * Eases making ViewModels with
  * - Application Context
@@ -10,7 +22,6 @@ package appsandapps.artistbrainz.utils.ext
  * USED: in the *Screen composibles to start the view models
  * for the component.
  */
-/*
 @Composable
 inline fun <reified VM: ViewModel> viewModelWithSavedState(
   crossinline f: (Application, SavedStateHandle) -> VM
@@ -26,4 +37,3 @@ inline fun <reified VM: ViewModel> viewModelWithSavedState(
   }
   return viewModel<VM>(factory = fact)
 }
-*/

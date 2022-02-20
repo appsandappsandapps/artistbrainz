@@ -19,7 +19,7 @@ open class UIState<T>(
 
   public val stateFlow = MutableStateFlow(existing)
 
-  var stateData
+  protected var stateData
     get() = stateFlow.value
     set(value) {
       stateFlow.value = value

@@ -83,13 +83,27 @@ class ArtistsRepositoryRemote(
   }
 
   override suspend fun bookmark(id: String, name: String) {
-    bookmarksDatasouce.insert(id, name)
-    refreshBookmarks()
+    try {
+      bookmarksDatasouce.insert(id, name)
+      artist(artist.value.id)
+      refreshBookmarks()
+    } catch (e: Exception) {
+      // TODO: The repo should have a generic error stateflow
+      // since atm errors are localised to artists and artist
+      // stateflows and we're unsure which one to do
+    }
   }
 
   override suspend fun debookmark(id: String) {
-    bookmarksDatasouce.delete(id)
-    refreshBookmarks()
+    try {
+      bookmarksDatasouce.delete(id)
+      artist(artist.value.id)
+      refreshBookmarks()
+    } catch(e: Exception) {
+      // TODO: The repo should have a generic error stateflow
+      // since atm errors are localised to artists and artist
+      // stateflows and we're unsure which one to do
+    }
   }
 
   private suspend fun isBookmarked(id: String) =

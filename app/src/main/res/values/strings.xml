@@ -1,2 +1,3 @@
 <resources>
+    <string name="about_text">✔︎ Search Musicbrainz\n✔︎ Infinite scroll/search\n✔︎ Bookmark artists\n✔︎ View artist details inc links\n✔︎ Compose / Views switch\n\nA simple app to demonstrate app architecture\n\nSee the PDF for architecture details</string>
 </resources>

@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.ui.search
 
 import appsandapps.artistbrainz.data.Artist
-import kotlinx.coroutines.flow.MutableStateFlow
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
 import appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues
 import appsandapps.artistbrainz.utils.Parcelable
@@ -15,10 +14,11 @@ class SearchListUIState(
 ) : UIState<UIValues>(existing, saveToParcel){
 
   @Parcelize data class UIValues(
-    var loading: Boolean = false,
-    var emptyList: Boolean = false,
-    var error: String = "",
-    var inputText: String = "",
+    val loading: Boolean = false,
+    val hasNoResults: Boolean = false,
+    val isBeforeFirstSearch: Boolean = true,
+    val error: String = "",
+    val inputText: String = "",
     val artists: List<Artist> = listOf(),
   ): Parcelable {
     fun showClearText():Boolean =
@@ -50,7 +50,7 @@ class SearchListUIState(
     is PressSearch -> {
       stateData = stateData.copy(
         loading = true,
-        emptyList = false,
+        hasNoResults = false,
         error = "",
         artists = listOf()
       )
@@ -72,7 +72,8 @@ class SearchListUIState(
     is AddArtists -> {
       stateData = stateData.copy(
         error = "",
-        emptyList = false,
+        isBeforeFirstSearch = false,
+        hasNoResults = false,
         loading = false,
         artists = stateData.artists + action.artists,
       )
@@ -85,7 +86,7 @@ class SearchListUIState(
     }
     is EmptyResults -> {
       stateData = stateData.copy(
-        emptyList = true,
+        hasNoResults = true,
         loading = false,
         artists = listOf()
       )
