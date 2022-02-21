@@ -44,9 +44,8 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     var artistId = arguments?.getString(ARG_ARTIST_ID) ?: "-1"
 
     uiState = viewModelWithSavedState {
-      app, savedState -> ArtistDetailViewModel(
-        app,
-        StateSaver(savedState),
+      ArtistDetailViewModel(
+        StateSaver(it),
         artistId,
       )
     }.apply {

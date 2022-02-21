@@ -25,10 +25,9 @@ fun BookmarksScreen() {
   val controller = NavControllerLocal.current
   val gotoDetail: (String) -> Unit = { controller.navigate("artistdetail/"+it) }
   // View Model and UI State
-  val viewModel = viewModelWithSavedState { app, stateHandle ->
+  val viewModel = viewModelWithSavedState {
     BookmarksViewModel(
-      app,
-      StateSaver(stateHandle),
+      StateSaver(it),
       gotoDetail
     )
   }

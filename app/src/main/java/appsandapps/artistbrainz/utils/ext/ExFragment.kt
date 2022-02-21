@@ -41,7 +41,6 @@ fun <T> Fragment.collectStateFlow(
 
 /**
  * Eases making ViewModels with
- * - Application Context
  * - SavedStateHandle
  * - default parameters
  * in a Frgament
@@ -49,7 +48,7 @@ fun <T> Fragment.collectStateFlow(
  * USED: in a fragment to initialise a ViewModel
  */
 inline fun <reified VM: ViewModel> Fragment.viewModelWithSavedState(
-  crossinline f: (Application, SavedStateHandle) -> VM
+  crossinline f: (SavedStateHandle) -> VM
 ): VM {
   val fact  = object : AbstractSavedStateViewModelFactory(this, null) {
     override fun <VM1: ViewModel> create(
@@ -57,7 +56,6 @@ inline fun <reified VM: ViewModel> Fragment.viewModelWithSavedState(
       modelClass: Class<VM1>,
       handle: SavedStateHandle
     ): VM1 = f(
-      requireActivity().application as Application,
       handle
     ) as VM1
   }

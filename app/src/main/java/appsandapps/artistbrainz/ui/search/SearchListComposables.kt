@@ -40,10 +40,9 @@ fun SearchListScreen() {
     controller.navigate("artistdetail/"+it)
   }
   // View Model & UI State
-  val viewModel = viewModelWithSavedState { app, stateHandle ->
+  val viewModel = viewModelWithSavedState {
     SearchListViewModel(
-      app,
-      StateSaver(stateHandle),
+      StateSaver(it),
       gotoDetail,
     )
   }

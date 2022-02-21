@@ -32,10 +32,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomepageScreen() {
   // View model and UI State
-  val stateObj = viewModelWithSavedState { app, stateHandle ->
+  val stateObj = viewModelWithSavedState {
     HomepageViewModel(
-      app,
-      StateSaver(stateHandle),
+      StateSaver(it),
     )
   }.uiState
   val uiValues = stateObj.stateFlow.collectAsState().value

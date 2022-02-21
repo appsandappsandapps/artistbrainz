@@ -9,13 +9,10 @@ import appsandapps.artistbrainz.repositories.ArtistsRepository
 
 class Application : Application() {
 
-  // Depends on the build flavour's ServiceLocator
-  lateinit var artistsRepository: ArtistsRepository
-    private set
-
   override fun onCreate() {
     super.onCreate()
-    artistsRepository = ServiceLocator.provideArtistsRepository(this)
+    // Depends on the build flavour's ServiceLocator
+    ServiceLocator.init(this)
   }
 
 }

@@ -36,9 +36,8 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
     super.onViewCreated(view, savedInstanceState)
     binding = SearchlistFragmentBinding.bind(view)
     uiState = viewModelWithSavedState {
-      app, savedState -> SearchListViewModel(
-        app,
-        StateSaver(savedState),
+      SearchListViewModel(
+        StateSaver(it),
       )
     }.apply {
       // reattach on every new fragment

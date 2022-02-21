@@ -42,10 +42,9 @@ fun ArtistDetailScreen(
   artistId: String,
 ) {
   val activity = LocalContext.current.findActivity()
-  val stateObj = viewModelWithSavedState { app, stateHandle ->
+  val stateObj = viewModelWithSavedState {
     ArtistDetailViewModel(
-      app,
-      StateSaver(stateHandle),
+      StateSaver(it),
       artistId,
       { activity?.gotoUrl(it) },
     )

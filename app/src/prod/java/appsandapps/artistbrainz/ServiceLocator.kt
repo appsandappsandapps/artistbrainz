@@ -9,12 +9,12 @@ import appsandapps.artistbrainz.utils.BooksmarksDatabaseFactory
 
 object ServiceLocator {
 
-  fun provideArtistsRepository(
-    context: Context
-  ): ArtistsRepository {
+  lateinit var artistsRepo: ArtistsRepository
+
+  fun init(context: Context) {
     val db = createBookmarksDatastore(createDatabase(context))
     val graphql = ArtistsDatasourceGraphQL({ db.get(it) != null })
-    return ArtistsRepositoryRemote(
+    artistsRepo = ArtistsRepositoryRemote(
       graphql,
       db,
     )

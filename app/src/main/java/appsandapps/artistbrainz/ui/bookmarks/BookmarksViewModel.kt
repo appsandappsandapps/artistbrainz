@@ -1,6 +1,6 @@
 package appsandapps.artistbrainz.ui.bookmarks
 
-import appsandapps.artistbrainz.Application
+import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.DispatchedViewModel
 import appsandapps.artistbrainz.utils.IODispatcher
@@ -10,10 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 
 class BookmarksViewModel(
-  application: Application,
   private val savedState: StateSaver,
   public var gotoDetail: (String) -> Unit = {},
-  private val repository: ArtistsRepository = application.artistsRepository,
+  private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
   private var mockUiState: BookmarksUIState? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {

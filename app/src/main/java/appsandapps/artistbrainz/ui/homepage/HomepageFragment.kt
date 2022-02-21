@@ -34,7 +34,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
     bindings = HomeFragmentBinding.bind(view)
 
     uiState = viewModelWithSavedState {
-      app, savedState -> HomepageViewModel(app, StateSaver(savedState))
+      HomepageViewModel(StateSaver(it))
     }.uiState
 
     setupViewPager()

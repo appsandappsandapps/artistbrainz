@@ -30,10 +30,9 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
     super.onViewCreated(view, savedInstanceState)
     binding = BookmarksBinding.bind(view)
 
-    uiState = viewModelWithSavedState { app, savedState ->
+    uiState = viewModelWithSavedState {
       BookmarksViewModel(
-        app,
-        StateSaver(savedState),
+        StateSaver(it),
       )
     }.apply {
       // so it's added on fragment readd

@@ -10,30 +10,26 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import appsandapps.artistbrainz.Application
 
 /**
  * Eases making ViewModels with
- * - Application Context
  * - SavedStateHandle
- * - default parameters.
- * in Composable
+ * - default parameters in Composable
  *
  * USED: in the *Screen composibles to start the view models
  * for the component.
  */
 @Composable
 inline fun <reified VM: ViewModel> viewModelWithSavedState(
-  crossinline f: (Application, SavedStateHandle) -> VM
+  crossinline f: (SavedStateHandle) -> VM
 ) : VM {
   val savedStateOwner = LocalSavedStateRegistryOwner.current
-  val app = LocalContext.current.applicationContext as Application
   val fact  = object : AbstractSavedStateViewModelFactory(savedStateOwner, null) {
     override fun <VM : ViewModel?> create(
       key: String,
       modelClass: Class<VM>,
       handle: SavedStateHandle
-    ): VM = f(app, handle) as VM
+    ): VM = f(handle) as VM
   }
   return viewModel<VM>(factory = fact)
 }
