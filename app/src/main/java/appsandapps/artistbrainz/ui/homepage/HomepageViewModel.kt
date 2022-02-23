@@ -5,17 +5,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.utils.DispatchedViewModel
 import appsandapps.artistbrainz.ui.homepage.HomepageUIState.Action.*
-import appsandapps.artistbrainz.utils.IODispatcher
-import appsandapps.artistbrainz.utils.StateSaver
+import appsandapps.artistbrainz.utils.*
 
 class HomepageViewModel(
-  private val savedState: StateSaver,
+  private val savedState: StateSavable,
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
   private var mockUiState: HomepageUIState ? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
+
+  constructor() : this(StateSaverEmpty())
 
   val uiState = mockUiState ?:
     HomepageUIState(

@@ -2,21 +2,23 @@ package appsandapps.artistbrainz.ui.search
 
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.utils.DispatchedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
-import appsandapps.artistbrainz.utils.IODispatcher
-import appsandapps.artistbrainz.utils.StateSaver
+import appsandapps.artistbrainz.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 
 class SearchListViewModel(
-  private val savedState: StateSaver,
+  private val savedState: StateSavable,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
   private var mockUiState: SearchListUIState ? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
+
+  constructor(
+    gotoDetail: (String) -> Unit,
+  ) : this(StateSaverEmpty(), gotoDetail)
 
   val uiState = mockUiState ?:
     SearchListUIState(

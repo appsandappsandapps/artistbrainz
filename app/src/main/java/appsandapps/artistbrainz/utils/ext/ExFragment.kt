@@ -50,16 +50,14 @@ fun <T> Fragment.collectStateFlow(
 inline fun <reified VM: ViewModel> Fragment.viewModelWithSavedState(
   crossinline f: (SavedStateHandle) -> VM
 ): VM {
-  val fact  = object : AbstractSavedStateViewModelFactory(this, null) {
+  val factory  = object : AbstractSavedStateViewModelFactory(this, null) {
     override fun <VM1: ViewModel> create(
       key: String,
       modelClass: Class<VM1>,
       handle: SavedStateHandle
-    ): VM1 = f(
-      handle
-    ) as VM1
+    ): VM1 = f(handle) as VM1
   }
-  return ViewModelProvider(this, fact).get()
+  return ViewModelProvider(this, factory).get()
 }
 
 fun Fragment.gotoUrl(url: String) {

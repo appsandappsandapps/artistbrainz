@@ -24,12 +24,12 @@ inline fun <reified VM: ViewModel> viewModelWithSavedState(
   crossinline f: (SavedStateHandle) -> VM
 ) : VM {
   val savedStateOwner = LocalSavedStateRegistryOwner.current
-  val fact  = object : AbstractSavedStateViewModelFactory(savedStateOwner, null) {
+  val factory  = object : AbstractSavedStateViewModelFactory(savedStateOwner, null) {
     override fun <VM : ViewModel?> create(
       key: String,
       modelClass: Class<VM>,
       handle: SavedStateHandle
     ): VM = f(handle) as VM
   }
-  return viewModel<VM>(factory = fact)
+  return viewModel<VM>(factory = factory)
 }

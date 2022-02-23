@@ -2,6 +2,19 @@ package appsandapps.artistbrainz.utils
 
 import androidx.lifecycle.SavedStateHandle
 
+interface StateSavable {
+  fun save(obj: Parcelable): Unit
+  fun <T : Parcelable> get(defaultObj: T): T
+
+}
+
+class StateSaverEmpty : StateSavable {
+  override fun save(obj: Parcelable) { }
+  override fun <T : Parcelable> get(defaultObj: T): T {
+    return defaultObj
+  }
+}
+
 /**
  * Abstracts over saving UI state to SavedStateHandle
  *
@@ -12,13 +25,13 @@ import androidx.lifecycle.SavedStateHandle
  */
 class StateSaver(
   val handle: SavedStateHandle
-) {
+) : StateSavable {
 
   private fun tag(obj: Any) = "${obj::class.hashCode()}"
 
-  fun save(obj: Parcelable) = handle.set(tag(obj), obj)
+  override fun save(obj: Parcelable) = handle.set(tag(obj), obj)
 
-  fun <T : Parcelable> get(defaultObj: T): T {
+  override fun <T : Parcelable> get(defaultObj: T): T {
     val tag = tag(defaultObj)
     return handle.get<T>(tag)?.let {
       it

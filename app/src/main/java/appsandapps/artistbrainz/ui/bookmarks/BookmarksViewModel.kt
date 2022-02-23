@@ -2,20 +2,22 @@ package appsandapps.artistbrainz.ui.bookmarks
 
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.utils.DispatchedViewModel
-import appsandapps.artistbrainz.utils.IODispatcher
-import appsandapps.artistbrainz.utils.StateSaver
+import appsandapps.artistbrainz.utils.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 
 class BookmarksViewModel(
-  private val savedState: StateSaver,
+  private val savedState: StateSavable,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
   private var mockUiState: BookmarksUIState? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
+
+  constructor(
+    gotoDetail: (String) -> Unit = {}
+  ) : this(StateSaverEmpty(), gotoDetail)
 
   val uiState = mockUiState ?:
     BookmarksUIState(

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
