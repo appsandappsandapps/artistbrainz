@@ -11,8 +11,8 @@ class Application : Application() {
 
   override fun onCreate() {
     super.onCreate()
-    // Depends on the build flavour's ServiceLocator
-    ServiceLocator.init(this)
+    // Depends on the build flavour's ServiceLocator, or did before KMM...
+    ServiceLocator(this)
   }
 
 }

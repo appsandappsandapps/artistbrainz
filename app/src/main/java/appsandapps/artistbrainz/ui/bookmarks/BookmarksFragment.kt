@@ -23,7 +23,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
 
   lateinit var binding: BookmarksBinding
   val recycler get() = binding.bookmarksRecyclerView
-  lateinit var uiState: BookmarksUIState
+  lateinit var uiState: appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
     binding = BookmarksBinding.bind(view)
 
     uiState = viewModelWithSavedState {
-      BookmarksViewModel(
+      appsandapps.artistbrainz.ui.bookmarks.BookmarksViewModel(
         StateSaver(it),
       )
     }.apply {

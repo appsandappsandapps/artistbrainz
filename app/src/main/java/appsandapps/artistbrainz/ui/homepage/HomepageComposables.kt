@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 fun HomepageScreen() {
   // View model and UI State
   val stateObj = viewModelWithSavedState {
-    HomepageViewModel(
+    appsandapps.artistbrainz.ui.homepage.HomepageViewModel(
       StateSaver(it),
     )
   }.uiState

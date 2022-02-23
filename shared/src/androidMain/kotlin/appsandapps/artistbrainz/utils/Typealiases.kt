@@ -1,6 +1,5 @@
 package appsandapps.artistbrainz.utils
 
-import android.os.Parcelable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.parcelize.Parcelize
 
@@ -8,8 +7,8 @@ import kotlinx.parcelize.Parcelize
  * These all differ in a KMM project
  */
 
-typealias Parcelable = Parcelable
-typealias Parcelize = Parcelize
+actual typealias Parcelable =  android.os.Parcelable
+actual typealias Parcelize = kotlinx.parcelize.Parcelize
 // Okay okay, this is a value
-val IODispatcher = Dispatchers.IO
+actual val IODispatcher get() = Dispatchers.IO
 

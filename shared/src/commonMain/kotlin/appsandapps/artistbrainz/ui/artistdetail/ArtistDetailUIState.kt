@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.ui.artistdetail
 
 import appsandapps.artistbrainz.data.Artist
-import kotlinx.coroutines.flow.MutableStateFlow
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.UIValues
 import appsandapps.artistbrainz.utils.Parcelable

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
@@ -27,7 +26,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
   lateinit var bindings: HomeFragmentBinding
   val tabs get() = bindings.homepageTabLayout
   val viewpager get() = bindings.homepageViewpager2
-  lateinit var uiState: HomepageUIState
+  lateinit var uiState: appsandapps.artistbrainz.ui.homepage.HomepageUIState
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +34,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
     bindings = HomeFragmentBinding.bind(view)
 
     uiState = viewModelWithSavedState {
-      HomepageViewModel(StateSaver(it))
+      appsandapps.artistbrainz.ui.homepage.HomepageViewModel(StateSaver(it))
     }.uiState
 
     setupViewPager()

@@ -3,18 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
-    id 'com.apollographql.apollo3' version '3.0.0'
-    id 'com.squareup.sqldelight'
-}
-
-apollo {
-    packageName.set("appsandapps.artistbrainz")
-}
-
-sqldelight {
-    BookmarksDatabase {
-        packageName = "appsandapps.artistbrainz"
-    }
 }
 
 android {
@@ -53,6 +41,9 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
+        //isCoreLibraryDesugaringEnabled = true
+        //isCoreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -76,6 +67,8 @@ android {
 }
 
 dependencies {
+
+    implementation project(":shared")
 
     // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -110,12 +103,13 @@ dependencies {
     //androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     //debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     //debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-
     // SQL Delight
-    implementation "com.squareup.sqldelight:android-driver:1.5.3"
-
+    //implementation "com.squareup.sqldelight:android-driver:1.5.3"
     // GraphQL
-    implementation "com.apollographql.apollo3:apollo-runtime:3.0.0"
+    //implementation "com.apollographql.apollo3:apollo-runtime:3.0.0"
 
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+
 }

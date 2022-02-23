@@ -26,7 +26,7 @@ fun BookmarksScreen() {
   val gotoDetail: (String) -> Unit = { controller.navigate("artistdetail/"+it) }
   // View Model and UI State
   val viewModel = viewModelWithSavedState {
-    BookmarksViewModel(
+    appsandapps.artistbrainz.ui.bookmarks.BookmarksViewModel(
       StateSaver(it),
       gotoDetail
     )
@@ -61,7 +61,7 @@ private fun BookmarksContent(
 
 @Composable
 private fun BookmarkRowWithState(
-  stateObj: BookmarksUIState,
+  stateObj: appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState,
 ): @Composable (id: String, name: String) -> Unit =
   { id, name ->
     BookmarkRow(

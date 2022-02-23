@@ -29,14 +29,14 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   val clearText get() = binding.searchClearText
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
-  lateinit var uiState: SearchListUIState
+  lateinit var uiState: appsandapps.artistbrainz.ui.search.SearchListUIState
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     binding = SearchlistFragmentBinding.bind(view)
     uiState = viewModelWithSavedState {
-      SearchListViewModel(
+      appsandapps.artistbrainz.ui.search.SearchListViewModel(
         StateSaver(it),
       )
     }.apply {

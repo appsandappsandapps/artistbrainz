@@ -41,11 +41,11 @@ class ArtistsDatasourceGraphQL(
 
   override suspend fun getArtists(
     query: String,
-    cursor: String,
+    lastCursor: String,
   ): Pair<List<Artist>, String> {
     var lastCursorResult = ""
     val resp = apolloClient.query(
-      ArtistsQuery(query, cursor)
+      ArtistsQuery(query, lastCursor)
     ).execute()
     val artists = resp.data?.search?.artists?.edges
       ?.filterNotNull()

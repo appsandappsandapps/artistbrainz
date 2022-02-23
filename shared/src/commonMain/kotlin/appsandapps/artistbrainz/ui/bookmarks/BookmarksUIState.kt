@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.ui.bookmarks
 
 import appsandapps.artistbrainz.data.Bookmark
-import kotlinx.coroutines.flow.MutableStateFlow
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.Action.*
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.UIValues
 import appsandapps.artistbrainz.utils.Parcelable

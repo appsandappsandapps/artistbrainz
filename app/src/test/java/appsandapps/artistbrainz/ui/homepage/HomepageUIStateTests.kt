@@ -3,7 +3,6 @@ package appsandapps.artistbrainz.ui.homepage
 import androidx.lifecycle.SavedStateHandle
 import appsandapps.artistbrainz.Application
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
 import org.junit.*
 import org.junit.runner.RunWith
@@ -16,13 +15,13 @@ class HomepageUIStateTests {
 
   @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
-  @Mock lateinit var viewModel: HomepageViewModel
+  @Mock lateinit var viewModel: appsandapps.artistbrainz.ui.homepage.HomepageViewModel
 
   @Test fun `uistate sets bookmark num`() = runTest {
     val numBookmarks = 10
-    val uiState = HomepageUIState(viewModel)
+    val uiState = appsandapps.artistbrainz.ui.homepage.HomepageUIState(viewModel)
     uiState
-      .update(HomepageUIState.Action.Bookmarks(numBookmarks))
+      .update(appsandapps.artistbrainz.ui.homepage.HomepageUIState.Action.Bookmarks(numBookmarks))
     val bookMarksNum = uiState.stateFlow.first().bookmarked
 
     Assert.assertEquals(numBookmarks, bookMarksNum)

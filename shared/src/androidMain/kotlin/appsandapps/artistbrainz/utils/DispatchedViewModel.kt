@@ -14,14 +14,14 @@ import kotlinx.coroutines.*
  *
  * This is changed in KMM.
  */
-open public class DispatchedViewModel(
+actual open public class DispatchedViewModel(
   private val customDispatcher: CoroutineDispatcher = IODispatcher
 ) : ViewModel() {
 
   /**
    * runs the viewmodelscrope launcher with a custom dispatcher
    */
-  fun dispatchedLaunch(f: suspend CoroutineScope.() -> Unit) =
+  actual fun dispatchedLaunch(f: suspend CoroutineScope.() -> Unit): Job =
     viewModelScope.launch(customDispatcher, CoroutineStart.DEFAULT, f)
 
 }

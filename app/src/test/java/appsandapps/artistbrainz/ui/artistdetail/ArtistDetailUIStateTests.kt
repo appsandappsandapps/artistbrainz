@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.data.Artist
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
 import org.junit.*
 import org.junit.runner.RunWith
@@ -18,22 +17,22 @@ class ArtistDetailUIStateTests {
 
   @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
-  @Mock lateinit var viewModel: ArtistDetailViewModel
+  @Mock lateinit var viewModel: appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel
 
   @Test fun `uistate calls viewmodel bookmark`() = runTest {
     val artistId = "1"
     val artistName = "2"
-    val uiValues = ArtistDetailUIState.UIValues(
+    val uiValues = appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.UIValues(
       artist = Artist(artistId, artistName)
     )
-    ArtistDetailUIState(viewModel, uiValues)
-      .update(ArtistDetailUIState.Action.Bookmark())
+    appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState(viewModel, uiValues)
+      .update(appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.Bookmark())
 
     verify(viewModel, times(1)).bookmark(artistId, artistName)
   }
 
   @Test fun `uistate sets loading on init`() = runTest {
-    val uiState = ArtistDetailUIState(viewModel)
+    val uiState = appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState(viewModel)
     val state = uiState.stateFlow.first()
 
     Assert.assertTrue(state.loading)

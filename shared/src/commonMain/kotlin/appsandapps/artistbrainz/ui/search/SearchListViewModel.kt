@@ -5,14 +5,13 @@ import appsandapps.artistbrainz.repositories.ArtistsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
 import appsandapps.artistbrainz.utils.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 
 class SearchListViewModel(
-  private val savedState: StateSavable,
+  private val savedState: StateSaveable,
   public var gotoDetail: (String) -> Unit = {},
-  private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
-  private var mockUiState: SearchListUIState ? = null,
+  private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
+  private var mockUiState: SearchListUIState? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 

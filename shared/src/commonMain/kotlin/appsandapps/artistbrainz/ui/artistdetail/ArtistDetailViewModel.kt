@@ -8,10 +8,10 @@ import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 import appsandapps.artistbrainz.utils.*
 
 class ArtistDetailViewModel(
-  savedState: StateSavable,
+  savedState: StateSaveable,
   private val artistId: String,
   public var gotoUrlCallback: (String) -> Unit = {},
-  private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
+  private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
   private var mockUiState: ArtistDetailUIState? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {

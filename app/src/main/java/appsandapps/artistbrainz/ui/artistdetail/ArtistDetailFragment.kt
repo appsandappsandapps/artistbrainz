@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
@@ -35,7 +34,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   val summary get() = binding.summaryText
   val mainLayout get() = binding.artistdetailMainlayout
   val lastFmButton get() = binding.viewOnLastfmButton
-  lateinit var uiState: ArtistDetailUIState
+  lateinit var uiState: appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +44,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     var artistId = arguments?.getString(ARG_ARTIST_ID) ?: "-1"
 
     uiState = viewModelWithSavedState {
-      ArtistDetailViewModel(
+      appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel(
         StateSaver(it),
         artistId,
       )

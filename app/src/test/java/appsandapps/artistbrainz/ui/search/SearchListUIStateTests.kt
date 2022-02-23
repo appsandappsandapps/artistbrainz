@@ -3,7 +3,6 @@ package appsandapps.artistbrainz.ui.search
 import androidx.lifecycle.SavedStateHandle
 import appsandapps.artistbrainz.Application
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
 import org.junit.*
 import org.junit.runner.RunWith
@@ -17,27 +16,27 @@ class SearchListUIStateTests {
 
   @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
-  @Mock lateinit var viewModel: SearchListViewModel
+  @Mock lateinit var viewModel: appsandapps.artistbrainz.ui.search.SearchListViewModel
 
   @Test fun `uistate calls viewmodel bookmark`() = runTest {
     val artistId = "1"
     val artistName = "2"
-    SearchListUIState(viewModel)
-      .update(SearchListUIState.Action.Bookmark(artistId, artistName))
+    appsandapps.artistbrainz.ui.search.SearchListUIState(viewModel)
+      .update(appsandapps.artistbrainz.ui.search.SearchListUIState.Action.Bookmark(artistId, artistName))
 
     verify(viewModel, times(1)).bookmark(artistId, artistName)
   }
 
   @Test fun `uistate loading false initially`() = runTest {
-    val uiState = SearchListUIState(viewModel)
+    val uiState = appsandapps.artistbrainz.ui.search.SearchListUIState(viewModel)
     val loading = uiState.stateFlow.first().loading
 
     Assert.assertFalse(loading)
   }
 
   @Test fun `uistate sets loading on search`() = runTest {
-    val uiState = SearchListUIState(viewModel)
-    uiState.update(SearchListUIState.Action.PressSearch())
+    val uiState = appsandapps.artistbrainz.ui.search.SearchListUIState(viewModel)
+    uiState.update(appsandapps.artistbrainz.ui.search.SearchListUIState.Action.PressSearch())
     val loading = uiState.stateFlow.first().loading
 
     Assert.assertTrue(loading)

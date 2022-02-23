@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.ui.homepage
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
@@ -9,9 +8,9 @@ import appsandapps.artistbrainz.ui.homepage.HomepageUIState.Action.*
 import appsandapps.artistbrainz.utils.*
 
 class HomepageViewModel(
-  private val savedState: StateSavable,
-  private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
-  private var mockUiState: HomepageUIState ? = null,
+  private val savedState: StateSaveable,
+  private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
+  private var mockUiState: HomepageUIState? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 

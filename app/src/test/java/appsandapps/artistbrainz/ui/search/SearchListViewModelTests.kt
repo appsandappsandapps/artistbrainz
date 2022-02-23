@@ -26,14 +26,16 @@ class SearchListViewModelTests {
   @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
   @Mock lateinit var repo: ArtistsRepository
-  @Mock lateinit var uiState: SearchListUIState
+  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.search.SearchListUIState
 
   @Test fun `viewmodel calls repo artist on init`() = runTest {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      SearchListViewModel(app, StateSaver(savedState), {}, repo,
-        uiState, Dispatchers.Main)
+      appsandapps.artistbrainz.ui.search.SearchListViewModel(
+        app, StateSaver(savedState), {}, repo,
+        uiState, Dispatchers.Main
+      )
     }
 
     verify(repo, times(1)).searchedForArtists
@@ -43,8 +45,10 @@ class SearchListViewModelTests {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      SearchListViewModel(app, StateSaver(savedState), {}, repo,
-        uiState, Dispatchers.Main)
+      appsandapps.artistbrainz.ui.search.SearchListViewModel(
+        app, StateSaver(savedState), {}, repo,
+        uiState, Dispatchers.Main
+      )
     }
 
     verify(repo, times(1)).bookmarks
@@ -55,8 +59,10 @@ class SearchListViewModelTests {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      val vm = SearchListViewModel(app, StateSaver(savedState), {}, repo,
-        uiState, Dispatchers.Main)
+      val vm = appsandapps.artistbrainz.ui.search.SearchListViewModel(
+        app, StateSaver(savedState), {}, repo,
+        uiState, Dispatchers.Main
+      )
       vm.searchArtists(search)
     }
 

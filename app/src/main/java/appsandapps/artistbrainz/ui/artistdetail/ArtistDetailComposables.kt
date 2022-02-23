@@ -1,34 +1,19 @@
 package appsandapps.artistbrainz.ui.artistdetail
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import androidx.datastore.preferences.core.edit
-import appsandapps.artistbrainz.utils.PREF_KEY_COMPOSE_TOGGLE
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
-import appsandapps.artistbrainz.utils.prefsDataStore
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
-import appsandapps.artistbrainz.ui.search.SearchListViewModel
 import appsandapps.artistbrainz.ui.theme.StandardPadding
 import appsandapps.artistbrainz.utils.ext.findActivity
 import appsandapps.artistbrainz.utils.ext.gotoUrl
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * - Shows artist info
@@ -43,7 +28,7 @@ fun ArtistDetailScreen(
 ) {
   val activity = LocalContext.current.findActivity()
   val stateObj = viewModelWithSavedState {
-    ArtistDetailViewModel(
+    appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel(
       StateSaver(it),
       artistId,
       { activity?.gotoUrl(it) },

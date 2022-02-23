@@ -2,7 +2,7 @@ package appsandapps.artistbrainz.data
 
 import appsandapps.artistbrainz.utils.Parcelable
 import appsandapps.artistbrainz.utils.Parcelize
-import java.util.*
+import kotlinx.datetime.Clock
 
 @Parcelize data class Artist (
   val id: String = "",
@@ -14,5 +14,5 @@ import java.util.*
   val imageUrl: String = "",
   val rating: Rating = Rating(),
   val error: String = "",
-  val resultData: Long = Date().time,
+  val resultData: Long = Clock.System.now().epochSeconds
 ) : Parcelable

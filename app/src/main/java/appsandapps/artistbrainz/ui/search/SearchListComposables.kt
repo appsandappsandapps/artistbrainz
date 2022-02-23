@@ -41,7 +41,7 @@ fun SearchListScreen() {
   }
   // View Model & UI State
   val viewModel = viewModelWithSavedState {
-    SearchListViewModel(
+    appsandapps.artistbrainz.ui.search.SearchListViewModel(
       StateSaver(it),
       gotoDetail,
     )
@@ -94,8 +94,8 @@ private fun SearchListContent(
 
 @Composable
 private fun SearchResultsWithState(
-  stateObj: SearchListUIState,
-  uiValues: SearchListUIState.UIValues,
+  stateObj: appsandapps.artistbrainz.ui.search.SearchListUIState,
+  uiValues: appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues,
 ): @Composable () -> Unit = {
   SearchResults(
     uiValues.artists,
@@ -128,8 +128,8 @@ private fun SearchResults(
 }
 
 private fun SearchInputWithState(
-  stateObj: SearchListUIState,
-  uiValues: SearchListUIState.UIValues,
+  stateObj: appsandapps.artistbrainz.ui.search.SearchListUIState,
+  uiValues: appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues,
  ): @Composable () -> Unit = {
   SearchInput(
     uiValues.inputText,
@@ -200,7 +200,7 @@ private fun SearchInputTextField(
 }
 
 private fun ArtistRowWithState(
-  stateObj: SearchListUIState
+  stateObj: appsandapps.artistbrainz.ui.search.SearchListUIState
 ): @Composable (String, String, Boolean) -> Unit =
   { id, name, bookmarked ->
     ArtistRow(

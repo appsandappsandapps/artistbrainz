@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ArtistBrainz"
 include ':app'
+include ':shared'

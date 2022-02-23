@@ -4,13 +4,12 @@ import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.*
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 
 class BookmarksViewModel(
-  private val savedState: StateSavable,
+  private val savedState: StateSaveable,
   public var gotoDetail: (String) -> Unit = {},
-  private val repository: ArtistsRepository = ServiceLocator.artistsRepo,
+  private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
   private var mockUiState: BookmarksUIState? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {

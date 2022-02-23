@@ -26,13 +26,15 @@ class BookmarksViewModelTests {
   @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
   @Mock lateinit var repo: ArtistsRepository
-  @Mock lateinit var uiState: BookmarksUIState
+  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState
 
   @Test fun `viewmodel calls repo bookmarks on init`() = runTest {
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      BookmarksViewModel(app, StateSaver(savedState), {}, repo,
-        uiState, Dispatchers.Main)
+      appsandapps.artistbrainz.ui.bookmarks.BookmarksViewModel(
+        app, StateSaver(savedState), {}, repo,
+        uiState, Dispatchers.Main
+      )
     }
 
     verify(repo, times(1)).bookmarks
@@ -42,8 +44,10 @@ class BookmarksViewModelTests {
     val artistId = "1"
     `when`(repo.artist).thenReturn(MutableStateFlow(Artist()))
     launchAndWait {
-      val vm = BookmarksViewModel(app, StateSaver(savedState), {}, repo,
-        uiState, Dispatchers.Main)
+      val vm = appsandapps.artistbrainz.ui.bookmarks.BookmarksViewModel(
+        app, StateSaver(savedState), {}, repo,
+        uiState, Dispatchers.Main
+      )
       vm.debookmark(artistId)
     }
 

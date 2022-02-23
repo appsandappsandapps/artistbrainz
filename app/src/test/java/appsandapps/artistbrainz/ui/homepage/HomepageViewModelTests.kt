@@ -25,13 +25,15 @@ class HomepageViewModelTests {
   @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
   @Mock lateinit var repo: ArtistsRepository
-  @Mock lateinit var uiState: HomepageUIState
+  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.homepage.HomepageUIState
 
   @Test fun `viewmodel calls repo bookmarks on init`() = runTest {
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
-      HomepageViewModel(app, StateSaver(savedState), repo,
-        uiState, Dispatchers.Main)
+      appsandapps.artistbrainz.ui.homepage.HomepageViewModel(
+        app, StateSaver(savedState), repo,
+        uiState, Dispatchers.Main
+      )
     }
 
     verify(repo, times(1)).bookmarks

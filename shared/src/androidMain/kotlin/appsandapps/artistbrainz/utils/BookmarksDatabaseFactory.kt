@@ -9,8 +9,8 @@ import com.squareup.sqldelight.android.AndroidSqliteDriver
  *
  * This would be changed in a KMM project
  */
-class BooksmarksDatabaseFactory(val context: Context) {
-  fun createDatabase() : BookmarksDatabase {
+actual class BookmarksDatabaseFactory(val context: Context) {
+  actual fun createDatabase() : BookmarksDatabase {
     val driver = AndroidSqliteDriver(
       schema = BookmarksDatabase.Schema,
       context = context,

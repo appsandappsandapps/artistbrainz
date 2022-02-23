@@ -2,19 +2,6 @@ package appsandapps.artistbrainz.utils
 
 import androidx.lifecycle.SavedStateHandle
 
-interface StateSavable {
-  fun save(obj: Parcelable): Unit
-  fun <T : Parcelable> get(defaultObj: T): T
-
-}
-
-class StateSaverEmpty : StateSavable {
-  override fun save(obj: Parcelable) { }
-  override fun <T : Parcelable> get(defaultObj: T): T {
-    return defaultObj
-  }
-}
-
 /**
  * Abstracts over saving UI state to SavedStateHandle
  *
@@ -23,13 +10,13 @@ class StateSaverEmpty : StateSavable {
  *
  * This is changed in KMM
  */
-class StateSaver(
+actual class StateSaver(
   val handle: SavedStateHandle
-) : StateSavable {
+) : StateSaveable {
 
   private fun tag(obj: Any) = "${obj::class.hashCode()}"
 
-  override fun save(obj: Parcelable) = handle.set(tag(obj), obj)
+  override fun save(obj: Parcelable): Unit = handle.set(tag(obj), obj)
 
   override fun <T : Parcelable> get(defaultObj: T): T {
     val tag = tag(defaultObj)

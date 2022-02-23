@@ -1,11 +1,13 @@
+/*
+
 package appsandapps.artistbrainz
 
 import android.content.Context
 import appsandapps.artistbrainz.datasources.ArtistsDatasourceGraphQL
-import appsandapps.artistbrainz.datasources.createBookmarksDatastore
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.repositories.ArtistsRepositoryRemote
 import appsandapps.artistbrainz.utils.BooksmarksDatabaseFactory
+
 
 object ServiceLocator {
 
@@ -24,3 +26,5 @@ object ServiceLocator {
     BooksmarksDatabaseFactory(context).createDatabase()
 
 }
+
+ */
