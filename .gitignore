@@ -18,7 +18,6 @@ local.properties
 *.swp
 app/prod/
 shared/shared.podspec
-
 .idea/
 iosApp/Podfile.lock
 iosApp/Pods/
