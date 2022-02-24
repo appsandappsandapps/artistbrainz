@@ -6,7 +6,7 @@ import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.data.Bookmarks
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.*
+import kotlinx.datetime.Clock
 
 class ArtistsRepositoryInMemory : ArtistsRepository {
 
@@ -27,9 +27,9 @@ class ArtistsRepositoryInMemory : ArtistsRepository {
 
   override suspend fun paginateLastSearch(): Unit {
     val newArtists = mutableListOf(
-      Artist("${Date().time}1", "1 more"),
-      Artist("${Date().time}2", "2 more"),
-      Artist("${Date().time}3", "3 more"),
+      Artist("${Clock.System.now()}1", "1 more"),
+      Artist("${Clock.System.now()}2", "2 more"),
+      Artist("${Clock.System.now()}3", "3 more"),
     )
     searchedForArtists.value = Artists(newArtists)
   }

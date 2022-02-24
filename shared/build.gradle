@@ -26,11 +26,10 @@ kotlin {
 
     cocoapods {
         summary = "Shared KMM logic"
+        homepage = "There is no homepage"
         ios.deploymentTarget = "15.0"
-        //framework.baseName = "shared"
-        //framework {
-        //    baseName = "shared"
-        //}
+        podfile = project.file("../iosApp/Podfile")
+        frameworkName = "shared"
     }
 
     sourceSets {
@@ -60,15 +59,19 @@ kotlin {
             dependencies {
             }
         }
-        iosX64Main {
-            dependencies {
-            }
-        }
         //val iosArm64Main by getting
         iosMain {
-            //dependsOn(commonMain)
+            dependsOn commonMain
+            dependencies {
+                implementation "com.squareup.sqldelight:native-driver:1.5.3"
+            }
             //iosX64Main.dependsOn(this)
             //iosArm64Main.dependsOn(this)
+        }
+        iosX64Main {
+            dependsOn iosMain
+            dependencies {
+            }
         }
     }
 }
