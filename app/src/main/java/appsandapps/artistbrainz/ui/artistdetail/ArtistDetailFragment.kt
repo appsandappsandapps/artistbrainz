@@ -95,7 +95,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     if(!it.loading && it.error.isBlank()) {
       mainLayout.visibility = View.VISIBLE
       artist.text = it.artist.name
-      checkbox.isChecked = it.uiBookmarked
+      checkbox.isChecked = it.artist.bookmarked
       if(it.artist.lastFMUrl.isBlank()) {
         lastFmButton.visibility = View.GONE
       }

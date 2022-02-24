@@ -30,6 +30,7 @@ class ArtistDetailViewModel(
 
   init {
     observeArtist()
+    observeBookmarks()
   }
 
   private fun observeArtist() = dispatchedLaunch {
@@ -39,6 +40,17 @@ class ArtistDetailViewModel(
         uiState.update(ServerError(it.error))
       } else {
         uiState.update(SetArtist(it))
+      }
+    }
+  }
+
+  private fun observeBookmarks() = dispatchedLaunch {
+    repository.bookmarks.collect {
+      val currentArtist = it.bookmarks.filter { it.id == artistId }
+      if(currentArtist.size == 1) {
+        uiState.update(SetBookmarked(true))
+      } else {
+        uiState.update(SetBookmarked(false))
       }
     }
   }

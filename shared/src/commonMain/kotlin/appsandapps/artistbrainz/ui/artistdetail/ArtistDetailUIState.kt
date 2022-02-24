@@ -21,6 +21,7 @@ class ArtistDetailUIState(
   ): Parcelable
 
   sealed class Action {
+    class SetBookmarked(val bookmarked: Boolean): Action()
     class Bookmark: Action()
     class Debookmark: Action()
     class SearchYoutube: Action()
@@ -30,12 +31,14 @@ class ArtistDetailUIState(
   }
 
   fun update(action: Action): Any = when(action) {
+    is SetBookmarked -> {
+      val artist = stateData.artist.copy(bookmarked = action.bookmarked)
+      stateData = stateData.copy(artist = artist)
+    }
     is Bookmark -> {
-      stateData = stateData.copy(uiBookmarked = true)
       viewModel.bookmark(stateData.artist.id, stateData.artist.name)
     }
     is Debookmark -> {
-      stateData = stateData.copy(uiBookmarked = false)
       viewModel.debookmark()
     }
     is SearchYoutube -> {
@@ -47,7 +50,6 @@ class ArtistDetailUIState(
     is SetArtist -> {
       stateData = stateData.copy(
         artist = action.artist,
-        uiBookmarked = action.artist.bookmarked,
         loading = false,
         error = "",
       )

@@ -85,7 +85,6 @@ class ArtistsRepositoryRemote(
   override suspend fun bookmark(id: String, name: String) {
     try {
       bookmarksDatasouce.insert(id, name)
-      artist(artist.value.id)
       refreshBookmarks()
     } catch (e: Exception) {
       // TODO: The repo should have a generic error stateflow
@@ -97,7 +96,6 @@ class ArtistsRepositoryRemote(
   override suspend fun debookmark(id: String) {
     try {
       bookmarksDatasouce.delete(id)
-      artist(artist.value.id)
       refreshBookmarks()
     } catch(e: Exception) {
       // TODO: The repo should have a generic error stateflow
