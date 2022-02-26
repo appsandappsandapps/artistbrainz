@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.ui.artistdetail
 
 import androidx.lifecycle.SavedStateHandle
-import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.StateSaver
@@ -15,6 +14,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.validateMockitoUsage
+import kotlinx.coroutines.flow.*
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -26,17 +26,16 @@ class ArtistDetailViewModelTests {
   @After fun validate() {
     validateMockitoUsage()
   }
-  @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
   @Mock lateinit var repo: ArtistsRepository
-  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState
+  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIModel
 
   @Test fun `viewmodel calls repo artist on init`() = runTest {
     val artistId = "1"
     `when`(repo.artist).thenReturn(MutableStateFlow(Artist()))
     launchAndWait {
       appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel(
-        app, StateSaver(savedState), artistId, {}, repo,
+        StateSaver(savedState), artistId, {}, repo,
         uiState, Dispatchers.Main
       )
     }
@@ -52,7 +51,7 @@ class ArtistDetailViewModelTests {
     var foundArtist: Artist? = null
     launchAndWait {
       val vm = appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel(
-        app, StateSaver(savedState), "", {}, repo,
+        StateSaver(savedState), "", {}, repo,
         null, Dispatchers.Main
       )
       foundArtist = vm.uiState.stateFlow.take(2).last().artist

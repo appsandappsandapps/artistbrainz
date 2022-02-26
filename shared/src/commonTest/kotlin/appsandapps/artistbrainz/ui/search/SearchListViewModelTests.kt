@@ -1,7 +1,6 @@
 package appsandapps.artistbrainz.ui.search
 
 import androidx.lifecycle.SavedStateHandle
-import appsandapps.artistbrainz.Application
 import appsandapps.artistbrainz.data.Artists
 import appsandapps.artistbrainz.data.Bookmarks
 import appsandapps.artistbrainz.repositories.ArtistsRepository
@@ -23,17 +22,16 @@ class SearchListViewModelTests {
   @Before fun setUp() = Dispatchers.setMain(StandardTestDispatcher())
   @After fun tearDown() = Dispatchers.resetMain()
 
-  @Mock lateinit var app: Application
   @Mock lateinit var savedState: SavedStateHandle
   @Mock lateinit var repo: ArtistsRepository
-  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.search.SearchListUIState
+  @Mock lateinit var uiState: appsandapps.artistbrainz.ui.search.SearchListUIModel
 
   @Test fun `viewmodel calls repo artist on init`() = runTest {
     `when`(repo.searchedForArtists).thenReturn(MutableStateFlow(Artists()))
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
       appsandapps.artistbrainz.ui.search.SearchListViewModel(
-        app, StateSaver(savedState), {}, repo,
+        StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main
       )
     }
@@ -46,7 +44,7 @@ class SearchListViewModelTests {
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
       appsandapps.artistbrainz.ui.search.SearchListViewModel(
-        app, StateSaver(savedState), {}, repo,
+        StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main
       )
     }
@@ -60,7 +58,7 @@ class SearchListViewModelTests {
     `when`(repo.bookmarks).thenReturn(MutableStateFlow(Bookmarks()))
     launchAndWait {
       val vm = appsandapps.artistbrainz.ui.search.SearchListViewModel(
-        app, StateSaver(savedState), {}, repo,
+        StateSaver(savedState), {}, repo,
         uiState, Dispatchers.Main
       )
       vm.searchArtists(search)

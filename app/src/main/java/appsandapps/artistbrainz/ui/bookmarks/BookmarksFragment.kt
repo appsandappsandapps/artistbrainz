@@ -11,9 +11,9 @@ import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.databinding.BookmarksBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
 import appsandapps.artistbrainz.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.bookmarks.UIValues
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIValues
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIModel
-import appsandapps.artistbrainz.ui.bookmarks.Action.*
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksAction.*
 import appsandapps.artistbrainz.utils.StateSaver
 
 /**
@@ -25,7 +25,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
   lateinit var binding: BookmarksBinding
   val recycler get() = binding.bookmarksRecyclerView
   lateinit var uiState: BookmarksUIModel
-  fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
+  fun collectUiState(f: (BookmarksUIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

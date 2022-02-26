@@ -19,9 +19,9 @@ import appsandapps.artistbrainz.NavControllerLocal
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.search.Action.*
+import appsandapps.artistbrainz.ui.search.SearchAction.*
 import appsandapps.artistbrainz.ui.search.SearchListUIModel
-import appsandapps.artistbrainz.ui.search.UIValues
+import appsandapps.artistbrainz.ui.search.SearchUIValues
 import appsandapps.artistbrainz.ui.theme.StandardPadding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -97,7 +97,7 @@ private fun SearchListContent(
 @Composable
 private fun SearchResultsWithState(
   stateObj: SearchListUIModel,
-  uiValues: UIValues,
+  uiValues: SearchUIValues,
 ): @Composable () -> Unit = {
   SearchResults(
     uiValues.artists,
@@ -131,7 +131,7 @@ private fun SearchResults(
 
 private fun SearchInputWithState(
   stateObj: SearchListUIModel,
-  uiValues: UIValues,
+  uiValues: SearchUIValues,
  ): @Composable () -> Unit = {
   SearchInput(
     uiValues.inputText,

@@ -13,9 +13,9 @@ import appsandapps.artistbrainz.NavControllerLocal
 import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.bookmarks.Action.*
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksAction.*
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIModel
-import appsandapps.artistbrainz.ui.bookmarks.UIValues
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIValues
 
 /**
  * - Show bookmarks
