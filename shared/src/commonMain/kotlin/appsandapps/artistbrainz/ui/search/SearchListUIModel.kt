@@ -1,13 +1,13 @@
 package appsandapps.artistbrainz.ui.search
 
 import appsandapps.artistbrainz.data.Artist
-import appsandapps.artistbrainz.ui.search.Action.*
+import appsandapps.artistbrainz.ui.search.SearchAction.*
 import appsandapps.artistbrainz.utils.UIModel
 import appsandapps.artistbrainz.utils.Parcelable
 import appsandapps.artistbrainz.utils.Parcelize
 
 @Parcelize
-data class UIValues(
+data class SearchUIValues(
   val loading: Boolean = false,
   val hasNoResults: Boolean = false,
   val isBeforeFirstSearch: Boolean = true,
@@ -19,28 +19,28 @@ data class UIValues(
     inputText.isNotBlank() && loading == false
 }
 
-sealed class Action {
-  class ClearSearch : Action()
-  class TypedSearch(val query: String) : Action()
-  class PressSearch : Action()
-  class PaginateSearch : Action()
-  class Bookmark(val id: String, val name: String): Action()
-  class Debookmark(val id: String) : Action()
-  class GotoArtistDetail(val id: String) : Action()
-  class AddArtists(val artists: List<Artist>) : Action()
-  class ServerError(val error: String) : Action()
-  class EmptyResults : Action()
+sealed class SearchAction {
+  class ClearSearch : SearchAction()
+  class TypedSearch(val query: String) : SearchAction()
+  class PressSearch : SearchAction()
+  class PaginateSearch : SearchAction()
+  class Bookmark(val id: String, val name: String): SearchAction()
+  class Debookmark(val id: String) : SearchAction()
+  class GotoArtistDetail(val id: String) : SearchAction()
+  class AddArtists(val artists: List<Artist>) : SearchAction()
+  class ServerError(val error: String) : SearchAction()
+  class EmptyResults : SearchAction()
   // When we (un)bookmark, update the artists on the screen
-  class BookmarksMerge(val ids: List<String>) : Action()
+  class BookmarksMerge(val ids: List<String>) : SearchAction()
 }
 
 class SearchListUIModel(
   private val viewModel: SearchListViewModel,
-  private var existing: UIValues = UIValues(),
-  private val saveToParcel: (UIValues) -> Unit = {},
-) : UIModel<UIValues>(existing, saveToParcel){
+  private var existing: SearchUIValues = SearchUIValues(),
+  private val saveToParcel: (SearchUIValues) -> Unit = {},
+) : UIModel<SearchUIValues>(existing, saveToParcel){
 
-  fun update(action: Action): Any = when(action) {
+  fun update(action: SearchAction): Any = when(action) {
     is ClearSearch -> {
       stateData = stateData.copy(inputText = "")
     }

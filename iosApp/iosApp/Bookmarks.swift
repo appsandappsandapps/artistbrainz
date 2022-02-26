@@ -18,13 +18,13 @@ struct Bookmarks: View {
                 BookmarkRow(
                     bookmark: bookmark,
                     debookmark: { id in
-                        vm.uiState.update(action: BookmarksUIState.ActionDebookmark(id: id))
+                        vm.uiState.update(action: BookmarksAction.Debookmark(id: id))
                     }
                 )
             }
         }.onAppear {
             vm.uiState.stateFlow.collect(
-                collector: Collector<BookmarksUIState.UIValues>{ v in
+                collector: Collector<BookmarksUIValues>{ v in
                     bookmarks = v.bookmarks
                 }
             ) { _, e in

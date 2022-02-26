@@ -3,7 +3,7 @@ package appsandapps.artistbrainz.ui.artistdetail
 import kotlinx.coroutines.*
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.ui.artistdetail.Action.*
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailAction.*
 import appsandapps.artistbrainz.utils.*
 
 class ArtistDetailViewModel(
@@ -23,7 +23,7 @@ class ArtistDetailViewModel(
   val uiState = mockUiModel ?:
     ArtistDetailUIModel(
       viewModel = this,
-      existing = savedState.get(UIValues()),
+      existing = savedState.get(ArtistDetailUIValues()),
       saveToParcel = { savedState.save(it) }
     )
 

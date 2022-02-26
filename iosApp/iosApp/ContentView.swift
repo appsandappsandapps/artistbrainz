@@ -39,7 +39,7 @@ struct ContentView: View {
             .tag(2)
         }.onAppear {
             vm.uiState.stateFlow.collect(
-                collector: Collector<HomepageUIState.UIValues>{ value in
+                collector: Collector<HomepageUIValues>{ value in
                     bookmarks = Int(value.bookmarked)
                 }
             ) { _, e in

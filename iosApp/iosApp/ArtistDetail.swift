@@ -26,21 +26,21 @@ struct ArtistDetail: View {
             }
         )
         searchOnYoutube = {
-            vm.uiState.update(action: ArtistDetailUIState.ActionSearchYoutube())
+            vm.uiState.update(action: ArtistDetailAction.SearchYoutube())
         }
         viewOnLastFm = {
-            vm.uiState.update(action: ArtistDetailUIState.ActionViewLastFm())
+            vm.uiState.update(action: ArtistDetailAction.ViewLastFm())
         }
         bookmark = {
-            vm.uiState.update(action: ArtistDetailUIState.ActionBookmark())
+            vm.uiState.update(action: ArtistDetailAction.Bookmark())
             bookmarked = true
         }
         debookmark = {
-            vm.uiState.update(action: ArtistDetailUIState.ActionDebookmark())
+            vm.uiState.update(action: ArtistDetailAction.Debookmark())
             bookmarked = false
         }
         vm.uiState.stateFlow.collect(
-            collector: Collector<ArtistDetailUIState.UIValues>{ v in
+            collector: Collector<ArtistDetailUIValues>{ v in
                 loading = v.loading
                 summary = v.artist.summary
                 rating = "Rating: \(v.artist.rating.value)"
@@ -62,26 +62,33 @@ struct ArtistDetail: View {
                         .foregroundColor(.red)
                         .padding(40)
                 } else {
-                    Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
-                        .opacity(bookmarked == true ? 1.0 : 0.1)
-                        .onTapGesture {
-                            if(bookmarked) {
-                                debookmark()
-                            } else {
-                                bookmark()
+                    HStack(alignment: .center) {
+                        Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
+                            .opacity(bookmarked == true ? 1.0 : 0.1)
+                            .onTapGesture {
+                                if(bookmarked) {
+                                    debookmark()
+                                } else {
+                                    bookmark()
+                                }
                             }
-                        }
+                        Text(rating)
+                        Spacer()
+                    }
+                        .padding(5)
                     Text(disambiguous)
-                    Text(rating)
+                    Divider()
                     Button(action: searchOnYoutube) {
                         Text("Search youtube")
                     }
                     Button(action: viewOnLastFm) {
                         Text("View on last.fm")
                     }
+                    Divider()
                     Text(summary)
                 }
             }
+            .padding(10)
         }
         .onAppear {
             updateArtist()

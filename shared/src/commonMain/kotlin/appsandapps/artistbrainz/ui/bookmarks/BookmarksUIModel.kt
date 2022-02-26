@@ -1,29 +1,29 @@
 package appsandapps.artistbrainz.ui.bookmarks
 
-import appsandapps.artistbrainz.ui.bookmarks.Action.*
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksAction.*
 import appsandapps.artistbrainz.utils.UIModel
 import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.utils.Parcelable
 import appsandapps.artistbrainz.utils.Parcelize
 
 @Parcelize
-data class UIValues(
+data class BookmarksUIValues(
   val bookmarks: List<Bookmark> = listOf(),
 ): Parcelable
 
-sealed class Action {
-  class GotoDetail(val id: String): Action()
-  class Debookmark(val id: String): Action()
-  class SetBookmarks(val bookmarks: List<Bookmark>): Action()
+sealed class BookmarksAction {
+  class GotoDetail(val id: String): BookmarksAction()
+  class Debookmark(val id: String): BookmarksAction()
+  class SetBookmarks(val bookmarks: List<Bookmark>): BookmarksAction()
 }
 
 class BookmarksUIModel(
   private val viewModel: BookmarksViewModel,
-  private var existing: UIValues = UIValues(),
-  private val saveToParcel: (UIValues) -> Unit = {},
-) : UIModel<UIValues>(existing, saveToParcel) {
+  private var existing: BookmarksUIValues = BookmarksUIValues(),
+  private val saveToParcel: (BookmarksUIValues) -> Unit = {},
+) : UIModel<BookmarksUIValues>(existing, saveToParcel) {
 
-  fun update(action: Action): Any = when(action) {
+  fun update(action: BookmarksAction): Any = when(action) {
     is GotoDetail -> {
       viewModel.gotoDetailScreen(action.id)
     }

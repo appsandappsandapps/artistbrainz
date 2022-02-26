@@ -15,19 +15,19 @@ struct SearchList: View {
     var body: some View {
 
         let bookmark: (String, String) -> Void = { id, name in
-            vm.uiState.update(action: SearchListUIState.ActionBookmark(id: id, name: name))
+            vm.uiState.update(action: SearchAction.Bookmark(id: id, name: name))
         }
         let debookmark: (String) -> Void = { id in
-            vm.uiState.update(action: SearchListUIState.ActionDebookmark(id: id))
+            vm.uiState.update(action: SearchAction.Debookmark(id: id))
         }
         let pressClear: () -> Void = {
-            vm.uiState.update(action: SearchListUIState.ActionClearSearch())
+            vm.uiState.update(action: SearchAction.ClearSearch())
         }
         let pressEnter: () -> Void = {
-            vm.uiState.update(action: SearchListUIState.ActionPressSearch())
+            vm.uiState.update(action: SearchAction.PressSearch())
         }
         let typeSearch: (String) -> Void = { s in
-            vm.uiState.update(action: SearchListUIState.ActionTypedSearch(query: s))
+            vm.uiState.update(action: SearchAction.TypedSearch(query: s))
         }
 
         VStack() {
@@ -54,7 +54,7 @@ struct SearchList: View {
                             )
                                 .onAppear {
                                     if artist == artists.last {
-                                        vm.uiState.update(action: SearchListUIState.ActionPaginateSearch())
+                                        vm.uiState.update(action: SearchAction.PaginateSearch())
                                     }
                                 }
                         }
@@ -74,11 +74,11 @@ struct SearchList: View {
         }
         .onAppear {
             vm.uiState.stateFlow.collect(
-                collector: Collector<SearchListUIState.UIValues>{ v in
+                collector: Collector<SearchUIValues>{ v in
                     artists = v.artists
                     loading = v.loading
                     textInput = v.inputText
-                    emptyList = v.hasNoResults
+                    emptyList = v.hasNoResults && !v.isBeforeFirstSearch
                     error = v.error
                 }
             ) { _, e in

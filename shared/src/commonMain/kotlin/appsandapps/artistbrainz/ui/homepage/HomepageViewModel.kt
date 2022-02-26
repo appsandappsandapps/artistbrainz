@@ -3,7 +3,7 @@ package appsandapps.artistbrainz.ui.homepage
 import kotlinx.coroutines.CoroutineDispatcher
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.ui.homepage.Action.*
+import appsandapps.artistbrainz.ui.homepage.HomepageAction.*
 import appsandapps.artistbrainz.utils.*
 
 class HomepageViewModel(
@@ -18,7 +18,7 @@ class HomepageViewModel(
   val uiState = mockUiModel ?:
     HomepageUIModel(
       viewModel = this,
-      existing = savedState.get(UIValues()),
+      existing = savedState.get(HomepageUIValues()),
       saveToParcel = { savedState.save(it) }
     )
 

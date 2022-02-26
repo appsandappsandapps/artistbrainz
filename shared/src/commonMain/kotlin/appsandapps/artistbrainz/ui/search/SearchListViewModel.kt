@@ -3,7 +3,7 @@ package appsandapps.artistbrainz.ui.search
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import appsandapps.artistbrainz.ui.search.Action.*
+import appsandapps.artistbrainz.ui.search.SearchAction.*
 import appsandapps.artistbrainz.utils.*
 
 class SearchListViewModel(
@@ -21,7 +21,7 @@ class SearchListViewModel(
   val uiState = mockUiModel ?:
     SearchListUIModel(
       viewModel = this,
-      existing = savedState.get(UIValues()),
+      existing = savedState.get(SearchUIValues()),
       saveToParcel = { savedState.save(it) }
     )
 
