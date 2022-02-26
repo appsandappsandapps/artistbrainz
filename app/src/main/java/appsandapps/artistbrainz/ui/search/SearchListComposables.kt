@@ -19,7 +19,9 @@ import appsandapps.artistbrainz.NavControllerLocal
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
+import appsandapps.artistbrainz.ui.search.Action.*
+import appsandapps.artistbrainz.ui.search.SearchListUIModel
+import appsandapps.artistbrainz.ui.search.UIValues
 import appsandapps.artistbrainz.ui.theme.StandardPadding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,7 +43,7 @@ fun SearchListScreen() {
   }
   // View Model & UI State
   val viewModel = viewModelWithSavedState {
-    appsandapps.artistbrainz.ui.search.SearchListViewModel(
+    SearchListViewModel(
       StateSaver(it),
       gotoDetail,
     )
@@ -94,8 +96,8 @@ private fun SearchListContent(
 
 @Composable
 private fun SearchResultsWithState(
-  stateObj: appsandapps.artistbrainz.ui.search.SearchListUIState,
-  uiValues: appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues,
+  stateObj: SearchListUIModel,
+  uiValues: UIValues,
 ): @Composable () -> Unit = {
   SearchResults(
     uiValues.artists,
@@ -128,8 +130,8 @@ private fun SearchResults(
 }
 
 private fun SearchInputWithState(
-  stateObj: appsandapps.artistbrainz.ui.search.SearchListUIState,
-  uiValues: appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues,
+  stateObj: SearchListUIModel,
+  uiValues: UIValues,
  ): @Composable () -> Unit = {
   SearchInput(
     uiValues.inputText,
@@ -200,7 +202,7 @@ private fun SearchInputTextField(
 }
 
 private fun ArtistRowWithState(
-  stateObj: appsandapps.artistbrainz.ui.search.SearchListUIState
+  stateObj: SearchListUIModel,
 ): @Composable (String, String, Boolean) -> Unit =
   { id, name, bookmarked ->
     ArtistRow(

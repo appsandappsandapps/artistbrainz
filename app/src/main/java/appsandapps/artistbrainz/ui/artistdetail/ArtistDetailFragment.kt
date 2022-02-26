@@ -9,9 +9,10 @@ import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
 import appsandapps.artistbrainz.gotoUrl
 import appsandapps.artistbrainz.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.UIValues
+import appsandapps.artistbrainz.ui.artistdetail.UIValues
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIModel
+import appsandapps.artistbrainz.ui.artistdetail.Action.*
 import appsandapps.artistbrainz.utils.ext.pluralise
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
 import appsandapps.artistbrainz.utils.StateSaver
 
 /**
@@ -34,7 +35,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
   val summary get() = binding.summaryText
   val mainLayout get() = binding.artistdetailMainlayout
   val lastFmButton get() = binding.viewOnLastfmButton
-  lateinit var uiState: appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState
+  lateinit var uiState: ArtistDetailUIModel
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     var artistId = arguments?.getString(ARG_ARTIST_ID) ?: "-1"
 
     uiState = viewModelWithSavedState {
-      appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel(
+      ArtistDetailViewModel(
         StateSaver(it),
         artistId,
       )

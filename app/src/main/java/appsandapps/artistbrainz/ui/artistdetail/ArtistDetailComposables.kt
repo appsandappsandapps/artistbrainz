@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
+import appsandapps.artistbrainz.ui.artistdetail.Action.*
+import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIModel
+import appsandapps.artistbrainz.ui.artistdetail.UIValues
 import appsandapps.artistbrainz.ui.theme.StandardPadding
 import appsandapps.artistbrainz.utils.ext.findActivity
 import appsandapps.artistbrainz.utils.ext.gotoUrl
@@ -28,7 +30,7 @@ fun ArtistDetailScreen(
 ) {
   val activity = LocalContext.current.findActivity()
   val stateObj = viewModelWithSavedState {
-    appsandapps.artistbrainz.ui.artistdetail.ArtistDetailViewModel(
+    ArtistDetailViewModel(
       StateSaver(it),
       artistId,
       { activity?.gotoUrl(it) },

@@ -12,8 +12,9 @@ import appsandapps.artistbrainz.*
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.databinding.SearchlistFragmentBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
-import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
-import appsandapps.artistbrainz.ui.search.SearchListUIState.*
+import appsandapps.artistbrainz.ui.search.Action.*
+import appsandapps.artistbrainz.ui.search.UIValues
+import appsandapps.artistbrainz.ui.search.SearchListUIModel
 import appsandapps.artistbrainz.utils.StateSaver
 
 /**
@@ -29,7 +30,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
   val clearText get() = binding.searchClearText
   val loading get() = binding.progressIndicator
   val emptyList get() = binding.emptyList
-  lateinit var uiState: appsandapps.artistbrainz.ui.search.SearchListUIState
+  lateinit var uiState: SearchListUIModel
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

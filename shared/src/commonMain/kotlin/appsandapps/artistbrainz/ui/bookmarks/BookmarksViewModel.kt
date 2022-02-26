@@ -4,13 +4,12 @@ import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.utils.*
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 
 class BookmarksViewModel(
   private val savedState: StateSaveable,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
-  private var mockUiState: BookmarksUIState? = null,
+  private var mockUiModel: BookmarksUIModel? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
@@ -18,10 +17,10 @@ class BookmarksViewModel(
     gotoDetail: (String) -> Unit = {}
   ) : this(StateSaverEmpty(), gotoDetail)
 
-  val uiState = mockUiState ?:
-    BookmarksUIState(
+  val uiState = mockUiModel ?:
+    BookmarksUIModel(
       viewModel = this,
-      existing = savedState.get(BookmarksUIState.UIValues()),
+      existing = savedState.get(UIValues()),
       saveToParcel = { savedState.save(it) }
     )
 
@@ -31,7 +30,7 @@ class BookmarksViewModel(
 
   private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
-      uiState.update(BookmarksUIState.Action.SetBookmarks(it.bookmarks))
+      uiState.update(Action.SetBookmarks(it.bookmarks))
     }
   }
 

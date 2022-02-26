@@ -13,7 +13,9 @@ import appsandapps.artistbrainz.NavControllerLocal
 import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState.Action.*
+import appsandapps.artistbrainz.ui.bookmarks.Action.*
+import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIModel
+import appsandapps.artistbrainz.ui.bookmarks.UIValues
 
 /**
  * - Show bookmarks
@@ -26,7 +28,7 @@ fun BookmarksScreen() {
   val gotoDetail: (String) -> Unit = { controller.navigate("artistdetail/"+it) }
   // View Model and UI State
   val viewModel = viewModelWithSavedState {
-    appsandapps.artistbrainz.ui.bookmarks.BookmarksViewModel(
+    BookmarksViewModel(
       StateSaver(it),
       gotoDetail
     )
@@ -61,7 +63,7 @@ private fun BookmarksContent(
 
 @Composable
 private fun BookmarkRowWithState(
-  stateObj: appsandapps.artistbrainz.ui.bookmarks.BookmarksUIState,
+  stateObj: BookmarksUIModel,
 ): @Composable (id: String, name: String) -> Unit =
   { id, name ->
     BookmarkRow(

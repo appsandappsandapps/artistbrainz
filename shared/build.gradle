@@ -22,7 +22,7 @@ sqldelight {
 kotlin {
     android()
     iosX64()
-    //iosArm64()
+    iosArm64()
 
     cocoapods {
         summary = "Shared KMM logic"
@@ -59,7 +59,6 @@ kotlin {
             dependencies {
             }
         }
-        //val iosArm64Main by getting
         iosMain {
             dependsOn commonMain
             dependencies {
@@ -67,6 +66,11 @@ kotlin {
             }
             //iosX64Main.dependsOn(this)
             //iosArm64Main.dependsOn(this)
+        }
+        iosArm64Main {
+            dependsOn iosMain
+            dependencies {
+            }
         }
         iosX64Main {
             dependsOn iosMain

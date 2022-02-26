@@ -1,25 +1,24 @@
 package appsandapps.artistbrainz.ui.homepage
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.ui.homepage.HomepageUIState.Action.*
+import appsandapps.artistbrainz.ui.homepage.Action.*
 import appsandapps.artistbrainz.utils.*
 
 class HomepageViewModel(
   private val savedState: StateSaveable,
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
-  private var mockUiState: HomepageUIState? = null,
+  private var mockUiModel: HomepageUIModel? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
   constructor() : this(StateSaverEmpty())
 
-  val uiState = mockUiState ?:
-    HomepageUIState(
+  val uiState = mockUiModel ?:
+    HomepageUIModel(
       viewModel = this,
-      existing = savedState.get(HomepageUIState.UIValues()),
+      existing = savedState.get(UIValues()),
       saveToParcel = { savedState.save(it) }
     )
 

@@ -1,44 +1,44 @@
 package appsandapps.artistbrainz.ui.search
 
 import appsandapps.artistbrainz.data.Artist
-import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
-import appsandapps.artistbrainz.ui.search.SearchListUIState.UIValues
+import appsandapps.artistbrainz.ui.search.Action.*
+import appsandapps.artistbrainz.utils.UIModel
 import appsandapps.artistbrainz.utils.Parcelable
 import appsandapps.artistbrainz.utils.Parcelize
-import appsandapps.artistbrainz.utils.UIState
 
-class SearchListUIState(
+@Parcelize
+data class UIValues(
+  val loading: Boolean = false,
+  val hasNoResults: Boolean = false,
+  val isBeforeFirstSearch: Boolean = true,
+  val error: String = "",
+  val inputText: String = "",
+  val artists: List<Artist> = listOf(),
+): Parcelable {
+  fun showClearText():Boolean =
+    inputText.isNotBlank() && loading == false
+}
+
+sealed class Action {
+  class ClearSearch : Action()
+  class TypedSearch(val query: String) : Action()
+  class PressSearch : Action()
+  class PaginateSearch : Action()
+  class Bookmark(val id: String, val name: String): Action()
+  class Debookmark(val id: String) : Action()
+  class GotoArtistDetail(val id: String) : Action()
+  class AddArtists(val artists: List<Artist>) : Action()
+  class ServerError(val error: String) : Action()
+  class EmptyResults : Action()
+  // When we (un)bookmark, update the artists on the screen
+  class BookmarksMerge(val ids: List<String>) : Action()
+}
+
+class SearchListUIModel(
   private val viewModel: SearchListViewModel,
   private var existing: UIValues = UIValues(),
   private val saveToParcel: (UIValues) -> Unit = {},
-) : UIState<UIValues>(existing, saveToParcel){
-
-  @Parcelize data class UIValues(
-    val loading: Boolean = false,
-    val hasNoResults: Boolean = false,
-    val isBeforeFirstSearch: Boolean = true,
-    val error: String = "",
-    val inputText: String = "",
-    val artists: List<Artist> = listOf(),
-  ): Parcelable {
-    fun showClearText():Boolean =
-      inputText.isNotBlank() && loading == false
-  }
-
-  sealed class Action {
-    class ClearSearch : Action()
-    class TypedSearch(val query: String) : Action()
-    class PressSearch : Action()
-    class PaginateSearch : Action()
-    class Bookmark(val id: String, val name: String): Action()
-    class Debookmark(val id: String) : Action()
-    class GotoArtistDetail(val id: String) : Action()
-    class AddArtists(val artists: List<Artist>) : Action()
-    class ServerError(val error: String) : Action()
-    class EmptyResults : Action()
-    // When we (un)bookmark, update the artists on the screen
-    class BookmarksMerge(val ids: List<String>) : Action()
-  }
+) : UIModel<UIValues>(existing, saveToParcel){
 
   fun update(action: Action): Any = when(action) {
     is ClearSearch -> {

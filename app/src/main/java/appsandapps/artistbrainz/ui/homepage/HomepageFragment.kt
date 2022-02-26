@@ -9,7 +9,7 @@ import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.HomeFragmentBinding
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksFragment
-import appsandapps.artistbrainz.ui.homepage.HomepageUIState.UIValues
+import appsandapps.artistbrainz.ui.homepage.UIValues
 import appsandapps.artistbrainz.ui.search.SearchListFragment
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.viewModelWithSavedState
@@ -26,7 +26,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
   lateinit var bindings: HomeFragmentBinding
   val tabs get() = bindings.homepageTabLayout
   val viewpager get() = bindings.homepageViewpager2
-  lateinit var uiState: appsandapps.artistbrainz.ui.homepage.HomepageUIState
+  lateinit var uiState: appsandapps.artistbrainz.ui.homepage.HomepageUIModel
   fun collectUiState(f: (UIValues) -> Unit) = collectStateFlow(uiState.stateFlow, f)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

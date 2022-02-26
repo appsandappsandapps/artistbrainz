@@ -3,15 +3,14 @@ package appsandapps.artistbrainz.ui.search
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import appsandapps.artistbrainz.ui.search.SearchListUIState.Action.*
+import appsandapps.artistbrainz.ui.search.Action.*
 import appsandapps.artistbrainz.utils.*
-import kotlinx.coroutines.flow.collect
 
 class SearchListViewModel(
   private val savedState: StateSaveable,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
-  private var mockUiState: SearchListUIState? = null,
+  private var mockUiModel: SearchListUIModel? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
@@ -19,10 +18,10 @@ class SearchListViewModel(
     gotoDetail: (String) -> Unit,
   ) : this(StateSaverEmpty(), gotoDetail)
 
-  val uiState = mockUiState ?:
-    SearchListUIState(
+  val uiState = mockUiModel ?:
+    SearchListUIModel(
       viewModel = this,
-      existing = savedState.get(SearchListUIState.UIValues()),
+      existing = savedState.get(UIValues()),
       saveToParcel = { savedState.save(it) }
     )
 

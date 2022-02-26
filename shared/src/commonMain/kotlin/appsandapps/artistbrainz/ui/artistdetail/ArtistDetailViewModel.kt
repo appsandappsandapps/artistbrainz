@@ -1,10 +1,9 @@
 package appsandapps.artistbrainz.ui.artistdetail
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import appsandapps.artistbrainz.ServiceLocator
 import appsandapps.artistbrainz.repositories.ArtistsRepository
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIState.Action.*
+import appsandapps.artistbrainz.ui.artistdetail.Action.*
 import appsandapps.artistbrainz.utils.*
 
 class ArtistDetailViewModel(
@@ -12,7 +11,7 @@ class ArtistDetailViewModel(
   private val artistId: String,
   public var gotoUrlCallback: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
-  private var mockUiState: ArtistDetailUIState? = null,
+  private var mockUiModel: ArtistDetailUIModel? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
 ): DispatchedViewModel(dispatcher) {
 
@@ -21,10 +20,10 @@ class ArtistDetailViewModel(
     gotoUrlCallback: (String) -> Unit = {},
   ) : this(StateSaverEmpty(), artistId, gotoUrlCallback)
 
-  val uiState = mockUiState ?:
-    ArtistDetailUIState(
+  val uiState = mockUiModel ?:
+    ArtistDetailUIModel(
       viewModel = this,
-      existing = savedState.get(ArtistDetailUIState.UIValues()),
+      existing = savedState.get(UIValues()),
       saveToParcel = { savedState.save(it) }
     )
 

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
  * USED: In all the UIState classes that exist in ViewModels
  * and are interacted with by the ViewModel and the View/Composable/etc
  */
-open class UIState<T>(
+open class UIModel<T>(
   private val existing: T,
   private val saveToParcel: (T) -> Unit = {},
 ) {
