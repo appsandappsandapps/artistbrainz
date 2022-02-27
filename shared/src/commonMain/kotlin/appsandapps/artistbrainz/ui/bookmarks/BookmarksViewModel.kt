@@ -6,7 +6,7 @@ import appsandapps.artistbrainz.utils.*
 import kotlinx.coroutines.CoroutineDispatcher
 
 class BookmarksViewModel(
-  private val savedState: StateSaveable,
+  private val stateSaver: StateSaveable,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
   private var mockUiModel: BookmarksUIModel? = null,
@@ -20,8 +20,8 @@ class BookmarksViewModel(
   val uiState = mockUiModel ?:
     BookmarksUIModel(
       viewModel = this,
-      existing = savedState.get(BookmarksUIValues()),
-      saveToParcel = { savedState.save(it) }
+      existing = stateSaver.get(BookmarksUIValues()),
+      stateSaver = stateSaver,
     )
 
   init {

@@ -1,9 +1,7 @@
 package appsandapps.artistbrainz.ui.homepage
 
 import appsandapps.artistbrainz.ui.homepage.HomepageAction.*
-import appsandapps.artistbrainz.utils.UIModel
-import appsandapps.artistbrainz.utils.Parcelable
-import appsandapps.artistbrainz.utils.Parcelize
+import appsandapps.artistbrainz.utils.*
 
 @Parcelize
 data class HomepageUIValues(
@@ -17,8 +15,8 @@ sealed class HomepageAction {
 class HomepageUIModel(
   private val viewModel: HomepageViewModel,
   private val existing: HomepageUIValues = HomepageUIValues(),
-  private val saveToParcel: (HomepageUIValues) -> Unit = {},
-) : UIModel<HomepageUIValues>(existing, saveToParcel) {
+  private val stateSaver: StateSaveable,
+) : UIModel<HomepageUIValues>(existing, stateSaver) {
 
   fun update(action: HomepageAction): Any = when(action) {
     is Bookmarks -> {

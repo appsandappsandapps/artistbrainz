@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
  * USED: In all the UIState classes that exist in ViewModels
  * and are interacted with by the ViewModel and the View/Composable/etc
  */
-open class UIModel<T>(
+open class UIModel<T : Parcelable>(
   private val existing: T,
-  private val saveToParcel: (T) -> Unit = {},
+  private val stateSaver: StateSaveable,
 ) {
 
   public val stateFlow = MutableStateFlow(existing)
@@ -23,7 +23,7 @@ open class UIModel<T>(
     get() = stateFlow.value
     set(value) {
       stateFlow.value = value
-      saveToParcel(stateData)
+      stateSaver.save(stateData)
     }
 
 }

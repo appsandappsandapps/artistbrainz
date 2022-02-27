@@ -2,9 +2,7 @@ package appsandapps.artistbrainz.ui.artistdetail
 
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailAction.*
-import appsandapps.artistbrainz.utils.UIModel
-import appsandapps.artistbrainz.utils.Parcelable
-import appsandapps.artistbrainz.utils.Parcelize
+import appsandapps.artistbrainz.utils.*
 
 @Parcelize
 data class ArtistDetailUIValues(
@@ -27,8 +25,8 @@ sealed class ArtistDetailAction {
 class ArtistDetailUIModel(
   private val viewModel: ArtistDetailViewModel,
   private var existing: ArtistDetailUIValues = ArtistDetailUIValues(),
-  private val saveToParcel: (ArtistDetailUIValues) -> Unit = {},
-) : UIModel<ArtistDetailUIValues>(existing, saveToParcel) {
+  private val stateSaver: StateSaveable,
+) : UIModel<ArtistDetailUIValues>(existing, stateSaver) {
 
   fun update(action: ArtistDetailAction): Any = when(action) {
     is SetBookmarked -> {

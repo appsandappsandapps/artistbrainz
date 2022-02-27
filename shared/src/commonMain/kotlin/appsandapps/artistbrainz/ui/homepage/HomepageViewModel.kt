@@ -7,7 +7,7 @@ import appsandapps.artistbrainz.ui.homepage.HomepageAction.*
 import appsandapps.artistbrainz.utils.*
 
 class HomepageViewModel(
-  private val savedState: StateSaveable,
+  private val stateSaver: StateSaveable,
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
   private var mockUiModel: HomepageUIModel? = null,
   dispatcher: CoroutineDispatcher = IODispatcher,
@@ -18,8 +18,8 @@ class HomepageViewModel(
   val uiState = mockUiModel ?:
     HomepageUIModel(
       viewModel = this,
-      existing = savedState.get(HomepageUIValues()),
-      saveToParcel = { savedState.save(it) }
+      existing = stateSaver.get(HomepageUIValues()),
+      stateSaver = stateSaver,
     )
 
   init {

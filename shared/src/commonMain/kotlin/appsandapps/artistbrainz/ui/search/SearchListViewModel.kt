@@ -7,7 +7,7 @@ import appsandapps.artistbrainz.ui.search.SearchAction.*
 import appsandapps.artistbrainz.utils.*
 
 class SearchListViewModel(
-  private val savedState: StateSaveable,
+  private val stateSaver: StateSaveable,
   public var gotoDetail: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
   private var mockUiModel: SearchListUIModel? = null,
@@ -21,8 +21,8 @@ class SearchListViewModel(
   val uiState = mockUiModel ?:
     SearchListUIModel(
       viewModel = this,
-      existing = savedState.get(SearchUIValues()),
-      saveToParcel = { savedState.save(it) }
+      existing = stateSaver.get(SearchUIValues()),
+      stateSaver = stateSaver,
     )
 
   init {

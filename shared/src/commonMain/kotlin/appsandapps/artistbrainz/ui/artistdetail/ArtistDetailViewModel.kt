@@ -7,7 +7,7 @@ import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailAction.*
 import appsandapps.artistbrainz.utils.*
 
 class ArtistDetailViewModel(
-  savedState: StateSaveable,
+  stateSaver: StateSaveable,
   private val artistId: String,
   public var gotoUrlCallback: (String) -> Unit = {},
   private val repository: ArtistsRepository = ServiceLocator.artistsRepo!!,
@@ -23,8 +23,8 @@ class ArtistDetailViewModel(
   val uiState = mockUiModel ?:
     ArtistDetailUIModel(
       viewModel = this,
-      existing = savedState.get(ArtistDetailUIValues()),
-      saveToParcel = { savedState.save(it) }
+      existing = stateSaver.get(ArtistDetailUIValues()),
+      stateSaver = stateSaver,
     )
 
   init {

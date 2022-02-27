@@ -2,9 +2,7 @@ package appsandapps.artistbrainz.ui.search
 
 import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.ui.search.SearchAction.*
-import appsandapps.artistbrainz.utils.UIModel
-import appsandapps.artistbrainz.utils.Parcelable
-import appsandapps.artistbrainz.utils.Parcelize
+import appsandapps.artistbrainz.utils.*
 
 @Parcelize
 data class SearchUIValues(
@@ -37,8 +35,8 @@ sealed class SearchAction {
 class SearchListUIModel(
   private val viewModel: SearchListViewModel,
   private var existing: SearchUIValues = SearchUIValues(),
-  private val saveToParcel: (SearchUIValues) -> Unit = {},
-) : UIModel<SearchUIValues>(existing, saveToParcel){
+  private val stateSaver: StateSaveable,
+) : UIModel<SearchUIValues>(existing, stateSaver){
 
   fun update(action: SearchAction): Any = when(action) {
     is ClearSearch -> {
