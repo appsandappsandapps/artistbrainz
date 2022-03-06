@@ -1,8 +1,9 @@
 plugins {
-    id "org.jetbrains.kotlin.multiplatform"
-    id "org.jetbrains.kotlin.native.cocoapods"
     id "com.android.library"
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
+    id "org.jetbrains.kotlin.multiplatform"
+    id "org.jetbrains.kotlin.native.cocoapods"
     id 'com.apollographql.apollo3' version '3.0.0'
     id 'com.squareup.sqldelight'
 }
@@ -38,6 +39,8 @@ kotlin {
                 implementation "com.apollographql.apollo3:apollo-runtime:3.0.0"
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
                 implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.3.2"
+
+                implementation "io.github.aakira:napier:2.4.0"
             }
         }
         commonTest {
@@ -68,8 +71,6 @@ kotlin {
             dependencies {
                 implementation "com.squareup.sqldelight:native-driver:1.5.3"
             }
-            //iosX64Main.dependsOn(this)
-            //iosArm64Main.dependsOn(this)
         }
         iosArm64Main {
             dependsOn iosMain

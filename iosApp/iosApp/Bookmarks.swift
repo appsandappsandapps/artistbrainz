@@ -2,9 +2,7 @@ import SwiftUI
 import shared
 
 struct Bookmarks: View {
-    let vm: BookmarksViewModel = BookmarksViewModel(
-        gotoDetail: { artistId in }
-    )
+
     @State var bookmarks: [Bookmark] = []
     
     var body: some View {
@@ -18,12 +16,12 @@ struct Bookmarks: View {
                 BookmarkRow(
                     bookmark: bookmark,
                     debookmark: { id in
-                        vm.uiState.update(action: BookmarksAction.Debookmark(id: id))
+                        bookmarksVM?.uiState.update(action: BookmarksAction.Debookmark(id: id))
                     }
                 )
             }
         }.onAppear {
-            vm.uiState.stateFlow.collect(
+            bookmarksVM?.uiState.stateFlow.collect(
                 collector: Collector<BookmarksUIValues>{ v in
                     bookmarks = v.bookmarks
                 }

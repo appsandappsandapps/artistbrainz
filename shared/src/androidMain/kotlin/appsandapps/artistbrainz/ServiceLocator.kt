@@ -6,6 +6,8 @@ import appsandapps.artistbrainz.datasources.BookmarksDatastoreSqlDelight
 import appsandapps.artistbrainz.repositories.ArtistsRepository
 import appsandapps.artistbrainz.repositories.ArtistsRepositoryRemote
 import appsandapps.artistbrainz.utils.BookmarksDatabaseFactory
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 
 actual class ServiceLocator(context: Context) {
 
@@ -17,6 +19,7 @@ actual class ServiceLocator(context: Context) {
       graphql,
       datasource,
     )
+    Napier.base(DebugAntilog())
   }
 
   companion actual object {

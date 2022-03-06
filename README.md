@@ -4,26 +4,23 @@
 
 [Install on Google Play](https://play.google.com/store/apps/details?id=appsandapps.artistbrainz)
 
+Use the project to install the iPhone app to your phone.
+
 Architecture
 ---
-
-* View/Composable -> UiState -> ViewModel -> Repository
-* Repository -> ViewModel -> UiState -> View/Composable
-* StateFlow is used to listen for updates on the repository and UiState
-
 It goes roughly:
 
-1. The Composable/View calls a method on its UiState 
-2. The UiState talks to the ViewModel
+1. The Composable/View/SwiftUI calls a method on its UiModel
+2. The UiModel talks to the ViewModel
 3. The ViewModel calls the Repository
 4. The Repository updates its StateFlow
-5. The ViewModel reacts to the StateFlow and updates the UiState 
-6. The Composable/View is updated via UiState's StateFlow
+5. The ViewModel reacts to the StateFlow and updates the UiModel
+6. The Composable/View is updated via UiModel's StateFlow
 
-Multiple fragments observe the same StateFlow to update simultaneously.
+Multiple fragments / composables / screens observe the same StateFlow to update simultaneously.
 
 The architecture can seemlessly be used by Jetpack Compose replacing the fragments for composables, and
-reusing the viewmodels and uistate.
+reusing the viewmodels and uistate. And obviously iOS.
 
 Dependency injection
 ----
@@ -34,8 +31,8 @@ Dependency injection
 Notes
 ---
 
-* The `UiState` classes have `Values` class so they can be parcelised easily
-* The `UiState` persists through Activity death via `SavedStateHandle` - a callback to the UiState ensures this persistence
+* The `UIModel` classes have `Values` class so they can be parcelised easily
+* The `UIModel` persists through Activity death via `SavedStateHandle` - a callback to the UiState ensures this persistence
 
 Sources
 ---

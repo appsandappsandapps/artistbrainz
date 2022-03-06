@@ -10,4 +10,4 @@ class StateSaverEmpty : StateSaveable {
   override fun <T : Parcelable> get(defaultObj: T): T = defaultObj
 }
 
-expect class StateSaver : StateSaveable { }
+expect class StateSaver : StateSaveable

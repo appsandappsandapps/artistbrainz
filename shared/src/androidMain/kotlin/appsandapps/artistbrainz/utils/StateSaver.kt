@@ -18,13 +18,13 @@ actual class StateSaver(
 
   override fun save(obj: Parcelable): Unit = handle.set(tag(obj), obj)
 
-  override fun <T : Parcelable> get(defaultObj: T): T {
-    val tag = tag(defaultObj)
+  override fun <T : Parcelable> get(default: T): T {
+    val tag = tag(default)
     return handle.get<T>(tag)?.let {
       it
     } ?: run {
-      handle.set(tag, defaultObj)
-      defaultObj
+      handle.set(tag, default)
+      default
     }
   }
 

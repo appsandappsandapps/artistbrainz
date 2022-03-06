@@ -1,6 +1,9 @@
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven {
+            url "https://maven.pkg.jetbrains.space/public/p/ktor/eap"
+        }
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon

@@ -3,9 +3,6 @@ import shared
 
 struct SearchList: View {
 
-    let vm: SearchListViewModel = SearchListViewModel(
-        gotoDetail: { a in }
-    )
     @State var artists: [Artist_] = []
     @State var loading: Bool = false
     @State var error: String = ""
@@ -15,19 +12,19 @@ struct SearchList: View {
     var body: some View {
 
         let bookmark: (String, String) -> Void = { id, name in
-            vm.uiState.update(action: SearchAction.Bookmark(id: id, name: name))
+            searchListVM?.uiState.update(action: SearchAction.Bookmark(id: id, name: name))
         }
         let debookmark: (String) -> Void = { id in
-            vm.uiState.update(action: SearchAction.Debookmark(id: id))
+            searchListVM?.uiState.update(action: SearchAction.Debookmark(id: id))
         }
         let pressClear: () -> Void = {
-            vm.uiState.update(action: SearchAction.ClearSearch())
+            searchListVM?.uiState.update(action: SearchAction.ClearSearch())
         }
         let pressEnter: () -> Void = {
-            vm.uiState.update(action: SearchAction.PressSearch())
+            searchListVM?.uiState.update(action: SearchAction.PressSearch())
         }
         let typeSearch: (String) -> Void = { s in
-            vm.uiState.update(action: SearchAction.TypedSearch(query: s))
+            searchListVM?.uiState.update(action: SearchAction.TypedSearch(query: s))
         }
 
         VStack() {
@@ -54,7 +51,7 @@ struct SearchList: View {
                             )
                                 .onAppear {
                                     if artist == artists.last {
-                                        vm.uiState.update(action: SearchAction.PaginateSearch())
+                                        searchListVM?.uiState.update(action: SearchAction.PaginateSearch())
                                     }
                                 }
                         }
@@ -73,7 +70,7 @@ struct SearchList: View {
             Spacer()
         }
         .onAppear {
-            vm.uiState.stateFlow.collect(
+            searchListVM?.uiState.stateFlow.collect(
                 collector: Collector<SearchUIValues>{ v in
                     artists = v.artists
                     loading = v.loading
