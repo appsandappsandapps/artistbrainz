@@ -15,8 +15,7 @@ actual open public class DispatchedViewModel constructor(
    * runs the viewmodelscrope launcher with a custom dispatcher
    */
   actual fun dispatchedLaunch(f: suspend CoroutineScope.() -> Unit): Job =
-    GlobalScope.launch(customDispatcher) {
+    MainScope().launch(customDispatcher) {
       f()
     }
-
 }

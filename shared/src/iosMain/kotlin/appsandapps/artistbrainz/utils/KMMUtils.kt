@@ -8,6 +8,7 @@ import appsandapps.artistbrainz.repositories.ArtistsRepositoryRemote
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import platform.darwin.dispatch_async
 import platform.darwin.dispatch_get_main_queue
@@ -16,8 +17,7 @@ import kotlin.native.concurrent.ThreadLocal
 
 actual interface Parcelable
 
-actual val IODispatcher : CoroutineDispatcher
-  get() = MainDispatcher
+actual val IODispatcher : CoroutineDispatcher get() = MainDispatcher //Dispatchers.Default
 
 @ThreadLocal
 public object MainDispatcher: CoroutineDispatcher() {
