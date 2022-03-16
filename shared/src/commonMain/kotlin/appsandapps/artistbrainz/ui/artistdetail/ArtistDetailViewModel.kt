@@ -20,12 +20,7 @@ class ArtistDetailViewModel(
     gotoUrlCallback: (String) -> Unit = {},
   ) : this(StateSaverEmpty(), artistId, gotoUrlCallback)
 
-  val uiState = mockUiModel ?:
-    ArtistDetailUIModel(
-      viewModel = this,
-      existing = stateSaver.get(ArtistDetailUIValues()),
-      stateSaver = stateSaver,
-    )
+  val uiModel = mockUiModel ?: ArtistDetailUIModel(this, stateSaver)
 
   init {
     observeArtist()
@@ -36,9 +31,9 @@ class ArtistDetailViewModel(
     repository.artist(artistId)
     repository.artist.collect {
       if(it.error.isNotBlank()) {
-        uiState.update(ServerError(it.error))
+        uiModel.update(ServerError(it.error))
       } else {
-        uiState.update(SetArtist(it))
+        uiModel.update(SetArtist(it))
       }
     }
   }
@@ -47,9 +42,9 @@ class ArtistDetailViewModel(
     repository.bookmarks.collect {
       val currentArtist = it.bookmarks.filter { it.id == artistId }
       if(currentArtist.size == 1) {
-        uiState.update(SetBookmarked(true))
+        uiModel.update(SetBookmarked(true))
       } else {
-        uiState.update(SetBookmarked(false))
+        uiModel.update(SetBookmarked(false))
       }
     }
   }

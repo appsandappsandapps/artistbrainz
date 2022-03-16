@@ -18,12 +18,7 @@ class SearchListViewModel(
     gotoDetail: (String) -> Unit,
   ) : this(StateSaverEmpty(), gotoDetail)
 
-  val uiState = mockUiModel ?:
-    SearchListUIModel(
-      viewModel = this,
-      existing = stateSaver.get(SearchUIValues()),
-      stateSaver = stateSaver,
-    )
+  val uiState = mockUiModel ?: SearchListUIModel(this, stateSaver)
 
   init {
     dispatchedLaunch { observeArtists() }

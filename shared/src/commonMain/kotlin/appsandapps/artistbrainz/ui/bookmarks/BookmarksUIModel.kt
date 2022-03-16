@@ -17,9 +17,8 @@ sealed class BookmarksAction {
 
 class BookmarksUIModel(
   private val viewModel: BookmarksViewModel,
-  private var existing: BookmarksUIValues = BookmarksUIValues(),
   private val stateSaver: StateSaveable,
-) : UIModel<BookmarksUIValues>(existing, stateSaver) {
+) : UIModel<BookmarksUIValues>(stateSaver.get(BookmarksUIValues()), stateSaver) {
 
   fun update(action: BookmarksAction): Any = when(action) {
     is GotoDetail -> {

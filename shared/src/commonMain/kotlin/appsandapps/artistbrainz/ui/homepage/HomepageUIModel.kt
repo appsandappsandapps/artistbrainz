@@ -14,9 +14,8 @@ sealed class HomepageAction {
 
 class HomepageUIModel(
   private val viewModel: HomepageViewModel,
-  private val existing: HomepageUIValues = HomepageUIValues(),
   private val stateSaver: StateSaveable,
-) : UIModel<HomepageUIValues>(existing, stateSaver) {
+) : UIModel<HomepageUIValues>(stateSaver.get(HomepageUIValues()), stateSaver) {
 
   fun update(action: HomepageAction): Any = when(action) {
     is Bookmarks -> {

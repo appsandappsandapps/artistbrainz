@@ -15,12 +15,7 @@ class HomepageViewModel(
 
   constructor() : this(StateSaverEmpty())
 
-  val uiState = mockUiModel ?:
-    HomepageUIModel(
-      viewModel = this,
-      existing = stateSaver.get(HomepageUIValues()),
-      stateSaver = stateSaver,
-    )
+  val uiState = mockUiModel ?: HomepageUIModel(this, stateSaver)
 
   init {
     observeArtists()

@@ -12,19 +12,19 @@ struct SearchList: View {
     var body: some View {
 
         let bookmark: (String, String) -> Void = { id, name in
-            searchListVM?.uiState.update(action: SearchAction.Bookmark(id: id, name: name))
+            searchListVM?.uiModel.update(action: SearchAction.Bookmark(id: id, name: name))
         }
         let debookmark: (String) -> Void = { id in
-            searchListVM?.uiState.update(action: SearchAction.Debookmark(id: id))
+            searchListVM?.uiModel.update(action: SearchAction.Debookmark(id: id))
         }
         let pressClear: () -> Void = {
-            searchListVM?.uiState.update(action: SearchAction.ClearSearch())
+            searchListVM?.uiModel.update(action: SearchAction.ClearSearch())
         }
         let pressEnter: () -> Void = {
-            searchListVM?.uiState.update(action: SearchAction.PressSearch())
+            searchListVM?.uiModel.update(action: SearchAction.PressSearch())
         }
         let typeSearch: (String) -> Void = { s in
-            searchListVM?.uiState.update(action: SearchAction.TypedSearch(query: s))
+            searchListVM?.uiModel.update(action: SearchAction.TypedSearch(query: s))
         }
 
         VStack() {
@@ -51,7 +51,7 @@ struct SearchList: View {
                             )
                                 .onAppear {
                                     if artist == artists.last {
-                                        searchListVM?.uiState.update(action: SearchAction.PaginateSearch())
+                                        searchListVM?.uiModel.update(action: SearchAction.PaginateSearch())
                                     }
                                 }
                         }
@@ -70,7 +70,7 @@ struct SearchList: View {
             Spacer()
         }
         .onAppear {
-            searchListVM?.uiState.stateFlow.collect(
+            searchListVM?.uiModel.stateFlow.collect(
                 collector: Collector<SearchUIValues>{ v in
                     artists = v.artists
                     loading = v.loading

@@ -34,9 +34,11 @@ sealed class SearchAction {
 
 class SearchListUIModel(
   private val viewModel: SearchListViewModel,
-  private var existing: SearchUIValues = SearchUIValues(),
   private val stateSaver: StateSaveable,
-) : UIModel<SearchUIValues>(existing, stateSaver){
+) : UIModel<SearchUIValues>(
+  stateSaver.get(SearchUIValues()),
+  stateSaver
+) {
 
   fun update(action: SearchAction): Any = when(action) {
     is ClearSearch -> {

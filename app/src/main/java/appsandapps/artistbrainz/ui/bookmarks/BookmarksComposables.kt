@@ -14,8 +14,6 @@ import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksAction.*
-import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIModel
-import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIValues
 
 /**
  * - Show bookmarks
@@ -34,7 +32,7 @@ fun BookmarksScreen() {
     )
   }
   viewModel.gotoDetail = gotoDetail // else crash due to hanging onto fragment
-  val stateObj = viewModel.uiState
+  val stateObj = viewModel.uiModel
   val stateValues = stateObj.stateFlow.collectAsState().value
 
   BookmarksContent(

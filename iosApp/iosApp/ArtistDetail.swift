@@ -26,20 +26,20 @@ struct ArtistDetail: View {
             }
         )
         searchOnYoutube = {
-            vm.uiState.update(action: ArtistDetailAction.SearchYoutube())
+            vm.uiModel.update(action: ArtistDetailAction.SearchYoutube())
         }
         viewOnLastFm = {
-            vm.uiState.update(action: ArtistDetailAction.ViewLastFm())
+            vm.uiModel.update(action: ArtistDetailAction.ViewLastFm())
         }
         bookmark = {
-            vm.uiState.update(action: ArtistDetailAction.Bookmark())
+            vm.uiModel.update(action: ArtistDetailAction.Bookmark())
             bookmarked = true
         }
         debookmark = {
-            vm.uiState.update(action: ArtistDetailAction.Debookmark())
+            vm.uiModel.update(action: ArtistDetailAction.Debookmark())
             bookmarked = false
         }
-        vm.uiState.stateFlow.collect(
+        vm.uiModel.stateFlow.collect(
             collector: Collector<ArtistDetailUIValues>{ v in
                 loading = v.loading
                 summary = v.artist.summary

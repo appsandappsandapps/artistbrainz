@@ -11,7 +11,7 @@ import androidx.lifecycle.SavedStateHandle
  * This is changed in KMM
  */
 actual class StateSaver(
-  val handle: SavedStateHandle
+  val handle: SavedStateHandle,
 ) : StateSaveable {
 
   private fun tag(obj: Any) = "${obj::class.hashCode()}"

@@ -16,12 +16,12 @@ struct Bookmarks: View {
                 BookmarkRow(
                     bookmark: bookmark,
                     debookmark: { id in
-                        bookmarksVM?.uiState.update(action: BookmarksAction.Debookmark(id: id))
+                        bookmarksVM?.uiModel.update(action: BookmarksAction.Debookmark(id: id))
                     }
                 )
             }
         }.onAppear {
-            bookmarksVM?.uiState.stateFlow.collect(
+            bookmarksVM?.uiModel.stateFlow.collect(
                 collector: Collector<BookmarksUIValues>{ v in
                     bookmarks = v.bookmarks
                 }

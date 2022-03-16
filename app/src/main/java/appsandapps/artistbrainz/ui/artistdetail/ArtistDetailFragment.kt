@@ -9,8 +9,6 @@ import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.ArtistdetailBinding
 import appsandapps.artistbrainz.gotoUrl
 import appsandapps.artistbrainz.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIValues
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIModel
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailAction.*
 import appsandapps.artistbrainz.utils.ext.pluralise
 import appsandapps.artistbrainz.utils.StateSaver
@@ -52,7 +50,7 @@ class ArtistDetailFragment : Fragment(R.layout.artistdetail) {
     }.apply {
       // reattach on every new fragment
       gotoUrlCallback = { gotoUrl(it) }
-    }.uiState
+    }.uiModel
 
     reactOnBookmarkCheckbox()
     reactOnYoutubeButton()

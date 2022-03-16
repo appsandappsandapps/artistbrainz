@@ -24,9 +24,8 @@ sealed class ArtistDetailAction {
 
 class ArtistDetailUIModel(
   private val viewModel: ArtistDetailViewModel,
-  private var existing: ArtistDetailUIValues = ArtistDetailUIValues(),
   private val stateSaver: StateSaveable,
-) : UIModel<ArtistDetailUIValues>(existing, stateSaver) {
+) : UIModel<ArtistDetailUIValues>(stateSaver.get(ArtistDetailUIValues()), stateSaver) {
 
   fun update(action: ArtistDetailAction): Any = when(action) {
     is SetBookmarked -> {

@@ -11,8 +11,6 @@ import appsandapps.artistbrainz.data.Bookmark
 import appsandapps.artistbrainz.databinding.BookmarksBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
 import appsandapps.artistbrainz.viewModelWithSavedState
-import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIValues
-import appsandapps.artistbrainz.ui.bookmarks.BookmarksUIModel
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksAction.*
 import appsandapps.artistbrainz.utils.StateSaver
 
@@ -43,7 +41,7 @@ class BookmarksFragment : Fragment(R.layout.bookmarks) {
           Bundle().apply { putString(ArtistDetailFragment.ARG_ARTIST_ID, id) }
         )
       }
-    }.uiState
+    }.uiModel
     observeBookmarks()
   }
 

@@ -17,12 +17,7 @@ class BookmarksViewModel(
     gotoDetail: (String) -> Unit = {}
   ) : this(StateSaverEmpty(), gotoDetail)
 
-  val uiState = mockUiModel ?:
-    BookmarksUIModel(
-      viewModel = this,
-      existing = stateSaver.get(BookmarksUIValues()),
-      stateSaver = stateSaver,
-    )
+  val uiModel = mockUiModel ?: BookmarksUIModel(this, stateSaver)
 
   init {
     observeArtists()
@@ -30,7 +25,7 @@ class BookmarksViewModel(
 
   private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
-      uiState.update(BookmarksAction.SetBookmarks(it.bookmarks))
+      uiModel.update(BookmarksAction.SetBookmarks(it.bookmarks))
     }
   }
 

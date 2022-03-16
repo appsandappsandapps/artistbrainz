@@ -54,7 +54,7 @@ class ArtistDetailViewModelTests {
         StateSaver(savedState), "", {}, repo,
         null, Dispatchers.Main
       )
-      foundArtist = vm.uiState.stateFlow.take(2).last().artist
+      foundArtist = vm.uiModel.stateFlow.take(2).last().artist
     }
 
     Assert.assertEquals(artist, foundArtist)

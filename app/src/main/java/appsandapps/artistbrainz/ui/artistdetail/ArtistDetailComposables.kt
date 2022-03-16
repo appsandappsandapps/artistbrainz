@@ -11,8 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailAction.*
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIModel
-import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailUIValues
 import appsandapps.artistbrainz.ui.theme.StandardPadding
 import appsandapps.artistbrainz.utils.ext.findActivity
 import appsandapps.artistbrainz.utils.ext.gotoUrl
@@ -35,7 +33,7 @@ fun ArtistDetailScreen(
       artistId,
       { activity?.gotoUrl(it) },
     )
-  }.uiState
+  }.uiModel
   val values = stateObj.stateFlow.collectAsState().value
 
   Surface {
