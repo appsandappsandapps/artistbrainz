@@ -14,19 +14,9 @@ struct ArtistDetail: View {
     @State var loading: Bool = true
     @State var error: String = ""
     @State var bookmarked: Bool = true
-    var vm: ArtistDetailViewModel
     init(artistId: String, artistName: String) {
         self.artistId = artistId
         self.artistName = artistName
-        vm = ArtistDetailViewModel(
-            artistId: artistId,
-            gotoUrlCallback: { url in
-                print("going to \(url)")
-                if let url = URL(string: url) {
-                   UIApplication.shared.open(url)
-                }
-            }
-        )
     }
     var body: some View {
         ScrollView {
@@ -66,6 +56,15 @@ struct ArtistDetail: View {
             .padding(10)
         }
         .onAppear {
+            let vm = ArtistDetailViewModel(
+                artistId: artistId,
+                gotoUrlCallback: { url in
+                    print("going to \(url)")
+                    if let url = URL(string: url) {
+                       UIApplication.shared.open(url)
+                    }
+                }
+            )
             vm.uiModel.stateFlow.collect(
                 collector: Collector<ArtistDetailUIValues>{ v in
                     loading = v.loading
