@@ -36,7 +36,7 @@ fun HomepageScreen() {
     appsandapps.artistbrainz.ui.homepage.HomepageViewModel(
       StateSaver(it),
     )
-  }.uiState
+  }.uiModel
   val uiValues = stateObj.stateFlow.collectAsState().value
 
   HomepageContent(

@@ -2,15 +2,12 @@ import SwiftUI
 import shared
 
 struct SearchList: View {
-
     @State var artists: [Artist_] = []
     @State var loading: Bool = false
     @State var error: String = ""
     @State var emptyList: Bool = false
     @State var textInput: String = ""
-
     var body: some View {
-
         let bookmark: (String, String) -> Void = { id, name in
             searchListVM?.uiModel.update(action: SearchAction.Bookmark(id: id, name: name))
         }
@@ -26,7 +23,6 @@ struct SearchList: View {
         let typeSearch: (String) -> Void = { s in
             searchListVM?.uiModel.update(action: SearchAction.TypedSearch(query: s))
         }
-
         VStack() {
             SearchInput(
                 textInput: $textInput,
@@ -87,13 +83,11 @@ struct SearchList: View {
 }
 
 struct SearchInput: View {
-    
     var textInput: Binding<String>
     var loading: Binding<Bool>
     let typeSearch: (String) -> Void
     let pressEnter: () -> Void
     let pressClear: () -> Void
-
     var body: some View {
         HStack {
             TextField(
@@ -124,11 +118,9 @@ struct SearchInput: View {
 
 
 struct SearchRow: View {
-    
     var artist: Artist_
     var bookmark: (String, String) -> Void
     var debookmark: (String) -> Void
-
     var body: some View {
         HStack {
             Image(systemName: artist.bookmarked ? "bookmark.fill" : "bookmark")
@@ -143,5 +135,4 @@ struct SearchRow: View {
             Text(artist.name)
         }
     }
-    
 }

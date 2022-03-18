@@ -2,9 +2,7 @@ import SwiftUI
 import shared
 
 struct Bookmarks: View {
-
     @State var bookmarks: [Bookmark] = []
-    
     var body: some View {
         List(bookmarks, id: \.id) { bookmark in
             NavigationLink {

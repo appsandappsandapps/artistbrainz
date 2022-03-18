@@ -13,8 +13,6 @@ import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.databinding.SearchlistFragmentBinding
 import appsandapps.artistbrainz.ui.artistdetail.ArtistDetailFragment
 import appsandapps.artistbrainz.ui.search.SearchAction.*
-import appsandapps.artistbrainz.ui.search.SearchUIValues
-import appsandapps.artistbrainz.ui.search.SearchListUIModel
 import appsandapps.artistbrainz.utils.StateSaver
 
 /**
@@ -48,7 +46,7 @@ class SearchListFragment : Fragment(R.layout.searchlist_fragment) {
           Bundle().apply { putString(ArtistDetailFragment.ARG_ARTIST_ID, id) }
         )
       }
-    }.uiState
+    }.uiModel
 
     reactOnClearButton()
     reactOnSearchField()

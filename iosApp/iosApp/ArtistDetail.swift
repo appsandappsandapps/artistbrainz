@@ -14,9 +14,11 @@ struct ArtistDetail: View {
     @State var loading: Bool = true
     @State var error: String = ""
     @State var bookmarked: Bool = true
-
-    func updateArtist() {
-        let vm = ArtistDetailViewModel(
+    var vm: ArtistDetailViewModel
+    init(artistId: String, artistName: String) {
+        self.artistId = artistId
+        self.artistName = artistName
+        vm = ArtistDetailViewModel(
             artistId: artistId,
             gotoUrlCallback: { url in
                 print("going to \(url)")
@@ -25,34 +27,7 @@ struct ArtistDetail: View {
                 }
             }
         )
-        searchOnYoutube = {
-            vm.uiModel.update(action: ArtistDetailAction.SearchYoutube())
-        }
-        viewOnLastFm = {
-            vm.uiModel.update(action: ArtistDetailAction.ViewLastFm())
-        }
-        bookmark = {
-            vm.uiModel.update(action: ArtistDetailAction.Bookmark())
-            bookmarked = true
-        }
-        debookmark = {
-            vm.uiModel.update(action: ArtistDetailAction.Debookmark())
-            bookmarked = false
-        }
-        vm.uiModel.stateFlow.collect(
-            collector: Collector<ArtistDetailUIValues>{ v in
-                loading = v.loading
-                summary = v.artist.summary
-                rating = "Rating: \(v.artist.rating.value)"
-                disambiguous = v.artist.disambiguation
-                bookmarked = v.artist.bookmarked
-                error = v.error
-            }
-        ) { _, e in
-            print("finished ui state")
-        }
     }
-
     var body: some View {
         ScrollView {
             VStack(alignment:.leading) {
@@ -91,7 +66,32 @@ struct ArtistDetail: View {
             .padding(10)
         }
         .onAppear {
-            updateArtist()
+            vm.uiModel.stateFlow.collect(
+                collector: Collector<ArtistDetailUIValues>{ v in
+                    loading = v.loading
+                    summary = v.artist.summary
+                    rating = "Rating: \(v.artist.rating.value)"
+                    disambiguous = v.artist.disambiguation
+                    bookmarked = v.artist.bookmarked
+                    error = v.error
+                }
+            ) { _, e in
+                print("finished ui state")
+            }
+            searchOnYoutube = {
+                vm.uiModel.update(action: ArtistDetailAction.SearchYoutube())
+            }
+            viewOnLastFm = {
+                vm.uiModel.update(action: ArtistDetailAction.ViewLastFm())
+            }
+            bookmark = {
+                vm.uiModel.update(action: ArtistDetailAction.Bookmark())
+                bookmarked = true
+            }
+            debookmark = {
+                vm.uiModel.update(action: ArtistDetailAction.Debookmark())
+                bookmarked = false
+            }
         }
         .navigationTitle(artistName)
     }

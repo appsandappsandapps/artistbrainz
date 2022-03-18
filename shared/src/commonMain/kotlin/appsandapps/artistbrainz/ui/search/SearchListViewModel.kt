@@ -18,7 +18,7 @@ class SearchListViewModel(
     gotoDetail: (String) -> Unit,
   ) : this(StateSaverEmpty(), gotoDetail)
 
-  val uiState = mockUiModel ?: SearchListUIModel(this, stateSaver)
+  val uiModel = mockUiModel ?: SearchListUIModel(this, stateSaver)
 
   init {
     dispatchedLaunch { observeArtists() }
@@ -28,18 +28,18 @@ class SearchListViewModel(
   private suspend fun observeArtists() {
     repository.searchedForArtists.collect {
       if(it.error.isNotBlank()) {
-        uiState.update(ServerError(it.error))
+        uiModel.update(ServerError(it.error))
       } else if(!it.paginated && it.artists.size == 0) {
-        uiState.update(EmptyResults())
+        uiModel.update(EmptyResults())
       } else
-        uiState.update(AddArtists(it.artists))
+        uiModel.update(AddArtists(it.artists))
     }
   }
 
   private suspend fun observeBookmarks() {
     repository.bookmarks.collect {
       val ids = it.bookmarks.map { it.id }
-      uiState.update(BookmarksMerge(ids))
+      uiModel.update(BookmarksMerge(ids))
     }
   }
 

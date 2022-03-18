@@ -15,7 +15,7 @@ class HomepageViewModel(
 
   constructor() : this(StateSaverEmpty())
 
-  val uiState = mockUiModel ?: HomepageUIModel(this, stateSaver)
+  val uiModel = mockUiModel ?: HomepageUIModel(this, stateSaver)
 
   init {
     observeArtists()
@@ -23,7 +23,7 @@ class HomepageViewModel(
 
   private fun observeArtists() = dispatchedLaunch {
     repository.bookmarks.collect {
-      uiState.update(Bookmarks(it.bookmarks.size))
+      uiModel.update(Bookmarks(it.bookmarks.size))
     }
   }
 

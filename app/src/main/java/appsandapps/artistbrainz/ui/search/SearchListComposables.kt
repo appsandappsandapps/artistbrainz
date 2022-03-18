@@ -20,8 +20,6 @@ import appsandapps.artistbrainz.data.Artist
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.utils.ext.viewModelWithSavedState
 import appsandapps.artistbrainz.ui.search.SearchAction.*
-import appsandapps.artistbrainz.ui.search.SearchListUIModel
-import appsandapps.artistbrainz.ui.search.SearchUIValues
 import appsandapps.artistbrainz.ui.theme.StandardPadding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,7 +47,7 @@ fun SearchListScreen() {
     )
   }
   viewModel.gotoDetail = gotoDetail // else crash -- keeping onto old fragment
-  val stateObj = viewModel.uiState
+  val stateObj = viewModel.uiModel
   val uiValues = stateObj.stateFlow.collectAsState().value
 
   SearchListContent(

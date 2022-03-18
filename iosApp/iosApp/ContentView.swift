@@ -2,11 +2,9 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    
     let vm: HomepageViewModel = HomepageViewModel( )
     @State private var selection = 0
     @State private var bookmarks = 0
-
     var body: some View {
         TabView(selection: $selection) {
             NavigationView {

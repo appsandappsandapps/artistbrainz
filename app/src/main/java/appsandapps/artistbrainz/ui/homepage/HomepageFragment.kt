@@ -9,7 +9,6 @@ import appsandapps.artistbrainz.R
 import appsandapps.artistbrainz.collectStateFlow
 import appsandapps.artistbrainz.databinding.HomeFragmentBinding
 import appsandapps.artistbrainz.ui.bookmarks.BookmarksFragment
-import appsandapps.artistbrainz.ui.homepage.HomepageUIValues
 import appsandapps.artistbrainz.ui.search.SearchListFragment
 import appsandapps.artistbrainz.utils.StateSaver
 import appsandapps.artistbrainz.viewModelWithSavedState
@@ -35,7 +34,7 @@ class HomepageFragment : Fragment(R.layout.home_fragment) {
 
     uiState = viewModelWithSavedState {
       appsandapps.artistbrainz.ui.homepage.HomepageViewModel(StateSaver(it))
-    }.uiState
+    }.uiModel
 
     setupViewPager()
     observeBookmarks()
